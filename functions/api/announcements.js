@@ -44,7 +44,7 @@ export async function onRequestGet(context) {
     let list = DEFAULT_ANNOUNCEMENTS;
     if (context.env.PORTAL_DATA) {
       const stored = await context.env.PORTAL_DATA.get("announcements", { type: "json" });
-      if (Array.isArray(stored) && stored.length > 0) list = stored;
+      if (Array.isArray(stored)) list = stored;
     }
     return new Response(JSON.stringify(list), {
       headers: {

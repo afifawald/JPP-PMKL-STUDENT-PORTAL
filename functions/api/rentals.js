@@ -50,7 +50,7 @@ export async function onRequestGet(context) {
     let list = DEFAULT_RENTALS;
     if (context.env.PORTAL_DATA) {
       const stored = await context.env.PORTAL_DATA.get("rentals", { type: "json" });
-      if (Array.isArray(stored) && stored.length > 0) list = stored;
+      if (Array.isArray(stored)) list = stored;
     }
     return new Response(JSON.stringify(list), {
       headers: {

@@ -958,7 +958,7 @@
     // ── 1. STATUS & TICKER LOGIC ──
     async function loadStatus() {
       try {
-        const res = await fetch(`${API_BASE}/status`);
+        const res = await fetch(`${API_BASE}/status?t=${Date.now()}`, { cache: 'no-store' });
         if (!res.ok) throw new Error('Status fetch failed');
         currentStatus = await res.json();
 
@@ -1066,7 +1066,7 @@
     // ── 2. ANNOUNCEMENTS CRUD ──
     async function loadAnnouncements() {
       try {
-        const res = await fetch(`${API_BASE}/announcements`);
+        const res = await fetch(`${API_BASE}/announcements?t=${Date.now()}`, { cache: 'no-store' });
         const list = await res.json();
         const container = document.getElementById('annListContainer');
         container.innerHTML = '';
@@ -1131,7 +1131,7 @@
     async function deleteAnnouncement(id) {
       if (!confirm('Are you sure you want to delete this announcement?')) return;
       try {
-        const res = await fetch(`${API_BASE}/announcements?id=${id}`, {
+        const res = await fetch(`${API_BASE}/announcements?id=${id}&t=${Date.now()}`, {
           method: 'DELETE',
           headers: getHeaders()
         });
@@ -1148,7 +1148,7 @@
     // ── 3. EVENTS CRUD ──
     async function loadEvents() {
       try {
-        const res = await fetch(`${API_BASE}/events`);
+        const res = await fetch(`${API_BASE}/events?t=${Date.now()}`, { cache: 'no-store' });
         const list = await res.json();
         const container = document.getElementById('eventsListContainer');
         container.innerHTML = '';
@@ -1214,7 +1214,7 @@
     async function deleteEvent(id) {
       if (!confirm('Are you sure you want to delete this event?')) return;
       try {
-        const res = await fetch(`${API_BASE}/events?id=${id}`, {
+        const res = await fetch(`${API_BASE}/events?id=${id}&t=${Date.now()}`, {
           method: 'DELETE',
           headers: getHeaders()
         });
@@ -1231,7 +1231,7 @@
     // ── 4. RENTALS CRUD ──
     async function loadRentals() {
       try {
-        const res = await fetch(`${API_BASE}/rentals`);
+        const res = await fetch(`${API_BASE}/rentals?t=${Date.now()}`, { cache: 'no-store' });
         const list = await res.json();
         const container = document.getElementById('rentalsListContainer');
         container.innerHTML = '';
@@ -1301,7 +1301,7 @@
     async function deleteRental(id) {
       if (!confirm('Are you sure you want to delete this rental listing?')) return;
       try {
-        const res = await fetch(`${API_BASE}/rentals?id=${id}`, {
+        const res = await fetch(`${API_BASE}/rentals?id=${id}&t=${Date.now()}`, {
           method: 'DELETE',
           headers: getHeaders()
         });

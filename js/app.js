@@ -379,47 +379,55 @@
 
       // 2. Dynamic Announcements
       try {
-        const res = await fetch('/api/announcements', { cache: 'no-store' });
+        const res = await fetch('/api/announcements?t=' + Date.now(), { cache: 'no-store' });
         if (res.ok) {
           const annList = await res.json();
-          if (Array.isArray(annList) && annList.length > 0) {
+          if (Array.isArray(annList)) {
             // Update Dashboard latest announcements
             const dashList = document.getElementById('dashAnnList');
             if (dashList) {
               dashList.innerHTML = '';
-              annList.slice(0, 3).forEach(item => {
-                const dotColor = item.tagColor === 'blue' ? 'blue' : (item.tagColor === 'green' ? 'green' : '');
-                dashList.innerHTML += `
-                  <div class="ann-item">
-                    <div class="ann-dot ${dotColor}"></div>
-                    <div class="ann-content">
-                      <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
-                      <h5>${item.title}</h5>
-                      <p>${item.content}</p>
-                      <div style="font-size:0.74rem; color:var(--text3);">${item.date}</div>
+              if (annList.length === 0) {
+                dashList.innerHTML = '<div style="color:var(--text3); font-size:0.85rem; padding:0.75rem 0;"><i class="fas fa-bell-slash" style="margin-right:6px;"></i>No announcements at this time.</div>';
+              } else {
+                annList.slice(0, 3).forEach(item => {
+                  const dotColor = item.tagColor === 'blue' ? 'blue' : (item.tagColor === 'green' ? 'green' : '');
+                  dashList.innerHTML += `
+                    <div class="ann-item">
+                      <div class="ann-dot ${dotColor}"></div>
+                      <div class="ann-content">
+                        <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
+                        <h5>${item.title}</h5>
+                        <p>${item.content}</p>
+                        <div style="font-size:0.74rem; color:var(--text3);">${item.date}</div>
+                      </div>
                     </div>
-                  </div>
-                `;
-              });
+                  `;
+                });
+              }
             }
 
             // Update Announcements tab
             const pageList = document.getElementById('annPageList');
             if (pageList) {
               pageList.innerHTML = '';
-              annList.forEach(item => {
-                pageList.innerHTML += `
-                  <div class="ann-card-big">
-                    <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
-                    <h4>${item.title}</h4>
-                    <p>${item.content}</p>
-                    <div class="ann-meta">
-                      <span><i class="fas fa-calendar-alt"></i> ${item.date}</span>
-                      <span><i class="fas fa-user"></i> ${item.author || 'JPP PMKL'}</span>
+              if (annList.length === 0) {
+                pageList.innerHTML = '<div style="color:var(--text3); font-size:0.95rem; padding:3rem 1rem; text-align:center;"><i class="fas fa-bell-slash" style="font-size:2rem; margin-bottom:0.75rem; display:block; color:var(--text3);"></i>No active announcements on the notice board.</div>';
+              } else {
+                annList.forEach(item => {
+                  pageList.innerHTML += `
+                    <div class="ann-card-big">
+                      <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
+                      <h4>${item.title}</h4>
+                      <p>${item.content}</p>
+                      <div class="ann-meta">
+                        <span><i class="fas fa-calendar-alt"></i> ${item.date}</span>
+                        <span><i class="fas fa-user"></i> ${item.author || 'JPP PMKL'}</span>
+                      </div>
                     </div>
-                  </div>
-                `;
-              });
+                  `;
+                });
+              }
             }
           }
         }
@@ -429,54 +437,62 @@
 
       // 3. Dynamic Events
       try {
-        const res = await fetch('/api/events', { cache: 'no-store' });
+        const res = await fetch('/api/events?t=' + Date.now(), { cache: 'no-store' });
         if (res.ok) {
           const eventsList = await res.json();
-          if (Array.isArray(eventsList) && eventsList.length > 0) {
+          if (Array.isArray(eventsList)) {
             // Update Dashboard upcoming events
             const dashEvents = document.getElementById('dashEventsList');
             if (dashEvents) {
               dashEvents.innerHTML = '';
-              eventsList.slice(0, 3).forEach(item => {
-                dashEvents.innerHTML += `
-                  <div class="event-item">
-                    <div class="event-date-box">
-                      <div class="day">${item.dateDay}</div>
-                      <div class="mon">${item.dateMonth}</div>
+              if (eventsList.length === 0) {
+                dashEvents.innerHTML = '<div style="color:var(--text3); font-size:0.85rem; padding:0.75rem 0;"><i class="fas fa-calendar-xmark" style="margin-right:6px;"></i>No upcoming events scheduled.</div>';
+              } else {
+                eventsList.slice(0, 3).forEach(item => {
+                  dashEvents.innerHTML += `
+                    <div class="event-item">
+                      <div class="event-date-box">
+                        <div class="day">${item.dateDay}</div>
+                        <div class="mon">${item.dateMonth}</div>
+                      </div>
+                      <div class="event-info-text">
+                        <h5>${item.title}</h5>
+                        <p><i class="fas fa-clock" style="color:var(--gold);margin-right:0.25rem;"></i>${item.time} — ${item.location}</p>
+                      </div>
                     </div>
-                    <div class="event-info-text">
-                      <h5>${item.title}</h5>
-                      <p><i class="fas fa-clock" style="color:var(--gold);margin-right:0.25rem;"></i>${item.time} — ${item.location}</p>
-                    </div>
-                  </div>
-                `;
-              });
+                  `;
+                });
+              }
             }
 
             // Update Events tab masonry
             const masonry = document.getElementById('eventsMasonry');
             if (masonry) {
               masonry.innerHTML = '';
-              eventsList.forEach(item => {
-                masonry.innerHTML += `
-                  <div class="event-card-full">
-                    <div class="event-thumb ${item.colorGrad || 'event-thumb-grad1'}">${item.icon || '📅'}</div>
-                    <div class="event-card-body">
-                      <h4>${item.title}</h4>
-                      <div class="event-meta-row">
-                        <div class="event-meta-item"><i class="fas fa-calendar-alt"></i> ${item.dateFull || (item.dateDay + ' ' + item.dateMonth)}</div>
+              if (eventsList.length === 0) {
+                masonry.innerHTML = '<div style="color:var(--text3); font-size:0.95rem; padding:3rem 1rem; text-align:center; grid-column:1 / -1;"><i class="fas fa-calendar-xmark" style="font-size:2rem; margin-bottom:0.75rem; display:block; color:var(--text3);"></i>No upcoming events currently scheduled. Check back soon!</div>';
+              } else {
+                eventsList.forEach(item => {
+                  masonry.innerHTML += `
+                    <div class="event-card-full">
+                      <div class="event-thumb ${item.colorGrad || 'event-thumb-grad1'}">${item.icon || '📅'}</div>
+                      <div class="event-card-body">
+                        <h4>${item.title}</h4>
+                        <div class="event-meta-row">
+                          <div class="event-meta-item"><i class="fas fa-calendar-alt"></i> ${item.dateFull || (item.dateDay + ' ' + item.dateMonth)}</div>
+                        </div>
+                        <div class="event-meta-row">
+                          <div class="event-meta-item"><i class="fas fa-clock"></i> ${item.time}</div>
+                        </div>
+                        <div class="event-meta-row">
+                          <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${item.location}</div>
+                        </div>
+                        <button class="btn-event" onclick="showToast('Event: ' + '${item.title.replace(/'/g, "\\'")}')">Learn More</button>
                       </div>
-                      <div class="event-meta-row">
-                        <div class="event-meta-item"><i class="fas fa-clock"></i> ${item.time}</div>
-                      </div>
-                      <div class="event-meta-row">
-                        <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${item.location}</div>
-                      </div>
-                      <button class="btn-event" onclick="showToast('Event: ' + '${item.title.replace(/'/g, "\\'")}')">Learn More</button>
                     </div>
-                  </div>
-                `;
-              });
+                  `;
+                });
+              }
             }
           }
         }
@@ -486,10 +502,10 @@
 
       // 4. Dynamic Rental Listings Cache
       try {
-        const res = await fetch('/api/rentals', { cache: 'no-store' });
+        const res = await fetch('/api/rentals?t=' + Date.now(), { cache: 'no-store' });
         if (res.ok) {
           const rentalsList = await res.json();
-          if (Array.isArray(rentalsList) && rentalsList.length > 0) {
+          if (Array.isArray(rentalsList)) {
             window._dynamicRentals = rentalsList;
           }
         }
