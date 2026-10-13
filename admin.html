@@ -478,9 +478,6 @@
       <button class="admin-tab" onclick="switchTab('tabAlbum')">
         <i class="fas fa-images"></i> Photo Album
       </button>
-      <button class="admin-tab" onclick="switchTab('tabSetup')">
-        <i class="fas fa-cloud"></i> Cloudflare KV Setup
-      </button>
     </div>
 
     <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
@@ -815,47 +812,6 @@
           </div>
         </div>
 
-      </div>
-    </div>
-
-    <!-- ══ TAB 5: CLOUDFLARE SETUP GUIDE ══ -->
-    <div class="tab-content" id="tabSetup">
-      <div class="admin-card">
-        <div class="sec-label"><i class="fas fa-circle-info"></i> How it connects</div>
-        <h3>Cloudflare Pages & KV Setup in 2 Minutes</h3>
-        <p style="color:var(--text2); font-size:0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          Your site uses <strong>Cloudflare Pages Functions</strong> located in the <code>functions/api/</code> folder. 
-          To enable persistent storage so your changes save permanently across the globe, connect a KV namespace in your Cloudflare dashboard:
-        </p>
-
-        <div style="background:var(--surface2); padding:1.25rem; border-radius:12px; border:1px solid var(--border); margin-bottom:1.5rem;">
-          <h4 style="color:var(--gold); margin-bottom: 0.5rem;"><i class="fas fa-database"></i> Step 1: Create KV Namespace</h4>
-          <ol style="margin-left: 1.25rem; font-size: 0.88rem; line-height: 1.8; color: var(--text);">
-            <li>Open your <a href="https://dash.cloudflare.com/" target="_blank" style="color:var(--gold);">Cloudflare Dashboard</a>.</li>
-            <li>Go to <strong>Storage & Databases</strong> &gt; <strong>KV</strong>.</li>
-            <li>Click <strong>Create a namespace</strong> and name it <code>PORTAL_DATA</code>.</li>
-          </ol>
-        </div>
-
-        <div style="background:var(--surface2); padding:1.25rem; border-radius:12px; border:1px solid var(--border); margin-bottom:1.5rem;">
-          <h4 style="color:var(--gold); margin-bottom: 0.5rem;"><i class="fas fa-link"></i> Step 2: Bind KV to your Pages Project</h4>
-          <ol style="margin-left: 1.25rem; font-size: 0.88rem; line-height: 1.8; color: var(--text);">
-            <li>Go to <strong>Workers & Pages</strong> &gt; select your <code>JPP-PMKL-STUDENT-PORTAL</code> project.</li>
-            <li>Click <strong>Settings</strong> &gt; <strong>Functions</strong>.</li>
-            <li>Scroll to <strong>KV namespace bindings</strong> and click <strong>Add binding</strong>.</li>
-            <li>Set <strong>Variable name</strong> to <code>PORTAL_DATA</code> and select your created KV namespace.</li>
-            <li>Save and trigger a redeploy (or push any commit to GitHub).</li>
-          </ol>
-        </div>
-
-        <div style="background:var(--surface2); padding:1.25rem; border-radius:12px; border:1px solid var(--border);">
-          <h4 style="color:var(--gold); margin-bottom: 0.5rem;"><i class="fas fa-lock"></i> Step 3: Zero Trust Admin Login (Optional & Free)</h4>
-          <p style="font-size:0.85rem; color:var(--text2); line-height:1.6;">
-            To require an email verification PIN whenever someone visits <code>admin.html</code>:
-            Go to <strong>Zero Trust</strong> &gt; <strong>Access</strong> &gt; <strong>Applications</strong> &gt; Add <code>yourdomain.com/admin.html</code> and specify your JPP email. 
-            Cloudflare will automatically protect the page before anyone can view it!
-          </p>
-        </div>
       </div>
     </div>
 
