@@ -1,7 +1,7 @@
 // ══ JPP PMKL STUDENT PORTAL - APP MODULE ══
 
 // ── Photo Album Lightbox ──
-    const albumPhotos = [
+    let albumPhotos = [
       { src: 'albums/jpp.jpeg', caption: 'JPP PMKL' },
       { src: 'albums/convo.JPG', caption: 'Convocation' },
       { src: 'albums/futsal.JPG', caption: 'Futsal' },
@@ -507,6 +507,35 @@
           const rentalsList = await res.json();
           if (Array.isArray(rentalsList)) {
             window._dynamicRentals = rentalsList;
+          }
+        }
+      } catch (err) {
+        // Silent fallback
+      }
+
+      // 5. Dynamic Photo Album
+      try {
+        const res = await fetch('/api/album?t=' + Date.now(), { cache: 'no-store' });
+        if (res.ok) {
+          const photoList = await res.json();
+          if (Array.isArray(photoList)) {
+            albumPhotos = photoList;
+            const albumGrid = document.getElementById('albumGrid');
+            if (albumGrid) {
+              albumGrid.innerHTML = '';
+              if (photoList.length === 0) {
+                albumGrid.innerHTML = '<div style="color:var(--text3); font-size:0.95rem; padding:3rem 1rem; text-align:center; grid-column:1 / -1;"><i class="fas fa-camera" style="font-size:2rem; margin-bottom:0.75rem; display:block; color:var(--text3);"></i>No photos in album currently.</div>';
+              } else {
+                photoList.forEach((photo, idx) => {
+                  albumGrid.innerHTML += `
+                    <div class="album-item" onclick="openLightbox(${idx})">
+                      <img class="album-item-inner" src="${photo.src}" alt="${photo.caption}" loading="lazy" onerror="this.src='albums/jpp.jpeg'">
+                      <div class="album-item-label"><i class="fas fa-camera"></i> ${photo.caption}</div>
+                    </div>
+                  `;
+                });
+              }
+            }
           }
         }
       } catch (err) {

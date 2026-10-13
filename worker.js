@@ -3,6 +3,7 @@ import * as statusApi from './functions/api/status.js';
 import * as annApi from './functions/api/announcements.js';
 import * as eventsApi from './functions/api/events.js';
 import * as rentalsApi from './functions/api/rentals.js';
+import * as albumApi from './functions/api/album.js';
 
 export default {
   async fetch(request, env) {
@@ -35,6 +36,13 @@ export default {
       if (request.method === 'DELETE') return rentalsApi.onRequestDelete(context);
       if (request.method === 'OPTIONS') return rentalsApi.onRequestOptions();
       return rentalsApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/album') {
+      if (request.method === 'POST') return albumApi.onRequestPost(context);
+      if (request.method === 'DELETE') return albumApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return albumApi.onRequestOptions();
+      return albumApi.onRequestGet(context);
     }
 
     // Serve Static Assets (HTML, CSS, JS, Images)
