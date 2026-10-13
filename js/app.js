@@ -352,9 +352,17 @@
             document.body.style.overflow = '';
           }
 
-          if (status.ticker) {
+          if (status.ticker !== undefined) {
             const tickerEl = document.querySelector('.ticker-text');
-            if (tickerEl) tickerEl.textContent = status.ticker;
+            const tickerBar = document.querySelector('.ticker-bar');
+            if (status.ticker && status.ticker.trim() !== '') {
+              if (tickerBar) tickerBar.style.display = 'flex';
+              if (tickerEl) tickerEl.textContent = status.ticker;
+              document.documentElement.style.setProperty('--ticker-h', '36px');
+            } else {
+              if (tickerBar) tickerBar.style.display = 'none';
+              document.documentElement.style.setProperty('--ticker-h', '0px');
+            }
           }
 
           if (status.stats) {
