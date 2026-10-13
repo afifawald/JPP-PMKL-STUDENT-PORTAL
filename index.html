@@ -184,7 +184,7 @@
               <h3>Latest Announcements</h3>
               <a onclick="navigate('announcements')">View all →</a>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="dashAnnList">
               <div class="ann-item">
                 <div class="ann-dot"></div>
                 <div class="ann-content">
@@ -221,7 +221,7 @@
               <h3>Upcoming Events</h3>
               <a onclick="navigate('events')">View all →</a>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="dashEventsList">
               <div class="event-item">
                 <div class="event-date-box">
                   <div class="day">22</div>
@@ -269,7 +269,7 @@
         <p class="sec-sub">Stay updated with the latest news, notices, and important information from JPP PMKL.</p>
 
         <div class="ann-page-grid">
-          <div>
+          <div id="annPageList">
             <div class="ann-card-big">
               <span class="tag tag-gold">Important</span>
               <h4>New Student Registration Session I: 2026/2027</h4>
@@ -357,7 +357,7 @@
         <h2 class="sec-title">Upcoming Events</h2>
         <p class="sec-sub">Join us for exciting events, competitions, and community programs organized by JPP PMKL.</p>
 
-        <div class="events-masonry">
+        <div class="events-masonry" id="eventsMasonry">
           <div class="event-card-full">
             <div class="event-thumb event-thumb-grad1">📋</div>
             <div class="event-card-body">
@@ -851,6 +851,7 @@
         <a onclick="navigate('announcements')">Announcements</a>
         <a onclick="navigate('events')">Events</a>
         <a onclick="navigate('members')">Members</a>
+        <a href="admin.html"><i class="fas fa-lock" style="font-size:0.75rem; margin-right:4px;"></i>Admin Panel</a>
       </div>
       <div class="footer-col">
         <h4>Resources</h4>

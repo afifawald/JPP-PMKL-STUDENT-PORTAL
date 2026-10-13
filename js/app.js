@@ -237,24 +237,31 @@
       document.getElementById('rentMainTitle').innerText = `${currentApartmentSelection} — ${blockName}`;
       document.getElementById('rentMainSub').innerText = `Showing available units in ${currentApartmentSelection} (${blockName}).`;
 
-      // Dynamic Mock Database mapping to structure your secondary provided code properties
+      // Check if dynamic rentals from Cloudflare API exist
       let listings = [];
+      if (Array.isArray(window._dynamicRentals) && window._dynamicRentals.length > 0) {
+        listings = window._dynamicRentals.filter(r => 
+          r.apartment === currentApartmentSelection && (!r.block || r.block === blockName)
+        );
+      }
 
-      if (currentApartmentSelection === "Apartment Mahsuri") {
-        listings = [
-          { unit: 'Unit A-101', price: 'RM 450', details: 'Muslim students only. 2 Bedrooms, 1 Bathroom. Fully furnished. Includes double-decker bed, lockers, refrigerator, kitchen & washing machine.', contact: 'Encik Ahmad (012-328 0168)', address: 'Jalan Setiawangsa 13, Taman Setiawangsa, KL', features: ['WiFi', 'Water Incl.', 'Electric Incl.', '24hr Guarded'] },
-          { unit: 'Unit A-102', price: 'RM 470', details: 'Comfortable shared room (Immediate Intake). Fully furnished, 2 Bedrooms & 1 Bathroom. Walking distance to Setiawangsa LRT station.', contact: 'Encik Ahmad (012-328 0168)', address: 'Jalan Setiawangsa 13, Taman Setiawangsa, KL', features: ['WiFi', 'Refrigerator', 'Washing Machine'] },
-          { unit: 'Unit A-201', price: 'RM 550', details: 'Spacious 3 Bedrooms & 2 Bathrooms, ideal for student group sharing. Fully furnished with complete furniture.', contact: 'Puan Halima (016-946 3923)', address: 'Jalan Setiawangsa 13, Taman Setiawangsa, KL', features: ['Fully Furnished', 'Sofa', 'Bed'] }
-        ];
-      } else if (currentApartmentSelection === "Apartment Intan") {
-        listings = [
-          { unit: 'Unit Intan Premium', price: 'RM 350', details: 'Immediate Student Intake. Affordable rent including full utilities (WiFi, electricity & water cost controlled). Walking distance to shops.', contact: 'En. Zul (012-466 2096)', address: 'Setiawangsa near Politeknik METrO KL', features: ['WiFi incl.', 'Water incl.', 'Electric incl.', 'Near PMKL'] }
-        ];
-      } else {
-        // Fallback default generation for empty categories placeholders
-        listings = [
-          { unit: 'Unit TBD-Standard Room', price: 'RM 300', details: 'Standard single/shared room near PMKL, available for new semester intake.', contact: 'JPP Portal Management (General Info)', address: 'Setiawangsa, Kuala Lumpur', features: ['Bed', 'Fan'] }
-        ];
+      if (listings.length === 0) {
+        if (currentApartmentSelection === "Apartment Mahsuri") {
+          listings = [
+            { unit: 'Unit A-101', price: 'RM 450', details: 'Muslim students only. 2 Bedrooms, 1 Bathroom. Fully furnished. Includes double-decker bed, lockers, refrigerator, kitchen & washing machine.', contact: 'Encik Ahmad (012-328 0168)', address: 'Jalan Setiawangsa 13, Taman Setiawangsa, KL', features: ['WiFi', 'Water Incl.', 'Electric Incl.', '24hr Guarded'] },
+            { unit: 'Unit A-102', price: 'RM 470', details: 'Comfortable shared room (Immediate Intake). Fully furnished, 2 Bedrooms & 1 Bathroom. Walking distance to Setiawangsa LRT station.', contact: 'Encik Ahmad (012-328 0168)', address: 'Jalan Setiawangsa 13, Taman Setiawangsa, KL', features: ['WiFi', 'Refrigerator', 'Washing Machine'] },
+            { unit: 'Unit A-201', price: 'RM 550', details: 'Spacious 3 Bedrooms & 2 Bathrooms, ideal for student group sharing. Fully furnished with complete furniture.', contact: 'Puan Halima (016-946 3923)', address: 'Jalan Setiawangsa 13, Taman Setiawangsa, KL', features: ['Fully Furnished', 'Sofa', 'Bed'] }
+          ];
+        } else if (currentApartmentSelection === "Apartment Intan") {
+          listings = [
+            { unit: 'Unit Intan Premium', price: 'RM 350', details: 'Immediate Student Intake. Affordable rent including full utilities (WiFi, electricity & water cost controlled). Walking distance to shops.', contact: 'En. Zul (012-466 2096)', address: 'Setiawangsa near Politeknik METrO KL', features: ['WiFi incl.', 'Water incl.', 'Electric incl.', 'Near PMKL'] }
+          ];
+        } else {
+          // Fallback default generation for empty categories placeholders
+          listings = [
+            { unit: 'Unit TBD-Standard Room', price: 'RM 300', details: 'Standard single/shared room near PMKL, available for new semester intake.', contact: 'JPP Portal Management (General Info)', address: 'Setiawangsa, Kuala Lumpur', features: ['Bed', 'Fan'] }
+          ];
+        }
       }
 
       // Render cards using premium portal style setup mechanics
@@ -326,17 +333,172 @@
         : '';
     });
 
-    // ══ MAINTENANCE MODE ══
-    const MAINTENANCE_MODE = false;
+    // ══ CLOUDFLARE LIVE INTEGRATION (ADMIN DRIVEN) ══
+    window._dynamicRentals = null;
 
-    function initMaintenanceMode() {
-      if (!MAINTENANCE_MODE) return;
-      const overlay = document.getElementById('maintenanceOverlay');
-      if (overlay) {
-        overlay.style.display = 'flex';
-        document.body.style.overflow = 'hidden';
+    async function syncCloudflareLivePortal() {
+      // 1. Website Status, Maintenance Mode & Live Ticker
+      try {
+        const res = await fetch('/api/status', { cache: 'no-store' });
+        if (res.ok) {
+          const status = await res.json();
+          const overlay = document.getElementById('maintenanceOverlay');
+          
+          if (status.maintenance && overlay) {
+            overlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+          } else if (overlay) {
+            overlay.style.display = 'none';
+            document.body.style.overflow = '';
+          }
+
+          if (status.ticker) {
+            const tickerEl = document.querySelector('.ticker-text');
+            if (tickerEl) tickerEl.textContent = status.ticker;
+          }
+
+          if (status.stats) {
+            const statsMap = {
+              600: status.stats.students,
+              20: status.stats.members,
+              2: status.stats.events,
+              3: status.stats.rentals
+            };
+            document.querySelectorAll('[data-count]').forEach(el => {
+              const currentVal = parseInt(el.dataset.count);
+              if (statsMap[currentVal] !== undefined) {
+                el.dataset.count = statsMap[currentVal];
+                el.textContent = statsMap[currentVal] + '+';
+              }
+            });
+          }
+        }
+      } catch (err) {
+        // Silent fallback to local static HTML
+      }
+
+      // 2. Dynamic Announcements
+      try {
+        const res = await fetch('/api/announcements', { cache: 'no-store' });
+        if (res.ok) {
+          const annList = await res.json();
+          if (Array.isArray(annList) && annList.length > 0) {
+            // Update Dashboard latest announcements
+            const dashList = document.getElementById('dashAnnList');
+            if (dashList) {
+              dashList.innerHTML = '';
+              annList.slice(0, 3).forEach(item => {
+                const dotColor = item.tagColor === 'blue' ? 'blue' : (item.tagColor === 'green' ? 'green' : '');
+                dashList.innerHTML += `
+                  <div class="ann-item">
+                    <div class="ann-dot ${dotColor}"></div>
+                    <div class="ann-content">
+                      <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
+                      <h5>${item.title}</h5>
+                      <p>${item.content}</p>
+                      <div style="font-size:0.74rem; color:var(--text3);">${item.date}</div>
+                    </div>
+                  </div>
+                `;
+              });
+            }
+
+            // Update Announcements tab
+            const pageList = document.getElementById('annPageList');
+            if (pageList) {
+              pageList.innerHTML = '';
+              annList.forEach(item => {
+                pageList.innerHTML += `
+                  <div class="ann-card-big">
+                    <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
+                    <h4>${item.title}</h4>
+                    <p>${item.content}</p>
+                    <div class="ann-meta">
+                      <span><i class="fas fa-calendar-alt"></i> ${item.date}</span>
+                      <span><i class="fas fa-user"></i> ${item.author || 'JPP PMKL'}</span>
+                    </div>
+                  </div>
+                `;
+              });
+            }
+          }
+        }
+      } catch (err) {
+        // Silent fallback
+      }
+
+      // 3. Dynamic Events
+      try {
+        const res = await fetch('/api/events', { cache: 'no-store' });
+        if (res.ok) {
+          const eventsList = await res.json();
+          if (Array.isArray(eventsList) && eventsList.length > 0) {
+            // Update Dashboard upcoming events
+            const dashEvents = document.getElementById('dashEventsList');
+            if (dashEvents) {
+              dashEvents.innerHTML = '';
+              eventsList.slice(0, 3).forEach(item => {
+                dashEvents.innerHTML += `
+                  <div class="event-item">
+                    <div class="event-date-box">
+                      <div class="day">${item.dateDay}</div>
+                      <div class="mon">${item.dateMonth}</div>
+                    </div>
+                    <div class="event-info-text">
+                      <h5>${item.title}</h5>
+                      <p><i class="fas fa-clock" style="color:var(--gold);margin-right:0.25rem;"></i>${item.time} — ${item.location}</p>
+                    </div>
+                  </div>
+                `;
+              });
+            }
+
+            // Update Events tab masonry
+            const masonry = document.getElementById('eventsMasonry');
+            if (masonry) {
+              masonry.innerHTML = '';
+              eventsList.forEach(item => {
+                masonry.innerHTML += `
+                  <div class="event-card-full">
+                    <div class="event-thumb ${item.colorGrad || 'event-thumb-grad1'}">${item.icon || '📅'}</div>
+                    <div class="event-card-body">
+                      <h4>${item.title}</h4>
+                      <div class="event-meta-row">
+                        <div class="event-meta-item"><i class="fas fa-calendar-alt"></i> ${item.dateFull || (item.dateDay + ' ' + item.dateMonth)}</div>
+                      </div>
+                      <div class="event-meta-row">
+                        <div class="event-meta-item"><i class="fas fa-clock"></i> ${item.time}</div>
+                      </div>
+                      <div class="event-meta-row">
+                        <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${item.location}</div>
+                      </div>
+                      <button class="btn-event" onclick="showToast('Event: ' + '${item.title.replace(/'/g, "\\'")}')">Learn More</button>
+                    </div>
+                  </div>
+                `;
+              });
+            }
+          }
+        }
+      } catch (err) {
+        // Silent fallback
+      }
+
+      // 4. Dynamic Rental Listings Cache
+      try {
+        const res = await fetch('/api/rentals', { cache: 'no-store' });
+        if (res.ok) {
+          const rentalsList = await res.json();
+          if (Array.isArray(rentalsList) && rentalsList.length > 0) {
+            window._dynamicRentals = rentalsList;
+          }
+        }
+      } catch (err) {
+        // Silent fallback
       }
     }
 
-    initMaintenanceMode();
-    document.addEventListener('DOMContentLoaded', initMaintenanceMode);
+    syncCloudflareLivePortal();
+    document.addEventListener('DOMContentLoaded', syncCloudflareLivePortal);
+    // Periodically re-check status every 60s
+    setInterval(syncCloudflareLivePortal, 60000);

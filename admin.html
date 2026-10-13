@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JPP PMKL — Admin Control Center</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" type="image/png" href="JPP LOGO.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    :root {
+      --admin-accent: #f5c842;
+      --admin-danger: #ef4444;
+      --admin-success: #22d3a0;
+      --admin-card: rgba(18, 22, 36, 0.85);
+    }
+
+    [data-theme="light"] {
+      --admin-card: #ffffff;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      background: rgba(7, 9, 15, 0.85);
+      border-bottom: 1px solid var(--border);
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    [data-theme="light"] .admin-nav {
+      background: rgba(242, 245, 252, 0.9);
+    }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-family: 'Space Mono', monospace;
+      font-weight: 700;
+      background: var(--primary-glow);
+      color: var(--primary-light);
+      border: 1px solid rgba(26, 75, 255, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .admin-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      flex: 1;
+      width: 100%;
+    }
+
+    .admin-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+      overflow-x: auto;
+    }
+
+    .admin-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.25rem;
+      border-radius: 9px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text2);
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .admin-tab:hover {
+      color: var(--text);
+      background: var(--surface2);
+    }
+
+    .admin-tab.active {
+      color: var(--gold);
+      background: var(--gold-dim);
+      border-color: rgba(245, 200, 66, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .admin-card {
+      background: var(--admin-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .admin-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 800px) {
+      .admin-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .status-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 1.5rem;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      background: var(--surface);
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .status-live {
+      background: rgba(34, 211, 160, 0.15);
+      color: var(--admin-success);
+      border: 1px solid rgba(34, 211, 160, 0.3);
+    }
+
+    .status-maint {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--admin-danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      animation: pulseDanger 2s infinite;
+    }
+
+    @keyframes pulseDanger {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text2);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-ctrl {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .form-ctrl:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.15);
+    }
+
+    .item-list-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 10px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 0.75rem;
+      gap: 1rem;
+    }
+
+    .item-list-row:hover {
+      border-color: rgba(245, 200, 66, 0.3);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.12);
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      padding: 0.45rem 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .btn-danger:hover {
+      background: #ef4444;
+      color: white;
+    }
+
+    .key-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ADMIN NAVBAR -->
+  <nav class="admin-nav">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <a class="nav-logo" href="index.html">
+        <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
+        JPP&nbsp;<span>PMKL</span>
+      </a>
+      <span class="admin-badge"><i class="fas fa-shield-halved"></i> Cloudflare Admin</span>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 0.75rem;">
+      <button class="key-badge" id="btnAdminKey" title="Configure Admin API Key">
+        <i class="fas fa-key" style="color:var(--gold);"></i> <span id="adminKeyDisplay">Admin Key: Set</span>
+      </button>
+      <a href="index.html" class="qa-chip" target="_blank" style="text-decoration:none;">
+        <i class="fas fa-external-link-alt"></i> View Live Portal
+      </a>
+      <button class="btn-icon" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <div class="admin-wrap">
+
+    <!-- STATUS BANNER -->
+    <div class="status-banner" id="statusBanner">
+      <div style="display: flex; align-items: center; gap: 1rem;">
+        <div class="status-pill status-live" id="livePill">
+          <i class="fas fa-circle-check"></i> <span id="liveStatusText">WEBSITE ONLINE</span>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text2);" id="lastUpdatedInfo">
+          Last checked: Just now
+        </div>
+      </div>
+      <button class="btn-hero btn-hero-primary" id="btnToggleMaint" onclick="toggleMaintenance()">
+        <i class="fas fa-power-off"></i> Toggle Maintenance Mode
+      </button>
+    </div>
+
+    <!-- ADMIN TABS -->
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchTab('tabStatus')">
+        <i class="fas fa-sliders"></i> Portal Status & Ticker
+      </button>
+      <button class="admin-tab" onclick="switchTab('tabAnnouncements')">
+        <i class="fas fa-bullhorn"></i> Announcements
+      </button>
+      <button class="admin-tab" onclick="switchTab('tabEvents')">
+        <i class="fas fa-calendar-alt"></i> Events
+      </button>
+      <button class="admin-tab" onclick="switchTab('tabRentals')">
+        <i class="fas fa-home"></i> Rent House
+      </button>
+      <button class="admin-tab" onclick="switchTab('tabSetup')">
+        <i class="fas fa-cloud"></i> Cloudflare KV Setup
+      </button>
+    </div>
+
+    <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
+    <div class="tab-content active" id="tabStatus">
+      <div class="admin-grid-2">
+        
+        <!-- Live Ticker Controller -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-bell"></i> Top Banner</div>
+          <h3>Live Ticker Headline</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">
+            This moving ticker appears right at the top of the portal. Edits here will be pushed instantly to all students.
+          </p>
+
+          <div class="form-group">
+            <label>Ticker Message</label>
+            <textarea id="inpTicker" class="form-ctrl" rows="4" placeholder="Type breaking announcement ticker..."></textarea>
+          </div>
+
+          <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: var(--surface2); border: 1px dashed var(--border); font-size:0.82rem;">
+            <strong style="color:var(--gold);"><i class="fas fa-eye"></i> Live Preview:</strong>
+            <div id="tickerPreview" style="margin-top: 0.35rem; color: var(--text); font-style: italic;">...</div>
+          </div>
+
+          <button class="btn-hero btn-hero-primary" onclick="saveTicker()">
+            <i class="fas fa-paper-plane"></i> Push Ticker Update
+          </button>
+        </div>
+
+        <!-- Portal Stats Counter Controller -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-chart-simple"></i> Dashboard Stats</div>
+          <h3>Portal Statistics Counters</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">
+            Update the numerical statistics shown on the main homepage without changing the HTML code.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Total Students</label>
+              <input type="number" id="statStudents" class="form-ctrl" value="600">
+            </div>
+            <div class="form-group">
+              <label>JPP Members</label>
+              <input type="number" id="statMembers" class="form-ctrl" value="20">
+            </div>
+            <div class="form-group">
+              <label>Events This Month</label>
+              <input type="number" id="statEvents" class="form-ctrl" value="2">
+            </div>
+            <div class="form-group">
+              <label>Rental Listings</label>
+              <input type="number" id="statRentals" class="form-ctrl" value="3">
+            </div>
+          </div>
+
+          <button class="btn-hero btn-hero-outline" onclick="saveStats()" style="margin-top: 0.5rem;">
+            <i class="fas fa-floppy-disk"></i> Save Stats Numbers
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ TAB 2: ANNOUNCEMENTS ══ -->
+    <div class="tab-content" id="tabAnnouncements">
+      <div class="admin-grid-2">
+        
+        <!-- Post Announcement Form -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-pen-nib"></i> Publish Content</div>
+          <h3>Post New Announcement</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.2rem;">
+            Add notices, circulars, or results directly to the Notice Board.
+          </p>
+
+          <div class="form-group">
+            <label>Title</label>
+            <input type="text" id="annTitle" class="form-ctrl" placeholder="e.g. New Student Registration Session I">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Category</label>
+              <select id="annCategory" class="form-ctrl">
+                <option value="Important">Important (Gold)</option>
+                <option value="Events">Events (Blue)</option>
+                <option value="Achievements">Achievements (Green)</option>
+                <option value="General">General Notice</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Author / EXCO</label>
+              <input type="text" id="annAuthor" class="form-ctrl" value="JPP PMKL" placeholder="e.g. JPP PMKL or EXCO Sports">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Announcement Content</label>
+            <textarea id="annContent" class="form-ctrl" rows="4" placeholder="Detailed information for students..."></textarea>
+          </div>
+
+          <button class="btn-hero btn-hero-primary" onclick="createAnnouncement()">
+            <i class="fas fa-plus"></i> Publish Announcement
+          </button>
+        </div>
+
+        <!-- Current Announcements List -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-list"></i> Notice Board</div>
+          <h3>Published Announcements</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">
+            Manage existing announcements. Deleting an item removes it immediately from the portal.
+          </p>
+
+          <div id="annListContainer">
+            <div style="color:var(--text3); font-size:0.85rem;">Loading announcements...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ TAB 3: EVENTS ══ -->
+    <div class="tab-content" id="tabEvents">
+      <div class="admin-grid-2">
+
+        <!-- Add Event Form -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-calendar-plus"></i> Schedule Event</div>
+          <h3>Add Upcoming Event</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.2rem;">
+            Broadcast campus events, esport tournaments, and JPP programs.
+          </p>
+
+          <div class="form-group">
+            <label>Event Name</label>
+            <input type="text" id="evtTitle" class="form-ctrl" placeholder="e.g. SuperStar Esport Championship">
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Day (Short)</label>
+              <input type="text" id="evtDay" class="form-ctrl" placeholder="e.g. 22 or TBD">
+            </div>
+            <div class="form-group">
+              <label>Month (Short)</label>
+              <input type="text" id="evtMonth" class="form-ctrl" placeholder="e.g. JUN or 2026">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Time</label>
+              <input type="text" id="evtTime" class="form-ctrl" placeholder="e.g. 8:00 AM onwards">
+            </div>
+            <div class="form-group">
+              <label>Location / Venue</label>
+              <input type="text" id="evtLoc" class="form-ctrl" placeholder="e.g. PMKL Campus Hall">
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Thumbnail Emoji</label>
+              <input type="text" id="evtIcon" class="form-ctrl" value="🎮" placeholder="e.g. 📋, 🎮, 🎭">
+            </div>
+            <div class="form-group">
+              <label>Color Theme</label>
+              <select id="evtGrad" class="form-ctrl">
+                <option value="event-thumb-grad1">Blue Gradient</option>
+                <option value="event-thumb-grad2">Gold Gradient</option>
+                <option value="event-thumb-grad3">Green Gradient</option>
+              </select>
+            </div>
+          </div>
+
+          <button class="btn-hero btn-hero-primary" onclick="createEvent()">
+            <i class="fas fa-plus"></i> Add Event to Portal
+          </button>
+        </div>
+
+        <!-- Current Events List -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-calendar-check"></i> Event Schedule</div>
+          <h3>Active Upcoming Events</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">
+            Manage scheduled events appearing on the homepage and Events tab.
+          </p>
+
+          <div id="eventsListContainer">
+            <div style="color:var(--text3); font-size:0.85rem;">Loading events...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ TAB 4: RENT HOUSE ══ -->
+    <div class="tab-content" id="tabRentals">
+      <div class="admin-grid-2">
+
+        <!-- Add Rental Form -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-house-chimney"></i> New Listing</div>
+          <h3>Add Student Rental Listing</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.2rem;">
+            Add rooms and apartments near PMKL without editing hardcoded JavaScript arrays.
+          </p>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Apartment Complex</label>
+              <select id="rentApartment" class="form-ctrl">
+                <option value="Apartment Mahsuri">Apartment Mahsuri</option>
+                <option value="Apartment Intan">Apartment Intan</option>
+                <option value="Apartment Puteri">Apartment Puteri</option>
+                <option value="Apartment Sri Ayu">Apartment Sri Ayu</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Block</label>
+              <select id="rentBlock" class="form-ctrl">
+                <option value="Blok 1">Blok 1</option>
+                <option value="Blok 2">Blok 2</option>
+                <option value="Blok 3">Blok 3</option>
+                <option value="Blok 4">Blok 4</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Unit Name / Number</label>
+              <input type="text" id="rentUnit" class="form-ctrl" placeholder="e.g. Unit A-202">
+            </div>
+            <div class="form-group">
+              <label>Monthly Price</label>
+              <input type="text" id="rentPrice" class="form-ctrl" placeholder="e.g. RM 450">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Contact Person & Phone</label>
+            <input type="text" id="rentContact" class="form-ctrl" placeholder="e.g. En. Ahmad (012-328 0168)">
+          </div>
+
+          <div class="form-group">
+            <label>Features / Amenities (comma separated)</label>
+            <input type="text" id="rentFeatures" class="form-ctrl" placeholder="WiFi, Water Incl., Refrigerator, Bed">
+          </div>
+
+          <div class="form-group">
+            <label>Unit Details & Rules</label>
+            <textarea id="rentDetails" class="form-ctrl" rows="3" placeholder="e.g. Fully furnished room, 2 Pax, Muslim students only."></textarea>
+          </div>
+
+          <button class="btn-hero btn-hero-primary" onclick="createRental()">
+            <i class="fas fa-plus"></i> Post Rental Unit
+          </button>
+        </div>
+
+        <!-- Current Rentals List -->
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-list-check"></i> Housing Database</div>
+          <h3>Active Rental Listings</h3>
+          <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">
+            All accommodations currently visible to PMKL students.
+          </p>
+
+          <div id="rentalsListContainer">
+            <div style="color:var(--text3); font-size:0.85rem;">Loading rentals...</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ TAB 5: CLOUDFLARE SETUP GUIDE ══ -->
+    <div class="tab-content" id="tabSetup">
+      <div class="admin-card">
+        <div class="sec-label"><i class="fas fa-circle-info"></i> How it connects</div>
+        <h3>Cloudflare Pages & KV Setup in 2 Minutes</h3>
+        <p style="color:var(--text2); font-size:0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          Your site uses <strong>Cloudflare Pages Functions</strong> located in the <code>functions/api/</code> folder. 
+          To enable persistent storage so your changes save permanently across the globe, connect a KV namespace in your Cloudflare dashboard:
+        </p>
+
+        <div style="background:var(--surface2); padding:1.25rem; border-radius:12px; border:1px solid var(--border); margin-bottom:1.5rem;">
+          <h4 style="color:var(--gold); margin-bottom: 0.5rem;"><i class="fas fa-database"></i> Step 1: Create KV Namespace</h4>
+          <ol style="margin-left: 1.25rem; font-size: 0.88rem; line-height: 1.8; color: var(--text);">
+            <li>Open your <a href="https://dash.cloudflare.com/" target="_blank" style="color:var(--gold);">Cloudflare Dashboard</a>.</li>
+            <li>Go to <strong>Storage & Databases</strong> &gt; <strong>KV</strong>.</li>
+            <li>Click <strong>Create a namespace</strong> and name it <code>PORTAL_DATA</code>.</li>
+          </ol>
+        </div>
+
+        <div style="background:var(--surface2); padding:1.25rem; border-radius:12px; border:1px solid var(--border); margin-bottom:1.5rem;">
+          <h4 style="color:var(--gold); margin-bottom: 0.5rem;"><i class="fas fa-link"></i> Step 2: Bind KV to your Pages Project</h4>
+          <ol style="margin-left: 1.25rem; font-size: 0.88rem; line-height: 1.8; color: var(--text);">
+            <li>Go to <strong>Workers & Pages</strong> &gt; select your <code>JPP-PMKL-STUDENT-PORTAL</code> project.</li>
+            <li>Click <strong>Settings</strong> &gt; <strong>Functions</strong>.</li>
+            <li>Scroll to <strong>KV namespace bindings</strong> and click <strong>Add binding</strong>.</li>
+            <li>Set <strong>Variable name</strong> to <code>PORTAL_DATA</code> and select your created KV namespace.</li>
+            <li>Save and trigger a redeploy (or push any commit to GitHub).</li>
+          </ol>
+        </div>
+
+        <div style="background:var(--surface2); padding:1.25rem; border-radius:12px; border:1px solid var(--border);">
+          <h4 style="color:var(--gold); margin-bottom: 0.5rem;"><i class="fas fa-lock"></i> Step 3: Zero Trust Admin Login (Optional & Free)</h4>
+          <p style="font-size:0.85rem; color:var(--text2); line-height:1.6;">
+            To require an email verification PIN whenever someone visits <code>admin.html</code>:
+            Go to <strong>Zero Trust</strong> &gt; <strong>Access</strong> &gt; <strong>Applications</strong> &gt; Add <code>yourdomain.com/admin.html</code> and specify your JPP email. 
+            Cloudflare will automatically protect the page before anyone can view it!
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Action completed</span>
+  </div>
+
+  <!-- ADMIN SCRIPTS -->
+  <script>
+    // ── ADMIN STATE & API CLIENT ──
+    const API_BASE = '/api';
+    let currentStatus = {
+      maintenance: false,
+      ticker: "",
+      stats: { students: 600, members: 20, events: 2, rentals: 3 }
+    };
+
+    // Admin key stored in localStorage
+    let adminKey = localStorage.getItem('jpp_admin_key') || 'jpp2026admin';
+    updateKeyDisplay();
+
+    function updateKeyDisplay() {
+      document.getElementById('adminKeyDisplay').textContent = 'Key: ' + (adminKey ? '••••' + adminKey.slice(-3) : 'Not Set');
+    }
+
+    document.getElementById('btnAdminKey').addEventListener('click', () => {
+      const newKey = prompt('Enter JPP Admin Access Key:', adminKey);
+      if (newKey !== null && newKey.trim() !== '') {
+        adminKey = newKey.trim();
+        localStorage.setItem('jpp_admin_key', adminKey);
+        updateKeyDisplay();
+        showToast('Admin key updated!');
+      }
+    });
+
+    function getHeaders() {
+      return {
+        'Content-Type': 'application/json',
+        'x-admin-key': adminKey
+      };
+    }
+
+    // ── THEME TOGGLE ──
+    const themeBtn = document.getElementById('themeToggle');
+    themeBtn.addEventListener('click', () => {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      themeBtn.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+    });
+
+    // ── TABS SWITCHER ──
+    function switchTab(tabId) {
+      document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const target = document.getElementById(tabId);
+      if (target) target.classList.add('active');
+    }
+
+    // ── TOAST ──
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    // ── 1. STATUS & TICKER LOGIC ──
+    async function loadStatus() {
+      try {
+        const res = await fetch(`${API_BASE}/status`);
+        if (!res.ok) throw new Error('Status fetch failed');
+        currentStatus = await res.json();
+
+        // Update UI
+        const pill = document.getElementById('livePill');
+        const text = document.getElementById('liveStatusText');
+        const btn = document.getElementById('btnToggleMaint');
+
+        if (currentStatus.maintenance) {
+          pill.className = 'status-pill status-maint';
+          pill.innerHTML = '<i class="fas fa-triangle-exclamation"></i> <span>UNDER MAINTENANCE</span>';
+          btn.innerHTML = '<i class="fas fa-globe"></i> Turn Website Back Online';
+          btn.className = 'btn-hero btn-hero-outline';
+        } else {
+          pill.className = 'status-pill status-live';
+          pill.innerHTML = '<i class="fas fa-circle-check"></i> <span>WEBSITE ONLINE</span>';
+          btn.innerHTML = '<i class="fas fa-power-off"></i> Put Website In Maintenance';
+          btn.className = 'btn-hero btn-hero-primary';
+        }
+
+        document.getElementById('lastUpdatedInfo').textContent = 'Last checked: ' + new Date().toLocaleTimeString();
+        document.getElementById('inpTicker').value = currentStatus.ticker || '';
+        document.getElementById('tickerPreview').textContent = currentStatus.ticker || 'No ticker text';
+
+        if (currentStatus.stats) {
+          document.getElementById('statStudents').value = currentStatus.stats.students || 600;
+          document.getElementById('statMembers').value = currentStatus.stats.members || 20;
+          document.getElementById('statEvents').value = currentStatus.stats.events || 2;
+          document.getElementById('statRentals').value = currentStatus.stats.rentals || 3;
+        }
+      } catch (err) {
+        console.warn('Using local fallback for status:', err);
+      }
+    }
+
+    // Live ticker typing preview
+    document.getElementById('inpTicker').addEventListener('input', function () {
+      document.getElementById('tickerPreview').textContent = this.value || 'No ticker text';
+    });
+
+    async function toggleMaintenance() {
+      const newMaint = !currentStatus.maintenance;
+      const confirmAction = confirm(`Are you sure you want to set website to: ${newMaint ? 'UNDER MAINTENANCE' : 'ONLINE'}?`);
+      if (!confirmAction) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/status`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ ...currentStatus, maintenance: newMaint })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        currentStatus.maintenance = newMaint;
+        showToast(newMaint ? 'Maintenance mode ENABLED' : 'Website is now ONLINE');
+        loadStatus();
+      } catch (err) {
+        alert('Failed to update maintenance: ' + err.message);
+      }
+    }
+
+    async function saveTicker() {
+      const ticker = document.getElementById('inpTicker').value.trim();
+      try {
+        const res = await fetch(`${API_BASE}/status`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ ...currentStatus, ticker })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        currentStatus.ticker = ticker;
+        showToast('Live Ticker updated on website!');
+      } catch (err) {
+        alert('Failed to update ticker: ' + err.message);
+      }
+    }
+
+    async function saveStats() {
+      const stats = {
+        students: parseInt(document.getElementById('statStudents').value) || 600,
+        members: parseInt(document.getElementById('statMembers').value) || 20,
+        events: parseInt(document.getElementById('statEvents').value) || 2,
+        rentals: parseInt(document.getElementById('statRentals').value) || 3
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/status`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ ...currentStatus, stats })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        currentStatus.stats = stats;
+        showToast('Portal stats updated successfully!');
+      } catch (err) {
+        alert('Failed to update stats: ' + err.message);
+      }
+    }
+
+    // ── 2. ANNOUNCEMENTS CRUD ──
+    async function loadAnnouncements() {
+      try {
+        const res = await fetch(`${API_BASE}/announcements`);
+        const list = await res.json();
+        const container = document.getElementById('annListContainer');
+        container.innerHTML = '';
+
+        if (!list || list.length === 0) {
+          container.innerHTML = '<div style="color:var(--text3); font-size:0.85rem;">No announcements found.</div>';
+          return;
+        }
+
+        list.forEach(item => {
+          container.innerHTML += `
+            <div class="item-list-row">
+              <div style="flex:1;">
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                  <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
+                  <strong style="font-size:0.9rem;">${item.title}</strong>
+                </div>
+                <div style="font-size:0.78rem; color:var(--text2); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
+                  ${item.content}
+                </div>
+                <div style="font-size:0.72rem; color:var(--text3); margin-top:0.35rem;">
+                  <i class="fas fa-calendar"></i> ${item.date} • <i class="fas fa-user"></i> ${item.author || 'JPP'}
+                </div>
+              </div>
+              <button class="btn-danger" onclick="deleteAnnouncement('${item.id}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.warn('Failed to load announcements:', err);
+      }
+    }
+
+    async function createAnnouncement() {
+      const title = document.getElementById('annTitle').value.trim();
+      const category = document.getElementById('annCategory').value;
+      const author = document.getElementById('annAuthor').value.trim();
+      const content = document.getElementById('annContent').value.trim();
+
+      if (!title || !content) return alert('Please enter both title and content!');
+
+      try {
+        const res = await fetch(`${API_BASE}/announcements`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ title, category, author, content })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        showToast('Announcement published to portal!');
+        document.getElementById('annTitle').value = '';
+        document.getElementById('annContent').value = '';
+        loadAnnouncements();
+      } catch (err) {
+        alert('Failed to publish: ' + err.message);
+      }
+    }
+
+    async function deleteAnnouncement(id) {
+      if (!confirm('Are you sure you want to delete this announcement?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/announcements?id=${id}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        showToast('Announcement deleted!');
+        loadAnnouncements();
+      } catch (err) {
+        alert('Failed to delete: ' + err.message);
+      }
+    }
+
+    // ── 3. EVENTS CRUD ──
+    async function loadEvents() {
+      try {
+        const res = await fetch(`${API_BASE}/events`);
+        const list = await res.json();
+        const container = document.getElementById('eventsListContainer');
+        container.innerHTML = '';
+
+        if (!list || list.length === 0) {
+          container.innerHTML = '<div style="color:var(--text3); font-size:0.85rem;">No events found.</div>';
+          return;
+        }
+
+        list.forEach(item => {
+          container.innerHTML += `
+            <div class="item-list-row">
+              <div style="font-size:1.8rem;">${item.icon || '📅'}</div>
+              <div style="flex:1;">
+                <strong style="font-size:0.9rem;">${item.title}</strong>
+                <div style="font-size:0.78rem; color:var(--text2); margin-top:0.25rem;">
+                  <i class="fas fa-calendar-alt"></i> ${item.dateDay} ${item.dateMonth} • 
+                  <i class="fas fa-clock"></i> ${item.time} • 
+                  <i class="fas fa-map-marker-alt"></i> ${item.location}
+                </div>
+              </div>
+              <button class="btn-danger" onclick="deleteEvent('${item.id}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.warn('Failed to load events:', err);
+      }
+    }
+
+    async function createEvent() {
+      const title = document.getElementById('evtTitle').value.trim();
+      const dateDay = document.getElementById('evtDay').value.trim();
+      const dateMonth = document.getElementById('evtMonth').value.trim();
+      const time = document.getElementById('evtTime').value.trim();
+      const location = document.getElementById('evtLoc').value.trim();
+      const icon = document.getElementById('evtIcon').value.trim();
+      const colorGrad = document.getElementById('evtGrad').value;
+
+      if (!title) return alert('Please enter an event title!');
+
+      try {
+        const res = await fetch(`${API_BASE}/events`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ title, dateDay, dateMonth, time, location, icon, colorGrad })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        showToast('Event added to portal!');
+        document.getElementById('evtTitle').value = '';
+        document.getElementById('evtDay').value = '';
+        document.getElementById('evtMonth').value = '';
+        loadEvents();
+      } catch (err) {
+        alert('Failed to add event: ' + err.message);
+      }
+    }
+
+    async function deleteEvent(id) {
+      if (!confirm('Are you sure you want to delete this event?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/events?id=${id}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        showToast('Event deleted!');
+        loadEvents();
+      } catch (err) {
+        alert('Failed to delete: ' + err.message);
+      }
+    }
+
+    // ── 4. RENTALS CRUD ──
+    async function loadRentals() {
+      try {
+        const res = await fetch(`${API_BASE}/rentals`);
+        const list = await res.json();
+        const container = document.getElementById('rentalsListContainer');
+        container.innerHTML = '';
+
+        if (!list || list.length === 0) {
+          container.innerHTML = '<div style="color:var(--text3); font-size:0.85rem;">No rental listings found.</div>';
+          return;
+        }
+
+        list.forEach(item => {
+          container.innerHTML += `
+            <div class="item-list-row">
+              <div style="flex:1;">
+                <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
+                  <span class="tag tag-gold">${item.apartment}</span>
+                  <span class="tag tag-blue">${item.block}</span>
+                  <strong style="font-size:0.9rem;">${item.unit} (${item.price}/mo)</strong>
+                </div>
+                <div style="font-size:0.78rem; color:var(--text2);">${item.details}</div>
+                <div style="font-size:0.72rem; color:var(--text3); margin-top:0.35rem;">
+                  <i class="fas fa-phone"></i> ${item.contact}
+                </div>
+              </div>
+              <button class="btn-danger" onclick="deleteRental('${item.id}')">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.warn('Failed to load rentals:', err);
+      }
+    }
+
+    async function createRental() {
+      const apartment = document.getElementById('rentApartment').value;
+      const block = document.getElementById('rentBlock').value;
+      const unit = document.getElementById('rentUnit').value.trim();
+      const price = document.getElementById('rentPrice').value.trim();
+      const contact = document.getElementById('rentContact').value.trim();
+      const features = document.getElementById('rentFeatures').value.trim();
+      const details = document.getElementById('rentDetails').value.trim();
+
+      if (!unit || !price) return alert('Please enter unit name and price!');
+
+      try {
+        const res = await fetch(`${API_BASE}/rentals`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ apartment, block, unit, price, contact, features, details })
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        showToast('Rental listing published!');
+        document.getElementById('rentUnit').value = '';
+        document.getElementById('rentPrice').value = '';
+        document.getElementById('rentContact').value = '';
+        document.getElementById('rentFeatures').value = '';
+        document.getElementById('rentDetails').value = '';
+        loadRentals();
+      } catch (err) {
+        alert('Failed to add rental: ' + err.message);
+      }
+    }
+
+    async function deleteRental(id) {
+      if (!confirm('Are you sure you want to delete this rental listing?')) return;
+      try {
+        const res = await fetch(`${API_BASE}/rentals?id=${id}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        const data = await res.json();
+        if (data.error) throw new Error(data.error);
+
+        showToast('Rental listing removed!');
+        loadRentals();
+      } catch (err) {
+        alert('Failed to delete: ' + err.message);
+      }
+    }
+
+    // ── INITIAL LOAD ──
+    loadStatus();
+    loadAnnouncements();
+    loadEvents();
+    loadRentals();
+  </script>
+</body>
+
+</html>
