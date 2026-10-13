@@ -1,0 +1,47 @@
+// ══ CLOUDFLARE WORKER ROUTER (STATIC ASSETS + API) ══
+import * as statusApi from './functions/api/status.js';
+import * as annApi from './functions/api/announcements.js';
+import * as eventsApi from './functions/api/events.js';
+import * as rentalsApi from './functions/api/rentals.js';
+
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    const context = { request, env };
+
+    // API Routes
+    if (url.pathname === '/api/status') {
+      if (request.method === 'POST') return statusApi.onRequestPost(context);
+      if (request.method === 'OPTIONS') return statusApi.onRequestOptions();
+      return statusApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/announcements') {
+      if (request.method === 'POST') return annApi.onRequestPost(context);
+      if (request.method === 'DELETE') return annApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return annApi.onRequestOptions();
+      return annApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/events') {
+      if (request.method === 'POST') return eventsApi.onRequestPost(context);
+      if (request.method === 'DELETE') return eventsApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return eventsApi.onRequestOptions();
+      return eventsApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/rentals') {
+      if (request.method === 'POST') return rentalsApi.onRequestPost(context);
+      if (request.method === 'DELETE') return rentalsApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return rentalsApi.onRequestOptions();
+      return rentalsApi.onRequestGet(context);
+    }
+
+    // Serve Static Assets (HTML, CSS, JS, Images)
+    if (env.ASSETS) {
+      return env.ASSETS.fetch(request);
+    }
+
+    return new Response('Not found', { status: 404 });
+  }
+};
