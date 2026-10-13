@@ -502,3 +502,11 @@
     document.addEventListener('DOMContentLoaded', syncCloudflareLivePortal);
     // Periodically re-check status every 60s
     setInterval(syncCloudflareLivePortal, 60000);
+
+    // Secret Admin Access Shortcut: Press Ctrl + Shift + A
+    document.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
+        e.preventDefault();
+        window.location.href = 'admin.html';
+      }
+    });

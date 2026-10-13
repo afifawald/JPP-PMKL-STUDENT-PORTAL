@@ -261,13 +261,167 @@
       font-size: 0.8rem;
       cursor: pointer;
     }
+
+    /* ══ LOCK SCREEN ══ */
+    .admin-lock-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(7, 9, 15, 0.96);
+      backdrop-filter: blur(25px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1.5rem;
+    }
+
+    [data-theme="light"] .admin-lock-overlay {
+      background: rgba(242, 245, 252, 0.98);
+    }
+
+    .lock-card {
+      background: var(--admin-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .lock-icon-wrap {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid rgba(245, 200, 66, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+
+    .lock-icon {
+      font-size: 2rem;
+      color: var(--gold);
+    }
+
+    .lock-sub {
+      font-size: 0.88rem;
+      color: var(--text2);
+      margin-top: 0.5rem;
+      margin-bottom: 1.75rem;
+      line-height: 1.5;
+    }
+
+    .lock-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .lock-input-icon {
+      position: absolute;
+      left: 1rem;
+      color: var(--gold);
+      font-size: 0.95rem;
+    }
+
+    .lock-input {
+      width: 100%;
+      padding: 0.85rem 2.8rem 0.85rem 2.8rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .lock-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(245, 200, 66, 0.15);
+    }
+
+    .lock-eye-btn {
+      position: absolute;
+      right: 0.75rem;
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.35rem;
+    }
+
+    .lock-eye-btn:hover {
+      color: var(--text);
+    }
+
+    .lock-error {
+      margin-top: 0.75rem;
+      padding: 0.65rem;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    @keyframes shakeCard {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-8px); }
+      40%, 80% { transform: translateX(8px); }
+    }
+
+    .shake {
+      animation: shakeCard 0.4s ease;
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- ══ ADMIN LOCK / LOGIN SCREEN ══ -->
+  <div id="adminLockOverlay" class="admin-lock-overlay">
+    <div class="lock-card">
+      <div class="lock-icon-wrap">
+        <i class="fas fa-shield-halved lock-icon"></i>
+      </div>
+      <h2>JPP Admin Portal</h2>
+      <p class="lock-sub">Authorized JPP PMKL committee members only. Enter your admin passkey to continue.</p>
+
+      <form id="lockForm" onsubmit="handleAdminLogin(event)">
+        <div class="lock-input-wrap">
+          <i class="fas fa-key lock-input-icon"></i>
+          <input type="password" id="lockPassInput" class="lock-input" placeholder="Enter Admin Passkey" autocomplete="current-password" autofocus required>
+          <button type="button" class="lock-eye-btn" onclick="togglePassVisibility()" title="Show/Hide Password">
+            <i class="fas fa-eye" id="lockEyeIcon"></i>
+          </button>
+        </div>
+
+        <div id="lockErrorMsg" class="lock-error" style="display:none;"></div>
+
+        <button type="submit" class="btn-hero btn-hero-primary" id="btnUnlock" style="width:100%; margin-top:1rem; justify-content:center;">
+          <i class="fas fa-arrow-right-to-bracket"></i> Unlock Control Center
+        </button>
+      </form>
+
+      <div style="margin-top:1.5rem; text-align:center;">
+        <a href="index.html" style="color:var(--text3); font-size:0.85rem; text-decoration:none;">
+          <i class="fas fa-arrow-left"></i> Return to Student Portal
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- ADMIN NAVBAR -->
-  <nav class="admin-nav">
+  <nav class="admin-nav" id="adminNav" style="display:none;">
     <div style="display: flex; align-items: center; gap: 1rem;">
       <a class="nav-logo" href="index.html">
         <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
@@ -283,11 +437,14 @@
       <a href="index.html" class="qa-chip" target="_blank" style="text-decoration:none;">
         <i class="fas fa-external-link-alt"></i> View Live Portal
       </a>
+      <button class="key-badge" onclick="logoutAdmin()" title="Lock & Sign Out" style="color:#ef4444; border-color:rgba(239,68,68,0.3);">
+        <i class="fas fa-arrow-right-from-bracket"></i> Sign Out
+      </button>
       <button class="btn-icon" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
     </div>
   </nav>
 
-  <div class="admin-wrap">
+  <div class="admin-wrap" id="adminDashboardWrap" style="display:none;">
 
     <!-- STATUS BANNER -->
     <div class="status-banner" id="statusBanner">
@@ -650,17 +807,102 @@
 
   <!-- ADMIN SCRIPTS -->
   <script>
-    // ── ADMIN STATE & API CLIENT ──
+    // ── ADMIN AUTHENTICATION GATEKEEPER ──
     const API_BASE = '/api';
+    let adminKey = sessionStorage.getItem('jpp_admin_key') || localStorage.getItem('jpp_admin_key') || '';
     let currentStatus = {
       maintenance: false,
       ticker: "",
       stats: { students: 600, members: 20, events: 2, rentals: 3 }
     };
 
-    // Admin key stored in localStorage
-    let adminKey = localStorage.getItem('jpp_admin_key') || 'jpp2026admin';
-    updateKeyDisplay();
+    function togglePassVisibility() {
+      const inp = document.getElementById('lockPassInput');
+      const icon = document.getElementById('lockEyeIcon');
+      if (inp.type === 'password') {
+        inp.type = 'text';
+        icon.className = 'fas fa-eye-slash';
+      } else {
+        inp.type = 'password';
+        icon.className = 'fas fa-eye';
+      }
+    }
+
+    async function handleAdminLogin(e) {
+      if (e) e.preventDefault();
+      const entered = document.getElementById('lockPassInput').value.trim();
+      const errEl = document.getElementById('lockErrorMsg');
+      const btn = document.getElementById('btnUnlock');
+
+      if (!entered) return;
+      errEl.style.display = 'none';
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+
+      try {
+        // Validate with Cloudflare status endpoint
+        const res = await fetch(`${API_BASE}/status`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': entered
+          },
+          body: JSON.stringify({})
+        });
+
+        if (res.status === 401) {
+          throw new Error('Access Denied: Incorrect Admin Passkey.');
+        }
+
+        // Authentication Success!
+        adminKey = entered;
+        sessionStorage.setItem('jpp_admin_authenticated', 'true');
+        sessionStorage.setItem('jpp_admin_key', entered);
+        localStorage.setItem('jpp_admin_key', entered);
+        unlockDashboard();
+      } catch (err) {
+        errEl.textContent = err.message || 'Incorrect Admin Passkey.';
+        errEl.style.display = 'block';
+        const card = document.querySelector('.lock-card');
+        card.classList.add('shake');
+        setTimeout(() => card.classList.remove('shake'), 450);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-arrow-right-to-bracket"></i> Unlock Control Center';
+      }
+    }
+
+    function unlockDashboard() {
+      document.getElementById('adminLockOverlay').style.display = 'none';
+      document.getElementById('adminNav').style.display = 'flex';
+      document.getElementById('adminDashboardWrap').style.display = 'block';
+      updateKeyDisplay();
+      loadStatus();
+      loadAnnouncements();
+      loadEvents();
+      loadRentals();
+      showToast('Welcome, Administrator!');
+    }
+
+    function logoutAdmin() {
+      sessionStorage.removeItem('jpp_admin_authenticated');
+      sessionStorage.removeItem('jpp_admin_key');
+      adminKey = '';
+      document.getElementById('adminLockOverlay').style.display = 'flex';
+      document.getElementById('adminNav').style.display = 'none';
+      document.getElementById('adminDashboardWrap').style.display = 'none';
+      document.getElementById('lockPassInput').value = '';
+      document.getElementById('lockErrorMsg').style.display = 'none';
+      showToast('Signed out successfully.');
+    }
+
+    // Auto-login if session already active in current browser tab
+    window.addEventListener('DOMContentLoaded', () => {
+      const isAuth = sessionStorage.getItem('jpp_admin_authenticated');
+      if (isAuth === 'true' && adminKey) {
+        unlockDashboard();
+      }
+    });
 
     function updateKeyDisplay() {
       document.getElementById('adminKeyDisplay').textContent = 'Key: ' + (adminKey ? '••••' + adminKey.slice(-3) : 'Not Set');
@@ -670,6 +912,7 @@
       const newKey = prompt('Enter JPP Admin Access Key:', adminKey);
       if (newKey !== null && newKey.trim() !== '') {
         adminKey = newKey.trim();
+        sessionStorage.setItem('jpp_admin_key', adminKey);
         localStorage.setItem('jpp_admin_key', adminKey);
         updateKeyDisplay();
         showToast('Admin key updated!');
@@ -1072,11 +1315,7 @@
       }
     }
 
-    // ── INITIAL LOAD ──
-    loadStatus();
-    loadAnnouncements();
-    loadEvents();
-    loadRentals();
+    // Data will load automatically inside unlockDashboard() once verified
   </script>
 </body>
 
