@@ -11,5 +11,11 @@
   },
   "compatibility_flags": [
     "nodejs_compat"
+  ],
+  "kv_namespaces": [
+    {
+      "binding": "PORTAL_DATA",
+      "id": "0cf231f71ae74259b68948a5a8214a09"
+    }
   ]
 }
