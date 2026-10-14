@@ -6,6 +6,7 @@ import * as rentalsApi from './functions/api/rentals.js';
 import * as albumApi from './functions/api/album.js';
 import * as printingApi from './functions/api/printing.js';
 import * as printJobsApi from './functions/api/print-jobs.js';
+import * as betaApi from './functions/api/beta.js';
 
 export default {
   async fetch(request, env) {
@@ -57,6 +58,14 @@ export default {
       if (request.method === 'POST') return printJobsApi.onRequestPost(context);
       if (request.method === 'OPTIONS') return printJobsApi.onRequestOptions();
       return printJobsApi.onRequestGet(context);
+    }
+
+    if (url.pathname.startsWith('/api/beta')) {
+      if (request.method === 'POST') return betaApi.onRequestPost(context);
+      if (request.method === 'PATCH') return betaApi.onRequestPatch(context);
+      if (request.method === 'DELETE') return betaApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return betaApi.onRequestOptions();
+      return betaApi.onRequestGet(context);
     }
 
     // Serve Static Assets (HTML, CSS, JS, Images)

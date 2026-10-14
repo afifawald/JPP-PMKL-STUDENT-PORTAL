@@ -481,6 +481,9 @@
       <button class="admin-tab" onclick="switchTab('tabPrinting')">
         <i class="fas fa-print"></i> Printing Station &amp; Queue
       </button>
+      <button class="admin-tab" onclick="switchTab('tabBetaLab')">
+        <i class="fas fa-flask"></i> Beta Lab (3 Pillars)
+      </button>
     </div>
 
     <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
@@ -962,6 +965,141 @@
       </div>
     </div>
 
+    <!-- ══ TAB 7: BETA LAB MANAGEMENT (THE 3 PILLARS) ══ -->
+    <div class="tab-content" id="tabBetaLab">
+      <!-- Status Banner -->
+      <div class="status-banner" style="margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(168,85,247,0.12), rgba(6,182,212,0.08)); border-color:rgba(168,85,247,0.3);">
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <div class="status-pill status-live" style="background:rgba(168,85,247,0.2); color:#c084fc; border-color:rgba(168,85,247,0.4);">
+            <i class="fas fa-flask"></i> <span>BETA LAB CONSOLE</span>
+          </div>
+          <div style="font-size:0.85rem; color:var(--text2);" id="adminBetaStatsSummary">
+            Loading Beta Modules...
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn-hero btn-hero-outline" onclick="loadAdminBetaData(true)">
+            <i class="fas fa-rotate"></i> Refresh Beta Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Sub Tabs for Beta Lab Admin -->
+      <div style="display:flex; gap:0.5rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+        <button class="btn-hero btn-hero-primary" id="btnBetaSubAduan" onclick="switchBetaAdminSub('aduan')">
+          <i class="fas fa-bullhorn"></i> E-Aduan Queue (<span id="aduanQueueCount">0</span>)
+        </button>
+        <button class="btn-hero btn-hero-outline" id="btnBetaSubLost" onclick="switchBetaAdminSub('lostfound')">
+          <i class="fas fa-boxes-stacked"></i> Lost &amp; Found (<span id="lostFoundCount">0</span>)
+        </button>
+        <button class="btn-hero btn-hero-outline" id="btnBetaSubEquip" onclick="switchBetaAdminSub('equipment')">
+          <i class="fas fa-boxes-packing"></i> Equipment Loans (<span id="activeLoansCount">0</span>)
+        </button>
+      </div>
+
+      <!-- 1. E-Aduan Queue Pane -->
+      <div id="adminBetaPaneAduan">
+        <div class="admin-card">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+            <div>
+              <div class="sec-label"><i class="fas fa-inbox"></i> Peti Masuk Aduan</div>
+              <h3 style="font-size:1.1rem; color:var(--text);">Senarai Aduan &amp; Maklum Balas Pelajar</h3>
+            </div>
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button class="tag tag-gold" style="cursor:pointer;" onclick="filterAdminAduan('all')">Semua</button>
+              <button class="tag tag-blue" style="cursor:pointer;" onclick="filterAdminAduan('submitted')">Diterima</button>
+              <button class="tag tag-gold" style="cursor:pointer;" onclick="filterAdminAduan('in_progress')">Tindakan</button>
+              <button class="tag tag-green" style="cursor:pointer;" onclick="filterAdminAduan('resolved')">Selesai</button>
+            </div>
+          </div>
+
+          <div id="adminAduanList">
+            <!-- Dynamic Aduan items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Lost & Found Pane -->
+      <div id="adminBetaPaneLost" style="display:none;">
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-boxes-stacked"></i> Papan Hebahan Komuniti</div>
+          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Pengurusan Barangan Hilang &amp; Dijumpai</h3>
+          <div id="adminLostFoundList">
+            <!-- Dynamic Lost/Found items -->
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Equipment Loans Pane -->
+      <div id="adminBetaPaneEquip" style="display:none;">
+        <div class="admin-card">
+          <div class="sec-label"><i class="fas fa-boxes-packing"></i> Inventori &amp; Log Peminjaman</div>
+          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Buku Log Pinjaman Alatan Sukan &amp; Acara JPP</h3>
+          
+          <div style="overflow-x:auto; margin-bottom:1.5rem;">
+            <table class="rates-table">
+              <thead>
+                <tr>
+                  <th>Alatan</th>
+                  <th>Kategori</th>
+                  <th>Jumlah Stok</th>
+                  <th>Tersedia</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="adminEquipStockTbody">
+                <!-- Dynamic Stock Rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <div class="sec-label"><i class="fas fa-hand-holding-hand"></i> Rekod Peminjam Aktif</div>
+          <h4 style="margin-bottom:1rem; color:var(--text);">Senarai Peminjam Yang Sedang Menggunakan Alatan</h4>
+          <div id="adminActiveLoansList">
+            <!-- Dynamic Loan cards -->
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- MODAL: UPDATE ADUAN ACTION -->
+  <div class="modal-overlay" id="aduanActionModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(168,85,247,0.15); color:#c084fc;"><i class="fas fa-pen-to-square"></i></div>
+        <div class="modal-top-text">
+          <h3 id="aduanActionModalTitle">Tindakan EXCO JPP</h3>
+          <p id="aduanActionModalTicket">ID: ADU-XXXX</p>
+        </div>
+        <button class="modal-top-close" onclick="closeAduanActionModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-content-body" style="padding-top:1.25rem;">
+        <input type="hidden" id="aduanActionId">
+        <div style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Status Aduan:</label>
+          <select id="aduanActionStatus" class="form-ctrl" style="width:100%;">
+            <option value="submitted">Diterima (Dalam Barisan)</option>
+            <option value="in_review">Dalam Semakan EXCO</option>
+            <option value="in_progress">Dalam Tindakan Penyelenggaraan / Pentadbiran</option>
+            <option value="resolved">Selesai &amp; Ditutup</option>
+            <option value="rejected">Ditolak / Tiada Tindakan Lanjut</option>
+          </select>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Catatan Tindakan Rasmi JPP (Dipaparkan kepada Pelajar):</label>
+          <textarea id="aduanActionNotes" class="form-ctrl" rows="3" style="width:100%;" placeholder="cth: Laporan telah dimajukan kepada Unit Pembangunan PMKL pada 15/10..."></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-close" onclick="closeAduanActionModal()">Batal</button>
+        <button class="btn-modal-primary" onclick="saveAduanAction()" style="background:#a855f7; color:#fff; font-weight:700;">
+          <i class="fas fa-save"></i> Simpan Tindakan
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- RECEIPT PREVIEW MODAL -->
@@ -1076,6 +1214,7 @@
       loadAlbum();
       loadPrintingSettings();
       loadPrintQueue();
+      loadAdminBetaData();
       if (!window._printQueueTimer) {
         window._printQueueTimer = setInterval(() => {
           const tab = document.getElementById('tabPrinting');
@@ -2071,6 +2210,363 @@
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // ══ JPP BETA LAB MANAGEMENT (THE 3 PILLARS) ══
+    // ══════════════════════════════════════════════════════════════
+
+    let adminBetaData = {
+      aduan: [],
+      lostFound: [],
+      equipment: [],
+      loans: []
+    };
+    let currentAduanFilter = 'all';
+
+    function switchBetaAdminSub(sub) {
+      document.getElementById('adminBetaPaneAduan').style.display = sub === 'aduan' ? 'block' : 'none';
+      document.getElementById('adminBetaPaneLost').style.display = sub === 'lostfound' ? 'block' : 'none';
+      document.getElementById('adminBetaPaneEquip').style.display = sub === 'equipment' ? 'block' : 'none';
+
+      document.getElementById('btnBetaSubAduan').className = sub === 'aduan' ? 'btn-hero btn-hero-primary' : 'btn-hero btn-hero-outline';
+      document.getElementById('btnBetaSubLost').className = sub === 'lostfound' ? 'btn-hero btn-hero-primary' : 'btn-hero btn-hero-outline';
+      document.getElementById('btnBetaSubEquip').className = sub === 'equipment' ? 'btn-hero btn-hero-primary' : 'btn-hero btn-hero-outline';
+    }
+
+    async function loadAdminBetaData(showToastMsg = false) {
+      try {
+        const res = await fetch(`${API_BASE}/beta?module=all&t=` + Date.now(), {
+          headers: getHeaders()
+        });
+        if (res.ok) {
+          const data = await res.json();
+          adminBetaData = {
+            aduan: Array.isArray(data.aduan) ? data.aduan : [],
+            lostFound: Array.isArray(data.lostFound) ? data.lostFound : [],
+            equipment: Array.isArray(data.equipment) ? data.equipment : [],
+            loans: Array.isArray(data.loans) ? data.loans : []
+          };
+
+          const activeLoans = adminBetaData.loans.filter(l => l.status === 'active');
+          document.getElementById('adminBetaStatsSummary').textContent = 
+            `${adminBetaData.aduan.length} Aduan • ${adminBetaData.lostFound.length} Barangan • ${activeLoans.length} Pinjaman Aktif`;
+          
+          document.getElementById('aduanQueueCount').textContent = adminBetaData.aduan.length;
+          document.getElementById('lostFoundCount').textContent = adminBetaData.lostFound.length;
+          document.getElementById('activeLoansCount').textContent = activeLoans.length;
+
+          renderAdminAduanList(currentAduanFilter);
+          renderAdminLostFoundList();
+          renderAdminEquipment();
+
+          if (showToastMsg) showToast('Beta Lab data refreshed!');
+        }
+      } catch (err) {
+        if (showToastMsg) showToast('Failed to load Beta Lab data.');
+      }
+    }
+
+    function filterAdminAduan(status) {
+      currentAduanFilter = status;
+      renderAdminAduanList(status);
+    }
+
+    function renderAdminAduanList(status = 'all') {
+      const listEl = document.getElementById('adminAduanList');
+      if (!listEl) return;
+
+      let items = adminBetaData.aduan;
+      if (status !== 'all') {
+        items = items.filter(a => a.status === status);
+      }
+
+      if (items.length === 0) {
+        listEl.innerHTML = `
+          <div style="text-align:center; padding:2.5rem 1rem; color:var(--text3); font-size:0.88rem;">
+            <i class="fas fa-inbox" style="font-size:2rem; margin-bottom:0.5rem; display:block;"></i>
+            Tiada aduan dalam kategori ini.
+          </div>
+        `;
+        return;
+      }
+
+      const statusMap = {
+        submitted: { class: 'submitted', label: 'Diterima', color: '#06b6d4' },
+        in_review: { class: 'in_review', label: 'Dalam Semakan', color: 'var(--gold)' },
+        in_progress: { class: 'in_progress', label: 'Tindakan', color: 'var(--gold)' },
+        resolved: { class: 'resolved', label: 'Selesai', color: '#22d3a0' },
+        rejected: { class: 'danger', label: 'Ditolak', color: '#ef4444' }
+      };
+
+      listEl.innerHTML = items.map(item => {
+        const st = statusMap[item.status] || { label: item.status, color: 'var(--gold)' };
+        return `
+          <div class="queue-card-item">
+            <div class="queue-top-row">
+              <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+                <span class="queue-ticket-id">${item.id}</span>
+                <span class="tag tag-gold" style="font-size:0.7rem;">${item.categoryLabel || item.category}</span>
+                <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar-alt"></i> ${item.dateFormatted || item.createdAt?.slice(0,10) || '-'}</span>
+              </div>
+              <span class="ticket-status-pill ${item.status}" style="font-size:0.75rem;">
+                ● ${st.label}
+              </span>
+            </div>
+
+            <h4 style="font-size:1rem; margin-bottom:0.4rem; color:var(--text);">${item.title}</h4>
+            <p style="font-size:0.84rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${item.description}</p>
+
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; background:var(--surface2); padding:0.65rem 0.85rem; border-radius:8px; font-size:0.78rem; margin-bottom:0.75rem;">
+              <div><strong>Lokasi:</strong> ${item.location}</div>
+              <div><strong>Pelajar:</strong> ${item.student?.isAnonymous ? '<span style="color:#c084fc;">Tanpa Nama (Anonymous)</span>' : `${item.student?.name} (${item.student?.matric})`}</div>
+              ${item.student?.phone ? `<div><strong>Telefon:</strong> ${item.student.phone}</div>` : ''}
+            </div>
+
+            <div style="background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.25); border-radius:8px; padding:0.65rem 0.85rem; font-size:0.78rem; margin-bottom:0.75rem;">
+              <strong style="color:var(--gold);"><i class="fas fa-comment-dots"></i> Catatan Tindakan JPP:</strong> 
+              <span style="color:var(--text);">${item.adminNotes || 'Tiada catatan tindakan lagi.'}</span>
+            </div>
+
+            <div class="queue-actions-row">
+              <button class="btn-hero btn-hero-primary" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="openAduanActionModal('${item.id}')">
+                <i class="fas fa-pen-to-square"></i> Kemas Kini Tindakan
+              </button>
+              <button class="btn-danger" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="deleteAduan('${item.id}')">
+                <i class="fas fa-trash-can"></i> Padam
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openAduanActionModal(id) {
+      const item = adminBetaData.aduan.find(a => a.id === id);
+      if (!item) return;
+
+      document.getElementById('aduanActionId').value = item.id;
+      document.getElementById('aduanActionModalTitle').textContent = `Tindakan: ${item.title}`;
+      document.getElementById('aduanActionModalTicket').textContent = `ID Tiket: ${item.id} • ${item.categoryLabel || item.category}`;
+      document.getElementById('aduanActionStatus').value = item.status || 'submitted';
+      document.getElementById('aduanActionNotes').value = item.adminNotes || '';
+
+      const m = document.getElementById('aduanActionModal');
+      if (m) m.classList.add('open');
+    }
+
+    function closeAduanActionModal() {
+      const m = document.getElementById('aduanActionModal');
+      if (m) m.classList.remove('open');
+    }
+
+    async function saveAduanAction() {
+      const id = document.getElementById('aduanActionId')?.value;
+      const status = document.getElementById('aduanActionStatus')?.value;
+      const adminNotes = document.getElementById('aduanActionNotes')?.value.trim();
+
+      if (!id) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/beta?module=aduan`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify({ id, status, adminNotes })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          // Update locally
+          const idx = adminBetaData.aduan.findIndex(a => a.id === id);
+          if (idx !== -1 && data.item) {
+            adminBetaData.aduan[idx] = data.item;
+          }
+          closeAduanActionModal();
+          renderAdminAduanList(currentAduanFilter);
+          showToast(`Tindakan untuk tiket ${id} telah dikemas kini!`);
+        } else {
+          showToast('Gagal mengemas kini tindakan.');
+        }
+      } catch (err) {
+        showToast('Ralat sambungan: ' + err.message);
+      }
+    }
+
+    async function deleteAduan(id) {
+      if (!confirm(`Adakah anda pasti untuk memadam rekod aduan ${id}?`)) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/beta?module=aduan&id=${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        if (res.ok) {
+          adminBetaData.aduan = adminBetaData.aduan.filter(a => a.id !== id);
+          renderAdminAduanList(currentAduanFilter);
+          document.getElementById('aduanQueueCount').textContent = adminBetaData.aduan.length;
+          showToast(`Aduan ${id} telah dipadam.`);
+        }
+      } catch (err) {
+        showToast('Gagal memadam aduan.');
+      }
+    }
+
+    // ── Lost & Found Admin ──
+    function renderAdminLostFoundList() {
+      const listEl = document.getElementById('adminLostFoundList');
+      if (!listEl) return;
+
+      if (adminBetaData.lostFound.length === 0) {
+        listEl.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--text3);">Tiada rekod barangan.</div>`;
+        return;
+      }
+
+      listEl.innerHTML = adminBetaData.lostFound.map(item => {
+        const isClaimed = item.status === 'claimed';
+        const isLost = item.type === 'lost';
+        return `
+          <div class="queue-card-item">
+            <div class="queue-top-row">
+              <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+                <span class="queue-ticket-id">${item.id}</span>
+                <span class="lf-badge ${isClaimed ? 'claimed' : (isLost ? 'lost' : 'found')}">
+                  ${isClaimed ? 'Telah Dipulangkan' : (isLost ? 'Hilang' : 'Dijumpai')}
+                </span>
+                <span style="font-size:0.75rem; color:var(--text3);">${item.dateReported}</span>
+              </div>
+              <div style="font-size:0.78rem; color:var(--text2);">
+                <i class="fas fa-location-dot" style="color:var(--gold);"></i> ${item.location}
+              </div>
+            </div>
+
+            <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">${item.title}</h4>
+            <p style="font-size:0.83rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${item.description}</p>
+            <div style="font-size:0.78rem; color:var(--text3); margin-bottom:0.75rem;">
+              <strong>Pemilik/Penemu:</strong> ${item.contactName} (${item.contactWhatsapp})
+            </div>
+
+            <div class="queue-actions-row">
+              <button class="btn-hero ${isClaimed ? 'btn-hero-outline' : 'btn-hero-primary'}" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="toggleClaimedLostFound('${item.id}', '${item.status}')">
+                <i class="fas ${isClaimed ? 'fa-rotate-left' : 'fa-check'}"></i> 
+                ${isClaimed ? 'Buka Semula Status' : 'Tandakan Selesai / Dituntut'}
+              </button>
+              <button class="btn-danger" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="deleteLostFound('${item.id}')">
+                <i class="fas fa-trash-can"></i> Padam
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function toggleClaimedLostFound(id, currentStatus) {
+      const newStatus = currentStatus === 'claimed' ? 'open' : 'claimed';
+      try {
+        const res = await fetch(`${API_BASE}/beta?module=lostfound-claim`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify({ id, status: newStatus })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const idx = adminBetaData.lostFound.findIndex(it => it.id === id);
+          if (idx !== -1 && data.item) adminBetaData.lostFound[idx] = data.item;
+          renderAdminLostFoundList();
+          showToast(`Status barangan ${id} dikemas kini.`);
+        }
+      } catch (err) {
+        showToast('Gagal mengemas kini status.');
+      }
+    }
+
+    async function deleteLostFound(id) {
+      if (!confirm(`Padam rekod ${id}?`)) return;
+      try {
+        const res = await fetch(`${API_BASE}/beta?module=lostfound&id=${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        if (res.ok) {
+          adminBetaData.lostFound = adminBetaData.lostFound.filter(it => it.id !== id);
+          renderAdminLostFoundList();
+          document.getElementById('lostFoundCount').textContent = adminBetaData.lostFound.length;
+          showToast('Rekod barangan dipadam.');
+        }
+      } catch (err) {
+        showToast('Gagal memadam.');
+      }
+    }
+
+    // ── Equipment Loans Admin ──
+    function renderAdminEquipment() {
+      // Stock Table
+      const stockTbody = document.getElementById('adminEquipStockTbody');
+      if (stockTbody) {
+        stockTbody.innerHTML = adminBetaData.equipment.map(eq => `
+          <tr>
+            <td><strong>${eq.name}</strong></td>
+            <td>${eq.categoryLabel || eq.category}</td>
+            <td>${eq.totalQty} unit</td>
+            <td><strong style="color:${eq.availableQty > 0 ? '#22d3a0' : '#ef4444'};">${eq.availableQty} unit</strong></td>
+            <td>
+              <span class="stock-tag ${eq.availableQty > 0 ? 'available' : 'out'}">
+                ${eq.availableQty > 0 ? 'Tersedia' : 'Habis'}
+              </span>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      // Active Loans
+      const loansList = document.getElementById('adminActiveLoansList');
+      if (loansList) {
+        const activeLoans = adminBetaData.loans.filter(l => l.status === 'active');
+        if (activeLoans.length === 0) {
+          loansList.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--text3); font-size:0.85rem;">Tiada alatan sedang dipinjam buat masa ini. Semua alatan berada di stor JPP.</div>`;
+          return;
+        }
+
+        loansList.innerHTML = activeLoans.map(loan => `
+          <div class="queue-card-item">
+            <div class="queue-top-row">
+              <span class="queue-ticket-id">${loan.loanId}</span>
+              <span class="stock-tag available"><i class="fas fa-clock"></i> Sedang Dipinjam</span>
+            </div>
+            <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">${loan.equipmentName}</h4>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; background:var(--surface2); padding:0.65rem 0.85rem; border-radius:8px; font-size:0.78rem; margin-bottom:0.75rem;">
+              <div><strong>Peminjam:</strong> ${loan.studentName}</div>
+              <div><strong>No. Matrik:</strong> ${loan.matric}</div>
+              <div><strong>No. Telefon:</strong> ${loan.phone}</div>
+              <div><strong>Masa Pinjam:</strong> ${loan.borrowDateFormatted || '-'}</div>
+              <div><strong style="color:var(--gold);">Jangkaan Pulang:</strong> ${loan.expectedReturn}</div>
+            </div>
+            <div class="queue-actions-row">
+              <button class="btn-hero btn-hero-primary" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="returnEquipmentLoan('${loan.loanId}')">
+                <i class="fas fa-boxes-packing"></i> Tandakan Pulang (Return to Storage)
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    async function returnEquipmentLoan(loanId) {
+      if (!confirm(`Sahkan bahawa alatan bagi pinjaman ${loanId} telah dipulangkan ke bilik gerakan JPP?`)) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/beta?module=equipment-return`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify({ loanId })
+        });
+        if (res.ok) {
+          showToast(`Pinjaman ${loanId} ditandakan pulang. Stok alatan bertambah.`);
+          loadAdminBetaData(false);
+        } else {
+          showToast('Gagal menandakan pulang.');
+        }
+      } catch (err) {
+        showToast('Ralat sambungan: ' + err.message);
+      }
     }
 
     // Data will load automatically inside unlockDashboard() once verified

@@ -3185,3 +3185,681 @@
   margin-right: 0.4rem;
   color: var(--text);
 }
+
+/* ══════════════════════════════════════════════════════════════════
+   ══ JPP BETA TESTING LAB (THE 3 PILLARS) STYLES ══
+   ══════════════════════════════════════════════════════════════════ */
+
+.badge-beta {
+  background: linear-gradient(135deg, #a855f7, #6366f1);
+  color: #ffffff !important;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  margin-left: 0.4rem;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.4);
+  vertical-align: middle;
+}
+
+.beta-hero {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(59, 130, 246, 0.08) 50%, rgba(245, 200, 66, 0.06) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: 20px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.beta-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #a855f7, #3b82f6, var(--gold));
+}
+
+.beta-tag-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  background: rgba(168, 85, 247, 0.18);
+  border: 1px solid rgba(168, 85, 247, 0.4);
+  color: #c084fc;
+  margin-bottom: 0.5rem;
+}
+
+/* Pillar Segmented Control Navigation */
+.pillar-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 860px) {
+  .pillar-tabs {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pillar-tab {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.15rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+  user-select: none;
+}
+
+.pillar-tab:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.pillar-tab.active {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.14) 0%, rgba(59, 130, 246, 0.1) 100%);
+  border-color: #a855f7;
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.25);
+}
+
+.pillar-tab-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.pillar-tab:nth-child(1) .pillar-tab-icon {
+  background: rgba(237, 0, 90, 0.15);
+  color: #ed005a;
+}
+.pillar-tab:nth-child(2) .pillar-tab-icon {
+  background: rgba(6, 182, 212, 0.15);
+  color: #06b6d4;
+}
+.pillar-tab:nth-child(3) .pillar-tab-icon {
+  background: rgba(245, 200, 66, 0.15);
+  color: var(--gold);
+}
+
+.pillar-tab.active .pillar-tab-icon {
+  transform: scale(1.08);
+}
+
+.pillar-tab-num {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text3);
+  font-weight: 700;
+  display: block;
+}
+
+.pillar-tab-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 0.15rem;
+  line-height: 1.3;
+}
+
+.pillar-tab-sub {
+  font-size: 0.75rem;
+  color: var(--text2);
+  margin-top: 0.15rem;
+}
+
+/* Pillar Panes */
+.pillar-pane {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.pillar-pane.active {
+  display: block;
+}
+
+/* ── PILLAR 1: WELFARE & E-ADUAN STYLES ── */
+.aduan-layout {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .aduan-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.beta-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.beta-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.beta-card-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group-beta {
+  margin-bottom: 1.15rem;
+}
+
+.form-group-beta label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text2);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.form-control-beta {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.75rem 0.95rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  transition: all 0.2s;
+  box-sizing: border-box;
+}
+
+.form-control-beta:focus {
+  outline: none;
+  border-color: #a855f7;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.2);
+}
+
+.anon-toggle-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-radius: 10px;
+  background: rgba(168, 85, 247, 0.06);
+  border: 1px dashed rgba(168, 85, 247, 0.35);
+  margin-bottom: 1.15rem;
+  cursor: pointer;
+}
+
+.ticket-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.ticket-status-pill.submitted {
+  background: rgba(6, 182, 212, 0.15);
+  color: #06b6d4;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.ticket-status-pill.in_review, .ticket-status-pill.in_progress {
+  background: rgba(245, 200, 66, 0.15);
+  color: var(--gold);
+  border: 1px solid rgba(245, 200, 66, 0.3);
+}
+
+.ticket-status-pill.resolved {
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border: 1px solid rgba(34, 211, 160, 0.3);
+}
+
+.ticket-search-box {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.ticket-result-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-top: 1rem;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Lost & Found Community Board */
+.lf-filter-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.lf-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.lf-pill {
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lf-pill:hover, .lf-pill.active {
+  background: var(--surface2);
+  color: var(--text);
+  border-color: var(--gold);
+}
+
+.lostfound-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.lf-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.lf-card:hover {
+  border-color: rgba(245, 200, 66, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.lf-card-header {
+  padding: 0.85rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+}
+
+.lf-badge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0.2rem 0.6rem;
+  border-radius: 6px;
+}
+
+.lf-badge.lost {
+  background: rgba(237, 0, 90, 0.15);
+  color: #ed005a;
+  border: 1px solid rgba(237, 0, 90, 0.3);
+}
+
+.lf-badge.found {
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border: 1px solid rgba(34, 211, 160, 0.3);
+}
+
+.lf-badge.claimed {
+  background: rgba(148, 163, 184, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.lf-card-body {
+  padding: 1.15rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.lf-card-body h4 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.lf-card-body p {
+  font-size: 0.83rem;
+  color: var(--text2);
+  line-height: 1.5;
+  margin-bottom: 0.85rem;
+  flex: 1;
+}
+
+.lf-meta-item {
+  font-size: 0.76rem;
+  color: var(--text3);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+}
+
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1rem;
+  background: #25D366;
+  color: #ffffff;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  margin-top: 0.85rem;
+  transition: all 0.2s;
+  width: 100%;
+}
+
+.btn-whatsapp:hover {
+  background: #1eb857;
+  transform: translateY(-1px);
+  color: #ffffff;
+}
+
+/* ── PILLAR 2: ACADEMIC & GPA CALCULATOR STYLES ── */
+.gpa-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (max-width: 960px) {
+  .gpa-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gpa-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface2);
+  margin-bottom: 1.25rem;
+}
+
+.gpa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.gpa-table th {
+  padding: 0.75rem 0.85rem;
+  background: var(--surface);
+  color: var(--text2);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+}
+
+.gpa-table td {
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.gpa-result-display {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.12) 0%, rgba(168, 85, 247, 0.1) 100%);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  border-radius: 14px;
+  padding: 1.5rem;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.gpa-score-huge {
+  font-size: 3.2rem;
+  font-weight: 800;
+  font-family: 'Space Mono', monospace;
+  color: #06b6d4;
+  line-height: 1;
+  margin: 0.4rem 0;
+  text-shadow: 0 0 25px rgba(6, 182, 212, 0.4);
+}
+
+.deans-list-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: rgba(245, 200, 66, 0.18);
+  border: 1px solid rgba(245, 200, 66, 0.4);
+  color: var(--gold);
+  margin-top: 0.5rem;
+}
+
+.deadline-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.deadline-card {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.15rem;
+  text-align: center;
+}
+
+.deadline-days {
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: 'Space Mono', monospace;
+  color: var(--gold);
+  line-height: 1;
+  margin: 0.35rem 0;
+}
+
+/* ── PILLAR 3: EQUIPMENT & MERCH STYLES ── */
+.equip-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2.5rem;
+}
+
+.equip-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.35rem;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.equip-card:hover {
+  border-color: rgba(245, 200, 66, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.equip-icon-wrap {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(245, 200, 66, 0.15);
+  color: var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.stock-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.stock-tag.available {
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border: 1px solid rgba(34, 211, 160, 0.3);
+}
+
+.stock-tag.out {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Digital Loan Pass Card */
+.loan-pass-wrap {
+  background: var(--surface2);
+  border: 2px dashed rgba(245, 200, 66, 0.5);
+  border-radius: 16px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.loan-pass-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1rem;
+}
+
+.loan-pass-code {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+/* Merch Pre-Order Preview */
+.merch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.merch-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.25s ease;
+}
+
+.merch-card:hover {
+  border-color: rgba(168, 85, 247, 0.4);
+  transform: translateY(-3px);
+}
+
+.merch-thumb {
+  height: 180px;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(59, 130, 246, 0.15));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.5rem;
+  color: var(--gold);
+}
+
+.size-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.75rem 0;
+}
+
+.size-chip {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.size-chip:hover, .size-chip.active {
+  background: var(--gold);
+  color: #000000;
+  border-color: var(--gold);
+  font-weight: 800;
+}

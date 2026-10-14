@@ -1573,3 +1573,806 @@ function updateSubmitButtonState() {
     }
   }
 }
+
+// ══════════════════════════════════════════════════════════════════
+// ══ JPP BETA TESTING LAB: THE 3 PILLARS ENGINE ══
+// ══════════════════════════════════════════════════════════════════
+
+let _betaLabInitialized = false;
+let _dynamicBetaData = null;
+
+// ── Pillar Switching ──
+function switchBetaPillar(pillarNum) {
+  for (let i = 1; i <= 3; i++) {
+    const tabBtn = document.getElementById(`tabBtnPillar${i}`);
+    const pane = document.getElementById(`panePillar${i}`);
+    if (tabBtn) tabBtn.classList.toggle('active', i === pillarNum);
+    if (pane) pane.classList.toggle('active', i === pillarNum);
+  }
+  // If switching to Academic, recalculate GPA
+  if (pillarNum === 2) {
+    recalculateGpa();
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// ── PILLAR 1: STUDENT WELFARE & E-ADUAN + LOST & FOUND ──
+// ══════════════════════════════════════════════════════════
+
+const SAMPLE_ADUAN = [
+  {
+    id: "ADU-2026-8912",
+    createdAt: "2026-10-12T09:30:00Z",
+    dateFormatted: "12 Oct 2026",
+    student: { name: "Muhammad H.", matric: "14DUP24F1020", isAnonymous: false },
+    category: "facility",
+    categoryLabel: "Kemudahan Kampus",
+    location: "Surau Lelaki (Aras 3)",
+    title: "Penyaman Udara (Aircon) Surau Tidak Sejuk",
+    description: "Aircon unit kedua di surau aras 3 mengeluarkan bunyi bising dan angin kurang sejuk ketika waktu solat Zohor.",
+    status: "in_progress",
+    statusLabel: "Dalam Tindakan",
+    adminNotes: "Telah dilaporkan kepada Unit Pembangunan PMKL pada 13/10. Kontraktor penyelenggaraan berjadual hadir khamis ini."
+  },
+  {
+    id: "ADU-2026-7734",
+    createdAt: "2026-10-08T14:15:00Z",
+    dateFormatted: "08 Oct 2026",
+    student: { name: "Pelajar PMKL", matric: "ANONYMOUS", isAnonymous: true },
+    category: "canteen",
+    categoryLabel: "Kafeteria & Makanan",
+    location: "Kafeteria PMKL",
+    title: "Cadangan Menu Makanan Sihat & Harga Berpatutan",
+    description: "Mohon pihak pengurusan kafeteria menambah pilihan sayur-sayuran segar dan mengekalkan harga nasi campur mesra poket pelajar.",
+    status: "resolved",
+    statusLabel: "Selesai",
+    adminNotes: "JPP telah mengadakan sesi perbincangan bersama pengusaha kafeteria. Menu kombo ekonomi RM5.00 telah diperkenalkan."
+  }
+];
+
+let _activeLostFoundList = [
+  {
+    id: "LF-2026-101",
+    type: "found",
+    title: "Kalkulator Casio fx-570EX Hitam",
+    category: "electronics",
+    categoryLabel: "Elektronik & Alat Tulis",
+    location: "Bilik Kuliah 3.04 (Aras 3)",
+    dateReported: "14 Oct 2026",
+    description: "Dijumpai di atas meja barisan belakang selepas tamat kelas DUT10013. Mempunyai pelekat biru di bahagian penutup.",
+    contactName: "Kaunter JPP PMKL",
+    contactWhatsapp: "60133280168",
+    status: "open"
+  },
+  {
+    id: "LF-2026-102",
+    type: "lost",
+    title: "Kad Matrik Pelajar (DUP Sem 3)",
+    category: "cards",
+    categoryLabel: "Kad & Kunci",
+    location: "Kawasan Parkir Motosikal / Lobi",
+    dateReported: "13 Oct 2026",
+    description: "Hilang bersama lanyard JPP warna navy blue. Jika terjumpa mohon hubungi saya dengan kadar segera.",
+    contactName: "Aina Farhana",
+    contactWhatsapp: "601123456789",
+    status: "open"
+  },
+  {
+    id: "LF-2026-103",
+    type: "found",
+    title: "Kunci Bilik Mahsuri (Gantungan Kucing)",
+    category: "cards",
+    categoryLabel: "Kad & Kunci",
+    location: "Tangga Blok Mahsuri ke Laluan PMKL",
+    dateReported: "10 Oct 2026",
+    description: "2 bilah anak kunci bersama keychain getah berbentuk kucing putih.",
+    contactName: "Aqeel (JPP EXCO)",
+    contactWhatsapp: "60124662096",
+    status: "claimed"
+  }
+];
+
+function toggleAnonymousAduan() {
+  const check = document.getElementById('aduanAnonCheck');
+  if (!check) return;
+  // If clicked directly on container, checkbox already toggled or needs toggling
+  const fields = document.getElementById('aduanStudentFields');
+  if (fields) {
+    fields.style.display = check.checked ? 'none' : 'block';
+  }
+}
+
+async function handleAduanSubmit(e) {
+  e.preventDefault();
+  const btn = document.getElementById('btnSubmitAduan');
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghantar Aduan...';
+  }
+
+  const isAnon = document.getElementById('aduanAnonCheck')?.checked || false;
+  const name = isAnon ? "Pelajar Tanpa Nama" : (document.getElementById('aduanName')?.value.trim() || "Pelajar PMKL");
+  const matric = isAnon ? "ANONYMOUS" : (document.getElementById('aduanMatric')?.value.trim() || "-");
+  const phone = isAnon ? "" : (document.getElementById('aduanPhone')?.value.trim() || "");
+  const category = document.getElementById('aduanCategory')?.value || "facility";
+  const catSelect = document.getElementById('aduanCategory');
+  const categoryLabel = catSelect ? catSelect.options[catSelect.selectedIndex].text : "Umum";
+  const location = document.getElementById('aduanLocation')?.value.trim() || "PMKL";
+  const title = document.getElementById('aduanTitle')?.value.trim() || "Aduan";
+  const description = document.getElementById('aduanDesc')?.value.trim() || "";
+
+  const payload = {
+    isAnonymous: isAnon,
+    name,
+    matric,
+    phone,
+    category,
+    categoryLabel,
+    location,
+    title,
+    description
+  };
+
+  let ticketId = `ADU-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+  let ticketItem = null;
+
+  try {
+    const res = await fetch('/api/beta?module=aduan', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.ticketId) ticketId = data.ticketId;
+      ticketItem = data.item;
+    }
+  } catch (err) {
+    // Local fallback
+  }
+
+  if (!ticketItem) {
+    const now = new Date();
+    ticketItem = {
+      id: ticketId,
+      createdAt: now.toISOString(),
+      dateFormatted: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+      student: { name, matric, phone, isAnonymous: isAnon },
+      category,
+      categoryLabel,
+      location,
+      title,
+      description,
+      status: "submitted",
+      statusLabel: "Diterima (Dalam Barisan)",
+      adminNotes: "Laporan anda telah diterima oleh sistem JPP PMKL dan sedang dalam semakan EXCO."
+    };
+  }
+
+  // Save in local storage cache
+  try {
+    let localAduan = JSON.parse(localStorage.getItem('jpp_local_aduan') || '[]');
+    localAduan.unshift(ticketItem);
+    localStorage.setItem('jpp_local_aduan', JSON.stringify(localAduan));
+  } catch (e) {}
+
+  showToast(`Aduan berjaya dihantar! ID Tiket: ${ticketId}`);
+
+  // Display the ticket in search box immediately
+  const searchInput = document.getElementById('ticketLookupInput');
+  if (searchInput) searchInput.value = ticketId;
+  renderTicketDetail(ticketItem);
+
+  // Reset form
+  document.getElementById('aduanForm')?.reset();
+  if (btn) {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Hantar Aduan &amp; Jana Tiket';
+  }
+}
+
+async function lookupTicketFromUI() {
+  const input = document.getElementById('ticketLookupInput');
+  if (!input || !input.value.trim()) {
+    showToast('Sila masukkan nombor tiket');
+    return;
+  }
+  const ticketId = input.value.trim().toUpperCase();
+
+  // Try API first
+  try {
+    const res = await fetch(`/api/beta?ticket=${encodeURIComponent(ticketId)}`, { cache: 'no-store' });
+    if (res.ok) {
+      const item = await res.json();
+      renderTicketDetail(item);
+      return;
+    }
+  } catch (e) {}
+
+  // Check localStorage
+  try {
+    const local = JSON.parse(localStorage.getItem('jpp_local_aduan') || '[]');
+    const found = local.find(a => a.id.toUpperCase() === ticketId);
+    if (found) {
+      renderTicketDetail(found);
+      return;
+    }
+  } catch (e) {}
+
+  // Check sample list
+  const sample = SAMPLE_ADUAN.find(a => a.id.toUpperCase() === ticketId);
+  if (sample) {
+    renderTicketDetail(sample);
+    return;
+  }
+
+  // Not found
+  const box = document.getElementById('ticketLookupResult');
+  if (box) {
+    box.style.display = 'block';
+    box.innerHTML = `
+      <div class="ticket-result-card" style="border-color:#ef4444; background:rgba(239,68,68,0.06); text-align:center;">
+        <i class="fas fa-circle-xmark" style="font-size:1.8rem; color:#ef4444; margin-bottom:0.5rem;"></i>
+        <div style="font-weight:700; color:var(--text); margin-bottom:0.25rem;">Tiket Tidak Dijumpai</div>
+        <div style="font-size:0.8rem; color:var(--text2);">Sila pastikan format tiket betul, contohnya: <code>ADU-2026-8912</code>.</div>
+      </div>
+    `;
+  }
+}
+
+function fillDemoTicket(id) {
+  const input = document.getElementById('ticketLookupInput');
+  if (input) {
+    input.value = id;
+    lookupTicketFromUI();
+  }
+}
+
+function renderTicketDetail(item) {
+  const box = document.getElementById('ticketLookupResult');
+  if (!box) return;
+
+  const statusMap = {
+    submitted: { class: 'submitted', label: 'Diterima (Dalam Barisan)', icon: 'fa-clock' },
+    in_review: { class: 'in_review', label: 'Dalam Semakan EXCO', icon: 'fa-magnifying-glass' },
+    in_progress: { class: 'in_progress', label: 'Tindakan Penyelenggaraan', icon: 'fa-screwdriver-wrench' },
+    resolved: { class: 'resolved', label: 'Selesai & Ditutup', icon: 'fa-circle-check' },
+    rejected: { class: 'danger', label: 'Ditolak / Tiada Tindakan', icon: 'fa-circle-xmark' }
+  };
+  const st = statusMap[item.status] || { class: 'in_progress', label: item.statusLabel || item.status, icon: 'fa-circle-info' };
+
+  box.style.display = 'block';
+  box.innerHTML = `
+    <div class="ticket-result-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; flex-wrap:wrap; gap:0.5rem;">
+        <span style="font-family:'Space Mono', monospace; font-size:1rem; font-weight:700; color:var(--gold);">
+          <i class="fas fa-ticket"></i> ${item.id}
+        </span>
+        <span class="ticket-status-pill ${st.class}">
+          <i class="fas ${st.icon}"></i> ${st.label}
+        </span>
+      </div>
+
+      <h4 style="font-size:0.95rem; margin-bottom:0.4rem; color:var(--text);">${item.title}</h4>
+      <p style="font-size:0.82rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${item.description}</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.75rem; color:var(--text3); margin-bottom:0.85rem; padding:0.5rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+        <div><i class="fas fa-location-dot" style="color:var(--gold);"></i> ${item.location}</div>
+        <div><i class="fas fa-calendar" style="color:var(--gold);"></i> ${item.dateFormatted || item.createdAt?.slice(0,10) || '-'}</div>
+      </div>
+
+      <!-- Official JPP Action Notes Timeline -->
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:0.85rem;">
+        <div style="font-size:0.75rem; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:0.35rem;">
+          <i class="fas fa-comment-dots"></i> Catatan Tindakan Rasmi JPP:
+        </div>
+        <div style="font-size:0.8rem; color:var(--text); line-height:1.4;">
+          ${item.adminNotes || 'Laporan telah direkodkan. EXCO JPP sedang mengambil tindakan bersama pihak pentadbiran PMKL.'}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ── Lost & Found Board ──
+function filterLostFound(filterType, btnEl) {
+  document.querySelectorAll('.lf-pill').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  renderLostFoundGrid(filterType);
+}
+
+function renderLostFoundGrid(filterType = 'all') {
+  const grid = document.getElementById('lostFoundGrid');
+  if (!grid) return;
+
+  let items = _activeLostFoundList;
+  if (filterType !== 'all') {
+    items = items.filter(it => it.type === filterType);
+  }
+
+  if (items.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align:center; padding:2.5rem 1rem; color:var(--text3);">
+        <i class="fas fa-box-open" style="font-size:2rem; margin-bottom:0.5rem; display:block;"></i>
+        Tiada barangan dalam kategori ini buat masa ini.
+      </div>
+    `;
+    return;
+  }
+
+  grid.innerHTML = '';
+  items.forEach(it => {
+    const isLost = it.type === 'lost';
+    const isClaimed = it.status === 'claimed';
+    const badgeClass = isClaimed ? 'claimed' : (isLost ? 'lost' : 'found');
+    const badgeText = isClaimed ? 'Telah Dipulangkan' : (isLost ? 'Hilang' : 'Dijumpai');
+    const waText = encodeURIComponent(`Salam sejahtera, saya menghubungi mengenai barangan: "${it.title}" yang disiarkan di Portal JPP PMKL.`);
+
+    grid.innerHTML += `
+      <div class="lf-card">
+        <div class="lf-card-header">
+          <span class="lf-badge ${badgeClass}">
+            <i class="fas ${isClaimed ? 'fa-check' : (isLost ? 'fa-circle-exclamation' : 'fa-hand-holding')}"></i> ${badgeText}
+          </span>
+          <span style="font-size:0.74rem; color:var(--text3);">${it.dateReported}</span>
+        </div>
+        <div class="lf-card-body">
+          <h4>${it.title}</h4>
+          <p>${it.description}</p>
+          <div class="lf-meta-item"><i class="fas fa-location-dot" style="color:var(--gold);"></i> ${it.location}</div>
+          <div class="lf-meta-item"><i class="fas fa-user" style="color:var(--gold);"></i> ${it.contactName}</div>
+          ${!isClaimed ? `
+            <a class="btn-whatsapp" href="https://wa.me/${it.contactWhatsapp}?text=${waText}" target="_blank" rel="noopener noreferrer">
+              <i class="fab fa-whatsapp"></i> Hubungi Pemilik / Penemu
+            </a>
+          ` : `
+            <div style="text-align:center; font-size:0.75rem; color:#94a3b8; margin-top:0.85rem; font-weight:600;">
+              <i class="fas fa-circle-check"></i> Kes Telah Selesai
+            </div>
+          `}
+        </div>
+      </div>
+    `;
+  });
+}
+
+function openNewLostFoundModal() {
+  const m = document.getElementById('reportLostFoundModal');
+  if (m) m.classList.add('open');
+}
+
+function closeReportLostFoundModal() {
+  const m = document.getElementById('reportLostFoundModal');
+  if (m) m.classList.remove('open');
+}
+
+async function handleLostFoundSubmit(e) {
+  e.preventDefault();
+  const type = document.getElementById('lfReportType')?.value || 'lost';
+  const category = document.getElementById('lfReportCategory')?.value || 'other';
+  const title = document.getElementById('lfReportTitle')?.value.trim() || 'Barangan';
+  const location = document.getElementById('lfReportLocation')?.value.trim() || 'Kawasan PMKL';
+  const contactName = document.getElementById('lfReportContactName')?.value.trim() || 'Pelajar PMKL';
+  const rawPhone = document.getElementById('lfReportWhatsapp')?.value.trim() || '60133280168';
+  const description = document.getElementById('lfReportDesc')?.value.trim() || '';
+
+  const cleanPhone = rawPhone.replace(/\D/g, '').replace(/^0/, '60');
+  const now = new Date();
+
+  const newItem = {
+    id: `LF-2026-${Math.floor(100 + Math.random() * 900)}`,
+    type,
+    title,
+    category,
+    location,
+    dateReported: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
+    description,
+    contactName,
+    contactWhatsapp: cleanPhone,
+    status: 'open'
+  };
+
+  try {
+    await fetch('/api/beta?module=lostfound', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newItem)
+    });
+  } catch (err) {}
+
+  _activeLostFoundList.unshift(newItem);
+  renderLostFoundGrid('all');
+  closeReportLostFoundModal();
+  document.getElementById('reportLostFoundForm')?.reset();
+  showToast('Laporan barangan berjaya disiarkan ke noticeboard!');
+}
+
+// ══════════════════════════════════════════════════════════
+// ── PILLAR 2: POLYTECHNIC GPA / CGPA TARGET CALCULATOR ──
+// ══════════════════════════════════════════════════════════
+
+const POLY_GRADE_POINTS = {
+  'A+': 4.00,
+  'A': 4.00,
+  'A-': 3.67,
+  'B+': 3.33,
+  'B': 3.00,
+  'B-': 2.67,
+  'C+': 2.33,
+  'C': 2.00,
+  'D+': 1.67,
+  'D': 1.00,
+  'F': 0.00
+};
+
+let _gpaCourses = [
+  { code: 'MPU21032 Penghayatan Etika & Peradaban', credits: 2, grade: 'A' },
+  { code: 'DUT10013 Principles of Tourism', credits: 3, grade: 'A-' },
+  { code: 'DUT10023 Geography in Tourism', credits: 3, grade: 'B+' },
+  { code: 'DUE10012 Communicative English 1', credits: 2, grade: 'A' },
+  { code: 'DUT10033 Customer Service in Hospitality', credits: 3, grade: 'A' }
+];
+
+function renderGpaCoursesTable() {
+  const tbody = document.getElementById('gpaTableBody');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+  _gpaCourses.forEach((c, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>
+          <input type="text" class="form-control-beta" value="${c.code}" placeholder="Nama kursus" onchange="updateCourseCode(${idx}, this.value)" style="padding:0.4rem 0.6rem; font-size:0.82rem;">
+        </td>
+        <td>
+          <select class="form-control-beta" onchange="updateCourseCredits(${idx}, this.value)" style="padding:0.4rem 0.5rem; font-size:0.82rem;">
+            ${[1, 2, 3, 4, 5, 6].map(cr => `<option value="${cr}" ${cr === c.credits ? 'selected' : ''}>${cr} Kredit</option>`).join('')}
+          </select>
+        </td>
+        <td>
+          <select class="form-control-beta" onchange="updateCourseGrade(${idx}, this.value)" style="padding:0.4rem 0.5rem; font-size:0.82rem; font-weight:700;">
+            ${Object.keys(POLY_GRADE_POINTS).map(gr => `<option value="${gr}" ${gr === c.grade ? 'selected' : ''}>${gr} (${POLY_GRADE_POINTS[gr].toFixed(2)})</option>`).join('')}
+          </select>
+        </td>
+        <td style="text-align:center;">
+          <button class="btn-danger" onclick="removeGpaCourseRow(${idx})" style="padding:0.35rem 0.6rem; font-size:0.75rem;" title="Padam kursus">
+            <i class="fas fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  recalculateGpa();
+}
+
+function updateCourseCode(idx, val) {
+  if (_gpaCourses[idx]) _gpaCourses[idx].code = val;
+}
+
+function updateCourseCredits(idx, val) {
+  if (_gpaCourses[idx]) {
+    _gpaCourses[idx].credits = parseInt(val) || 1;
+    recalculateGpa();
+  }
+}
+
+function updateCourseGrade(idx, val) {
+  if (_gpaCourses[idx]) {
+    _gpaCourses[idx].grade = val;
+    recalculateGpa();
+  }
+}
+
+function addGpaCourseRow() {
+  _gpaCourses.push({ code: `Kursus Baharu (${_gpaCourses.length + 1})`, credits: 3, grade: 'A-' });
+  renderGpaCoursesTable();
+}
+
+function removeGpaCourseRow(idx) {
+  if (_gpaCourses.length <= 1) {
+    showToast('Minimum sekurang-kurangnya 1 kursus diperlukan.');
+    return;
+  }
+  _gpaCourses.splice(idx, 1);
+  renderGpaCoursesTable();
+}
+
+function resetGpaCalc() {
+  _gpaCourses = [
+    { code: 'Kursus 1', credits: 3, grade: 'A' },
+    { code: 'Kursus 2', credits: 3, grade: 'B+' },
+    { code: 'Kursus 3', credits: 2, grade: 'A-' }
+  ];
+  renderGpaCoursesTable();
+  showToast('Kalkulator telah diset semula.');
+}
+
+function loadGpaPreset(preset) {
+  if (preset === 'dup') {
+    _gpaCourses = [
+      { code: 'MPU21032 Penghayatan Etika & Peradaban', credits: 2, grade: 'A' },
+      { code: 'DUT10013 Principles of Tourism', credits: 3, grade: 'A' },
+      { code: 'DUT10023 Geography in Tourism', credits: 3, grade: 'A-' },
+      { code: 'DUE10012 Communicative English 1', credits: 2, grade: 'A' },
+      { code: 'DUT10033 Customer Service in Hospitality', credits: 3, grade: 'B+' }
+    ];
+    showToast('Preset DUP Sem 1 dimuatkan!');
+  } else if (preset === 'dhf') {
+    _gpaCourses = [
+      { code: 'DHF10013 Principles of Halal Practice', credits: 3, grade: 'A' },
+      { code: 'DHF10023 Food Hygiene & Sanitation', credits: 3, grade: 'A' },
+      { code: 'MPU21032 Penghayatan Etika', credits: 2, grade: 'A-' },
+      { code: 'DUE10012 Communicative English 1', credits: 2, grade: 'B+' },
+      { code: 'DHF10033 Basic Cookery Operations', credits: 3, grade: 'A' }
+    ];
+    showToast('Preset DHF Sem 1 dimuatkan!');
+  }
+  renderGpaCoursesTable();
+}
+
+function recalculateGpa() {
+  let totalCredits = 0;
+  let totalPoints = 0;
+
+  _gpaCourses.forEach(c => {
+    const cr = c.credits || 0;
+    const pt = POLY_GRADE_POINTS[c.grade] !== undefined ? POLY_GRADE_POINTS[c.grade] : 3.00;
+    totalCredits += cr;
+    totalPoints += (cr * pt);
+  });
+
+  const gpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0.00;
+  const gpaStr = gpa.toFixed(2);
+
+  const displayEl = document.getElementById('displaySemesterGpa');
+  if (displayEl) displayEl.textContent = gpaStr;
+
+  const totalCrEl = document.getElementById('displayTotalCredits');
+  if (totalCrEl) totalCrEl.textContent = totalCredits;
+
+  // Classification
+  const classEl = document.getElementById('displayGpaClassification');
+  if (classEl) {
+    if (gpa >= 3.67) classEl.textContent = 'Tahap: Cemerlang (First Class)';
+    else if (gpa >= 3.00) classEl.textContent = 'Tahap: Kepujian (Upper Second)';
+    else if (gpa >= 2.00) classEl.textContent = 'Tahap: Lulus';
+    else classEl.textContent = 'Tahap: Gagal / Rujuk Semula';
+  }
+
+  // Dean's List Badge (Anugerah Pengarah: GPA >= 3.50 & credits >= 12)
+  const deansBadge = document.getElementById('displayDeansBadge');
+  if (deansBadge) {
+    if (gpa >= 3.50 && totalCredits >= 12) {
+      deansBadge.style.display = 'inline-flex';
+    } else {
+      deansBadge.style.display = 'none';
+    }
+  }
+
+  // CGPA Simulator
+  const priorScore = parseFloat(document.getElementById('cgpaPriorScore')?.value);
+  const priorCredits = parseInt(document.getElementById('cgpaPriorCredits')?.value);
+  const projectedCgpaEl = document.getElementById('displayProjectedCgpa');
+
+  if (projectedCgpaEl) {
+    if (!isNaN(priorScore) && !isNaN(priorCredits) && priorCredits > 0) {
+      const combinedPoints = (priorScore * priorCredits) + totalPoints;
+      const combinedCredits = priorCredits + totalCredits;
+      const proj = combinedCredits > 0 ? (combinedPoints / combinedCredits).toFixed(2) : gpaStr;
+      projectedCgpaEl.textContent = proj;
+    } else {
+      projectedCgpaEl.textContent = gpaStr;
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// ── PILLAR 3: SPORTS GEAR LOANS & JPP MERCH STORE ──
+// ══════════════════════════════════════════════════════════
+
+let _activeEquipmentCatalog = [
+  {
+    id: "EQ-FUTSAL-1",
+    name: "Bola Futsal Rasmi (Saiz 4 - Low Bounce)",
+    category: "sports",
+    totalQty: 3,
+    availableQty: 2,
+    icon: "fa-futbol",
+    description: "Sesuai untuk perlawanan gelanggang futsal simen & parket.",
+    terms: "Tempoh pinjaman maksimum 4 jam. Pulangkan dalam keadaan bersih."
+  },
+  {
+    id: "EQ-BADMINTON-1",
+    name: "Set Raket Badminton + Bulu Tangkis",
+    category: "sports",
+    totalQty: 4,
+    availableQty: 3,
+    icon: "fa-table-tennis-paddle-ball",
+    description: "Termasuk 2 bilah raket Yonex & 2 biji bulu tangkis.",
+    terms: "Penggunaan di Dewan / Gelanggang Serbaguna PMKL."
+  },
+  {
+    id: "EQ-PA-1",
+    name: "Sistem PA Mudah Alih + 2 Mikrofon Wayarles",
+    category: "event",
+    totalQty: 2,
+    availableQty: 1,
+    icon: "fa-bullhorn",
+    description: "Speaker Bluetooth berkuasa bateri untuk program persatuan dan taklimat.",
+    terms: "Perlu sokongan penasihat kelab / kelulusan JPP."
+  },
+  {
+    id: "EQ-GAMES-1",
+    name: "Papan Permainan Tradisional (Karom & Saidina)",
+    category: "indoor",
+    totalQty: 3,
+    availableQty: 3,
+    icon: "fa-chess-board",
+    description: "Disediakan untuk waktu santai di Student Lounge Aras 2.",
+    terms: "Simpan semua buah permainan di dalam kotak asal."
+  }
+];
+
+function renderEquipmentGrid() {
+  const grid = document.getElementById('equipmentGrid');
+  if (!grid) return;
+
+  grid.innerHTML = '';
+  _activeEquipmentCatalog.forEach(eq => {
+    const isOut = eq.availableQty <= 0;
+    grid.innerHTML += `
+      <div class="equip-card">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+          <div class="equip-icon-wrap">
+            <i class="fas ${eq.icon}"></i>
+          </div>
+          <span class="stock-tag ${isOut ? 'out' : 'available'}">
+            <i class="fas ${isOut ? 'fa-circle-xmark' : 'fa-circle-check'}"></i> 
+            ${isOut ? 'Habis Dipinjam' : `Tersedia: ${eq.availableQty}/${eq.totalQty}`}
+          </span>
+        </div>
+        <h4 style="font-size:1rem; margin-bottom:0.4rem; color:var(--text);">${eq.name}</h4>
+        <p style="font-size:0.8rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem; flex:1;">${eq.description}</p>
+        <div style="font-size:0.73rem; color:var(--text3); margin-bottom:1rem; padding-top:0.5rem; border-top:1px solid var(--border);">
+          <i class="fas fa-circle-info" style="color:var(--gold);"></i> ${eq.terms}
+        </div>
+        <button class="btn-primary" onclick="openBorrowModal('${eq.id}')" style="width:100%; justify-content:center; font-size:0.85rem;" ${isOut ? 'disabled style="opacity:0.5; cursor:not-allowed;"' : ''}>
+          <i class="fas fa-hand-holding-hand"></i> ${isOut ? 'Tidak Tersedia' : 'Pinjam Alatan Ini'}
+        </button>
+      </div>
+    `;
+  });
+}
+
+function openBorrowModal(equipId) {
+  const eq = _activeEquipmentCatalog.find(e => e.id === equipId);
+  if (!eq) return;
+
+  document.getElementById('borrowEquipId').value = eq.id;
+  document.getElementById('borrowModalEquipName').textContent = `Pinjaman: ${eq.name}`;
+  document.getElementById('borrowModalEquipTerms').textContent = eq.terms;
+
+  const m = document.getElementById('borrowEquipModal');
+  if (m) m.classList.add('open');
+}
+
+function closeBorrowModal() {
+  const m = document.getElementById('borrowEquipModal');
+  if (m) m.classList.remove('open');
+}
+
+async function handleBorrowSubmit(e) {
+  e.preventDefault();
+  const equipId = document.getElementById('borrowEquipId')?.value;
+  const studentName = document.getElementById('borrowStudentName')?.value.trim() || 'Pelajar PMKL';
+  const matric = document.getElementById('borrowMatric')?.value.trim() || '-';
+  const phone = document.getElementById('borrowPhone')?.value.trim() || '-';
+  const expectedReturn = document.getElementById('borrowReturnTime')?.value || 'Sebelum 6:00 PM';
+
+  const eq = _activeEquipmentCatalog.find(e => e.id === equipId);
+  if (!eq || eq.availableQty <= 0) {
+    showToast('Alatan ini telah habis dipinjam.');
+    closeBorrowModal();
+    return;
+  }
+
+  // Decrement locally
+  eq.availableQty -= 1;
+  renderEquipmentGrid();
+
+  const loanId = `LN-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+  try {
+    await fetch('/api/beta?module=equipment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ equipmentId: equipId, studentName, matric, phone, expectedReturn })
+    });
+  } catch (err) {}
+
+  closeBorrowModal();
+  document.getElementById('borrowEquipForm')?.reset();
+
+  // Show digital loan pass
+  document.getElementById('passCodeDisplay').textContent = loanId;
+  document.getElementById('passEquipName').textContent = eq.name;
+  document.getElementById('passStudentName').textContent = studentName;
+  document.getElementById('passStudentMatric').textContent = matric;
+  document.getElementById('passReturnTime').textContent = expectedReturn;
+
+  const passModal = document.getElementById('loanPassModal');
+  if (passModal) passModal.classList.add('open');
+  showToast('Permohonan pinjaman diluluskan! Pas Digital dijana.');
+}
+
+function closeLoanPassModal() {
+  const m = document.getElementById('loanPassModal');
+  if (m) m.classList.remove('open');
+}
+
+// ── Merchandise Pre-Order ──
+let _selectedMerchSize = 'M';
+
+function selectMerchSize(el, item, size) {
+  _selectedMerchSize = size;
+  const parent = el.parentNode;
+  if (parent) {
+    parent.querySelectorAll('.size-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+}
+
+function openMerchOrderModal(itemName, price) {
+  document.getElementById('merchSelectedName').textContent = `${itemName} (Saiz: ${_selectedMerchSize})`;
+  document.getElementById('merchSelectedPrice').textContent = `RM ${price.toFixed(2)}`;
+
+  const m = document.getElementById('merchOrderModal');
+  if (m) m.classList.add('open');
+}
+
+function closeMerchOrderModal() {
+  const m = document.getElementById('merchOrderModal');
+  if (m) m.classList.remove('open');
+}
+
+function handleMerchSubmit(e) {
+  e.preventDefault();
+  closeMerchOrderModal();
+  showToast('Pra-tempahan berjaya dihantar! Sila simpan resit pembayaran DuitNow QR anda.');
+}
+
+// ── Master Beta Lab Initializer ──
+async function initBetaLabOnce() {
+  if (_betaLabInitialized) return;
+  _betaLabInitialized = true;
+
+  // Render initial tables and boards
+  renderGpaCoursesTable();
+  renderLostFoundGrid('all');
+  renderEquipmentGrid();
+
+  // Fetch live Cloudflare KV data if available
+  try {
+    const res = await fetch('/api/beta?module=all&t=' + Date.now(), { cache: 'no-store' });
+    if (res.ok) {
+      const data = await res.json();
+      _dynamicBetaData = data;
+      if (Array.isArray(data.lostFound) && data.lostFound.length > 0) {
+        _activeLostFoundList = data.lostFound;
+        renderLostFoundGrid('all');
+      }
+      if (Array.isArray(data.equipment) && data.equipment.length > 0) {
+        _activeEquipmentCatalog = data.equipment;
+        renderEquipmentGrid();
+      }
+    }
+  } catch (err) {
+    // Silent fallback
+  }
+}
+
+// Auto-trigger Beta Lab on load
+document.addEventListener('DOMContentLoaded', () => {
+  initBetaLabOnce();
+});

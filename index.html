@@ -46,6 +46,7 @@
       <a class="nav-link" data-section="printing">Printing</a>
       <a class="nav-link" data-section="rent">Rent</a>
       <a class="nav-link" data-section="contact">Contact</a>
+      <a class="nav-link" data-section="beta"><i class="fas fa-flask" style="color:#c084fc; margin-right:4px;"></i> Beta Testing <span class="badge-beta">LAB</span></a>
     </div>
 
     <div class="nav-actions">
@@ -150,26 +151,29 @@
             <h4>Printing Hub</h4>
             <p>Upload documents, set preferences & collect at counter</p>
           </a>
-          <a class="dash-card" onclick="showToast('Academic Resources — Coming Soon!')">
+          <a class="dash-card" onclick="navigate('beta')"
+            style="--card-color: #a855f7; --card-color-bg: rgba(168,85,247,0.14); border-color: rgba(168,85,247,0.4);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="dash-card-icon" style="background:rgba(168,85,247,0.1);color:#c084fc;"><i
-                class="fas fa-book"></i></div>
-            <h4>Academic Resources</h4>
-            <p>Study materials and academic support</p>
+            <div class="dash-card-icon" style="background:rgba(168,85,247,0.18);color:#c084fc;"><i
+                class="fas fa-flask"></i></div>
+            <h4 style="display:flex; align-items:center; gap:0.4rem;">Beta Testing Lab <span class="badge-beta">v0.9</span></h4>
+            <p>E-Aduan, Poly GPA Calculator & Sports Gear Loans</p>
           </a>
-          <a class="dash-card" onclick="showToast('Student Welfare — Coming Soon!')">
+          <a class="dash-card" onclick="navigate('beta'); switchBetaPillar(1);"
+            style="--card-color: #ed005a; --card-color-bg: rgba(237,0,90,0.12);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="dash-card-icon" style="background:rgba(251,146,60,0.1);color:#fb923c;"><i
-                class="fas fa-heart"></i></div>
-            <h4>Student Welfare</h4>
-            <p>Counselling, health and support services</p>
+            <div class="dash-card-icon" style="background:rgba(237,0,90,0.12);color:#ed005a;"><i
+                class="fas fa-hand-holding-heart"></i></div>
+            <h4>E-Aduan &amp; Kebajikan</h4>
+            <p>Hantar aduan fasiliti & semak barangan hilang (Lost &amp; Found)</p>
           </a>
-          <a class="dash-card" onclick="showToast('Scholarships — Coming Soon!')">
+          <a class="dash-card" onclick="navigate('beta'); switchBetaPillar(2);"
+            style="--card-color: #06b6d4; --card-color-bg: rgba(6,182,212,0.12);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="dash-card-icon" style="background:rgba(20,184,166,0.1);color:#2dd4bf;"><i
-                class="fas fa-award"></i></div>
-            <h4>Scholarships</h4>
-            <p>Financial aid and scholarship listings</p>
+            <div class="dash-card-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
+                class="fas fa-calculator"></i></div>
+            <h4>Kalkulator GPA / HPNM</h4>
+            <p>Simulasi gred Politeknik Malaysia & takwim peperiksaan</p>
           </a>
 
         </div>
@@ -1300,6 +1304,418 @@
       </div>
     </section>
 
+    <!-- ══════════════════════════════════════════════════════════
+         ══ SECTION: BETA TESTING LAB (THE 3 PILLARS) ══
+         ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="beta">
+      <div class="sec-wrap" style="padding-top: 2.5rem;">
+        <button class="btn-back" onclick="navigate('dashboard')">
+          <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </button>
+
+        <!-- Beta Hero Banner -->
+        <div class="beta-hero">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
+            <div>
+              <div class="beta-tag-pill">
+                <i class="fas fa-flask"></i> JPP BETA TESTING LAB • v0.9-BETA
+              </div>
+              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;">
+                Experimental Student Services
+              </h2>
+              <p class="sec-sub" style="margin-bottom:0; max-width:760px;">
+                Explore, test, and provide feedback on upcoming features for Politeknik METrO Kuala Lumpur. 
+                Experience real-time E-Aduan ticket tracking, community Lost &amp; Found, the official Poly GPA/CGPA target engine, and sports gear borrowing.
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+              <span class="tag tag-gold" style="font-size:0.75rem; padding:0.4rem 0.85rem;">
+                <i class="fas fa-bolt"></i> Interactive Sandbox
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pillar Switcher Tabs -->
+        <div class="pillar-tabs">
+          <div class="pillar-tab active" id="tabBtnPillar1" onclick="switchBetaPillar(1)">
+            <div class="pillar-tab-icon"><i class="fas fa-hand-holding-heart"></i></div>
+            <div>
+              <span class="pillar-tab-num">Pillar 01</span>
+              <div class="pillar-tab-title">Student Welfare &amp; Voice</div>
+              <div class="pillar-tab-sub">E-Aduan &amp; Lost &amp; Found Hub</div>
+            </div>
+          </div>
+
+          <div class="pillar-tab" id="tabBtnPillar2" onclick="switchBetaPillar(2)">
+            <div class="pillar-tab-icon"><i class="fas fa-graduation-cap"></i></div>
+            <div>
+              <span class="pillar-tab-num">Pillar 02</span>
+              <div class="pillar-tab-title">Academic &amp; Poly Tools</div>
+              <div class="pillar-tab-sub">GPA/CGPA Calculator &amp; Deadlines</div>
+            </div>
+          </div>
+
+          <div class="pillar-tab" id="tabBtnPillar3" onclick="switchBetaPillar(3)">
+            <div class="pillar-tab-icon"><i class="fas fa-boxes-packing"></i></div>
+            <div>
+              <span class="pillar-tab-num">Pillar 03</span>
+              <div class="pillar-tab-title">Services &amp; Campus Life</div>
+              <div class="pillar-tab-sub">Equipment Loan &amp; Merch Store</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             ══ PANE 1: WELFARE & E-ADUAN ══
+             ══════════════════════════════════════ -->
+        <div class="pillar-pane active" id="panePillar1">
+          <!-- Aduan & Ticket Lookup Layout -->
+          <div class="aduan-layout">
+            <!-- Left: E-Aduan Submission Form -->
+            <div class="beta-card">
+              <div class="beta-card-header">
+                <div class="beta-card-title">
+                  <i class="fas fa-bullhorn" style="color:#ed005a;"></i> Sistem E-Aduan &amp; Suara Siswa
+                </div>
+                <span class="tag tag-blue" style="font-size:0.7rem;">Tiket Automatik</span>
+              </div>
+              <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;">
+                Sampaikan aduan kerosakan fasiliti kampus, isu kebajikan, atau cadangan penambahbaikan terus kepada JPP PMKL.
+              </p>
+
+              <form id="aduanForm" onsubmit="handleAduanSubmit(event)">
+                <div class="anon-toggle-box" onclick="toggleAnonymousAduan()">
+                  <input type="checkbox" id="aduanAnonCheck" style="cursor:pointer; transform:scale(1.2);">
+                  <div>
+                    <strong style="font-size:0.85rem; color:var(--text);">Hantar Secara Tanpa Nama (Anonymous)</strong>
+                    <div style="font-size:0.74rem; color:var(--text3);">Identiti dan nombor matrik anda akan dirahsiakan sepenuhnya daripada paparan awam.</div>
+                  </div>
+                </div>
+
+                <div id="aduanStudentFields">
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                    <div class="form-group-beta">
+                      <label>Nama Penuh</label>
+                      <input type="text" class="form-control-beta" id="aduanName" placeholder="cth: Ahmad Danial">
+                    </div>
+                    <div class="form-group-beta">
+                      <label>No. Matrik</label>
+                      <input type="text" class="form-control-beta" id="aduanMatric" placeholder="cth: 14DUP24F1001">
+                    </div>
+                  </div>
+                  <div class="form-group-beta">
+                    <label>No. Telefon (WhatsApp)</label>
+                    <input type="tel" class="form-control-beta" id="aduanPhone" placeholder="cth: 012-3456789">
+                  </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+                  <div class="form-group-beta">
+                    <label>Kategori Aduan</label>
+                    <select class="form-control-beta" id="aduanCategory">
+                      <option value="facility">Kemudahan / Fasiliti (Aircon, Surau, Makmal)</option>
+                      <option value="academic">Akademik &amp; Jadual Waktu</option>
+                      <option value="canteen">Kafeteria &amp; Makanan</option>
+                      <option value="welfare">Kebajikan &amp; Kesihatan Pelajar</option>
+                      <option value="general">Cadangan Umum</option>
+                    </select>
+                  </div>
+                  <div class="form-group-beta">
+                    <label>Lokasi Kejadian</label>
+                    <input type="text" class="form-control-beta" id="aduanLocation" placeholder="cth: Surau Aras 3 / Kafeteria" required>
+                  </div>
+                </div>
+
+                <div class="form-group-beta">
+                  <label>Tajuk Aduan / Cadangan</label>
+                  <input type="text" class="form-control-beta" id="aduanTitle" placeholder="Ringkasan aduan anda..." required>
+                </div>
+
+                <div class="form-group-beta">
+                  <label>Penerangan Terperinci</label>
+                  <textarea class="form-control-beta" id="aduanDesc" rows="3" placeholder="Sila nyatakan butiran terperinci kerosakan atau cadangan..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-hero btn-hero-primary" style="width:100%; justify-content:center; padding:0.85rem;" id="btnSubmitAduan">
+                  <i class="fas fa-paper-plane"></i> Hantar Aduan &amp; Jana Tiket
+                </button>
+              </form>
+            </div>
+
+            <!-- Right: Live Ticket Lookup & Info -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="beta-card">
+                <div class="beta-card-header">
+                  <div class="beta-card-title">
+                    <i class="fas fa-magnifying-glass" style="color:var(--gold);"></i> Semak Status Tiket
+                  </div>
+                  <span class="tag tag-gold" style="font-size:0.7rem;">Real-Time</span>
+                </div>
+                <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">
+                  Masukkan nombor tiket anda (contoh: <code>ADU-2026-8912</code>) untuk menyemak maklum balas dan tindakan daripada JPP PMKL.
+                </p>
+
+                <div class="ticket-search-box">
+                  <input type="text" class="form-control-beta" id="ticketLookupInput" placeholder="Masukkan ID Tiket (cth: ADU-2026-8912)">
+                  <button class="btn-primary" onclick="lookupTicketFromUI()" style="white-space:nowrap; padding:0 1.25rem;">
+                    <i class="fas fa-search"></i> Semak
+                  </button>
+                </div>
+
+                <div id="ticketLookupResult" style="display:none;"></div>
+              </div>
+
+              <!-- Quick Demo Ticket helper -->
+              <div class="beta-card" style="background:var(--surface2);">
+                <div style="font-size:0.8rem; font-weight:700; color:var(--text2); text-transform:uppercase; margin-bottom:0.4rem;">
+                  <i class="fas fa-lightbulb" style="color:var(--gold);"></i> Contoh Tiket Ujian
+                </div>
+                <p style="font-size:0.78rem; color:var(--text3); margin-bottom:0.75rem;">
+                  Klik mana-mana nombor tiket di bawah untuk mencuba fungsi semakan status secara langsung:
+                </p>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                  <button class="tag tag-blue" style="cursor:pointer; border:1px solid rgba(6,182,212,0.4);" onclick="fillDemoTicket('ADU-2026-8912')">
+                    <i class="fas fa-ticket"></i> ADU-2026-8912 (Dalam Tindakan)
+                  </button>
+                  <button class="tag tag-green" style="cursor:pointer; border:1px solid rgba(34,211,160,0.4);" onclick="fillDemoTicket('ADU-2026-7734')">
+                    <i class="fas fa-check-circle"></i> ADU-2026-7734 (Selesai)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Community Lost & Found Board -->
+          <div class="beta-card" style="margin-top:2rem;">
+            <div class="lf-filter-bar">
+              <div>
+                <div class="sec-label"><i class="fas fa-boxes-stacked"></i> Pusat Khidmat Komuniti</div>
+                <h3 style="font-size:1.15rem; color:var(--text); margin-top:0.25rem;">Pusat Barangan Hilang &amp; Dijumpai (Lost &amp; Found)</h3>
+              </div>
+              <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
+                <div class="lf-pills">
+                  <button class="lf-pill active" onclick="filterLostFound('all', this)">Semua</button>
+                  <button class="lf-pill" onclick="filterLostFound('lost', this)"><i class="fas fa-circle-exclamation" style="color:#ed005a;"></i> Hilang</button>
+                  <button class="lf-pill" onclick="filterLostFound('found', this)"><i class="fas fa-circle-check" style="color:#22d3a0;"></i> Dijumpai</button>
+                </div>
+                <button class="btn-primary" onclick="openNewLostFoundModal()" style="font-size:0.8rem; padding:0.45rem 0.85rem;">
+                  <i class="fas fa-plus"></i> Laporkan Barangan
+                </button>
+              </div>
+            </div>
+
+            <div class="lostfound-grid" id="lostFoundGrid">
+              <!-- Rendered dynamically via app.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             ══ PANE 2: ACADEMIC & GPA CALC ══
+             ══════════════════════════════════════ -->
+        <div class="pillar-pane" id="panePillar2">
+          <div class="gpa-layout">
+            <!-- Left: GPA Calculator Table -->
+            <div class="beta-card">
+              <div class="beta-card-header">
+                <div class="beta-card-title">
+                  <i class="fas fa-calculator" style="color:#06b6d4;"></i> Kalkulator GPA &amp; HPNM Politeknik Malaysia
+                </div>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                  <button class="btn-secondary" onclick="loadGpaPreset('dup')" style="font-size:0.75rem; padding:0.35rem 0.65rem;">
+                    Preset DUP Sem 1
+                  </button>
+                  <button class="btn-secondary" onclick="loadGpaPreset('dhf')" style="font-size:0.75rem; padding:0.35rem 0.65rem;">
+                    Preset DHF Sem 1
+                  </button>
+                </div>
+              </div>
+              <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;">
+                Kira Purata Nilai Gred (GPA) semester dan Purata Nilai Gred Kumulatif (HPNM / CGPA) berdasarkan skala rasmi Jabatan Pendidikan Politeknik.
+              </p>
+
+              <div class="gpa-table-wrap">
+                <table class="gpa-table" id="gpaCoursesTable">
+                  <thead>
+                    <tr>
+                      <th style="width:38%;">Kursus / Kod</th>
+                      <th style="width:24%;">Kredit</th>
+                      <th style="width:26%;">Gred Sasaran</th>
+                      <th style="width:12%; text-align:center;">Padam</th>
+                    </tr>
+                  </thead>
+                  <tbody id="gpaTableBody">
+                    <!-- Dynamic Rows populated in app.js -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+                <button class="btn-secondary" onclick="addGpaCourseRow()" style="font-size:0.82rem; padding:0.5rem 0.95rem;">
+                  <i class="fas fa-plus"></i> Tambah Kursus
+                </button>
+                <button class="btn-secondary" onclick="resetGpaCalc()" style="font-size:0.82rem; padding:0.5rem 0.95rem; color:#ef4444;">
+                  <i class="fas fa-rotate-left"></i> Set Semula
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Results & CGPA Simulator -->
+            <div style="display:flex; flex-direction:column; gap:1.25rem;">
+              <div class="beta-card">
+                <div class="gpa-result-display">
+                  <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--text2); font-weight:700;">
+                    Unjuran GPA Semester Semasa
+                  </div>
+                  <div class="gpa-score-huge" id="displaySemesterGpa">3.67</div>
+                  <div style="font-size:0.85rem; font-weight:700; color:var(--text);" id="displayGpaClassification">
+                    Tahap: Cemerlang
+                  </div>
+                  <div class="deans-list-pill" id="displayDeansBadge">
+                    <i class="fas fa-award"></i> Layak Anugerah Pengarah (GPA ≥ 3.50)
+                  </div>
+                  <div style="font-size:0.76rem; color:var(--text3); margin-top:0.6rem;">
+                    Jumlah Jam Kredit: <strong id="displayTotalCredits">15</strong> jam
+                  </div>
+                </div>
+
+                <div style="padding-top:0.5rem; border-top:1px solid var(--border);">
+                  <div style="font-size:0.82rem; font-weight:700; color:var(--text); margin-bottom:0.75rem; text-transform:uppercase;">
+                    <i class="fas fa-chart-line" style="color:var(--gold); margin-right:4px;"></i> Simulasi HPNM (CGPA Keseluruhan)
+                  </div>
+                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-bottom:0.75rem;">
+                    <div>
+                      <label style="font-size:0.72rem; color:var(--text3); display:block; margin-bottom:0.25rem;">HPNM Terdahulu</label>
+                      <input type="number" step="0.01" min="0" max="4.00" class="form-control-beta" id="cgpaPriorScore" placeholder="cth: 3.50" oninput="recalculateGpa()">
+                    </div>
+                    <div>
+                      <label style="font-size:0.72rem; color:var(--text3); display:block; margin-bottom:0.25rem;">Kredit Terkumpul</label>
+                      <input type="number" min="0" max="150" class="form-control-beta" id="cgpaPriorCredits" placeholder="cth: 36" oninput="recalculateGpa()">
+                    </div>
+                  </div>
+                  <div style="padding:0.65rem 0.85rem; background:var(--surface2); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.78rem; color:var(--text2);">HPNM Kumulatif Baru:</span>
+                    <strong style="font-size:1.15rem; color:var(--gold);" id="displayProjectedCgpa">3.67</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Academic Countdown Deadlines -->
+              <div class="beta-card">
+                <div class="beta-card-header">
+                  <div class="beta-card-title">
+                    <i class="fas fa-hourglass-half" style="color:var(--gold);"></i> Takwim Peperiksaan &amp; Latihan Industri
+                  </div>
+                </div>
+                <div class="deadline-card-grid">
+                  <div class="deadline-card">
+                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Minggu Peperiksaan Akhir</div>
+                    <div class="deadline-days" id="examCountdownDays">38</div>
+                    <div style="font-size:0.72rem; color:var(--text2);">Hari Lagi (Sesi I 2026/2027)</div>
+                  </div>
+                  <div class="deadline-card">
+                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Pendaftaran Latihan Industri</div>
+                    <div class="deadline-days" id="liCountdownDays">19</div>
+                    <div style="font-size:0.72rem; color:var(--text2);">Hari Lagi (Pelajar Sem 4 &amp; 5)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════
+             ══ PANE 3: SERVICES & CAMPUS LIFE ══
+             ══════════════════════════════════════ -->
+        <div class="pillar-pane" id="panePillar3">
+          <!-- Equipment Loan Section -->
+          <div style="margin-bottom:2.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+              <div>
+                <div class="sec-label"><i class="fas fa-futbol"></i> Bilik Gerakan &amp; Alatan Sukan</div>
+                <h3 style="font-size:1.15rem; color:var(--text); margin-top:0.25rem;">Pusat Pinjaman Alatan Sukan &amp; Acara JPP</h3>
+                <p style="font-size:0.83rem; color:var(--text2);">Pinjam bola futsal, set badminton, atau sistem PA mudah alih untuk aktiviti riadah pelajar.</p>
+              </div>
+            </div>
+
+            <div class="equip-grid" id="equipmentGrid">
+              <!-- Populated dynamically via app.js -->
+            </div>
+          </div>
+
+          <!-- Official Merchandise Preview -->
+          <div class="beta-card">
+            <div class="beta-card-header">
+              <div class="beta-card-title">
+                <i class="fas fa-shirt" style="color:var(--gold);"></i> JPP Exclusive Merch &amp; Corporate Apparel Preview
+              </div>
+              <span class="tag tag-gold" style="font-size:0.7rem;">Pra-Tempahan Dibuka</span>
+            </div>
+            <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.5rem;">
+              Tempah baju korporat rasmi, varsity jacket PMKL, dan lanyard edisi terhad sempena sesi baharu. Pembayaran mudah melalui DuitNow QR JPP.
+            </p>
+
+            <div class="merch-grid">
+              <!-- Item 1: Varsity Jacket -->
+              <div class="merch-card">
+                <div class="merch-thumb" style="background:linear-gradient(135deg, rgba(26,75,255,0.15), rgba(245,200,66,0.15));">
+                  <i class="fas fa-vest-patches"></i>
+                </div>
+                <div style="padding:1.25rem;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                    <span class="tag tag-gold" style="font-size:0.7rem;">Edisi Pelajar 2026</span>
+                    <strong style="color:var(--gold); font-size:1.2rem;">RM 75.00</strong>
+                  </div>
+                  <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">JPP PMKL Official Varsity Jacket</h4>
+                  <p style="font-size:0.8rem; color:var(--text2); margin-bottom:0.85rem;">
+                    Kain fleece berkualiti tinggi, sulaman logo PMKL &amp; bendera Malaysia. Sesuai untuk bilik kuliah berhawa dingin.
+                  </p>
+                  <label style="font-size:0.75rem; font-weight:700; color:var(--text3); text-transform:uppercase;">Pilih Saiz:</label>
+                  <div class="size-selector" id="sizeSelectorJacket">
+                    <div class="size-chip" onclick="selectMerchSize(this, 'jacket', 'S')">S</div>
+                    <div class="size-chip active" onclick="selectMerchSize(this, 'jacket', 'M')">M</div>
+                    <div class="size-chip" onclick="selectMerchSize(this, 'jacket', 'L')">L</div>
+                    <div class="size-chip" onclick="selectMerchSize(this, 'jacket', 'XL')">XL</div>
+                    <div class="size-chip" onclick="selectMerchSize(this, 'jacket', '2XL')">2XL</div>
+                  </div>
+                  <button class="btn-primary" onclick="openMerchOrderModal('JPP PMKL Official Varsity Jacket', 75.00)" style="width:100%; justify-content:center; margin-top:0.85rem;">
+                    <i class="fas fa-cart-shopping"></i> Pra-Tempah Sekarang
+                  </button>
+                </div>
+              </div>
+
+              <!-- Item 2: Lanyard & Card Holder -->
+              <div class="merch-card">
+                <div class="merch-thumb" style="background:linear-gradient(135deg, rgba(237,0,90,0.15), rgba(245,200,66,0.15));">
+                  <i class="fas fa-id-badge"></i>
+                </div>
+                <div style="padding:1.25rem;">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                    <span class="tag tag-blue" style="font-size:0.7rem;">Aksesori Wajib</span>
+                    <strong style="color:var(--gold); font-size:1.2rem;">RM 15.00</strong>
+                  </div>
+                  <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">Lanyard Premium PMKL + Matte Holder</h4>
+                  <p style="font-size:0.8rem; color:var(--text2); margin-bottom:0.85rem;">
+                    Lanyard lebar 25mm dengan cetakan sutera dua sisi tahan luntur dan klip besi tahan karat.
+                  </p>
+                  <label style="font-size:0.75rem; font-weight:700; color:var(--text3); text-transform:uppercase;">Warna:</label>
+                  <div class="size-selector">
+                    <div class="size-chip active" style="width:auto; padding:0 0.85rem;">Navy Gold</div>
+                    <div class="size-chip" style="width:auto; padding:0 0.85rem;">Black Gold</div>
+                  </div>
+                  <button class="btn-primary" onclick="openMerchOrderModal('Lanyard Premium PMKL + Matte Holder', 15.00)" style="width:100%; justify-content:center; margin-top:0.85rem;">
+                    <i class="fas fa-cart-shopping"></i> Pra-Tempah Sekarang
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
   </div>
 
   <div class="modal-overlay" id="rentModal">
@@ -1409,6 +1825,246 @@
           style="background:var(--gold); color:#000; font-weight:700;">
           <i class="fas fa-print"></i> Print Directly Now
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: BORROW EQUIPMENT ── -->
+  <div class="modal-overlay" id="borrowEquipModal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i class="fas fa-boxes-packing"></i></div>
+        <div class="modal-top-text">
+          <h3 id="borrowModalEquipName">Borang Pinjaman Alatan</h3>
+          <p id="borrowModalEquipTerms">JPP PMKL • Pusat Khidmat Pelajar</p>
+        </div>
+        <button class="modal-top-close" onclick="closeBorrowModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body">
+        <form id="borrowEquipForm" onsubmit="handleBorrowSubmit(event)">
+          <input type="hidden" id="borrowEquipId">
+          <div class="form-group-beta">
+            <label>Nama Peminjam</label>
+            <input type="text" class="form-control-beta" id="borrowStudentName" placeholder="Nama penuh anda" required>
+          </div>
+          <div class="form-group-beta">
+            <label>No. Matrik Pelajar</label>
+            <input type="text" class="form-control-beta" id="borrowMatric" placeholder="cth: 14DUP24F1020" required>
+          </div>
+          <div class="form-group-beta">
+            <label>No. Telefon (WhatsApp)</label>
+            <input type="tel" class="form-control-beta" id="borrowPhone" placeholder="cth: 013-4889211" required>
+          </div>
+          <div class="form-group-beta">
+            <label>Jangkaan Masa Pulang</label>
+            <select class="form-control-beta" id="borrowReturnTime">
+              <option value="2 Jam dari sekarang">2 Jam (Aktiviti Riadah Singkat)</option>
+              <option value="4 Jam dari sekarang">4 Jam (Perlawanan / Latihan Petang)</option>
+              <option value="Sebelum 6:00 PM Hari Ini">Sebelum 6:00 PM Hari Ini (Tutup Kaunter)</option>
+              <option value="Sebelum 12:00 PM Esok">Sebelum 12:00 PM Esok (Pinjaman Semalaman Acara)</option>
+            </select>
+          </div>
+
+          <div style="font-size:0.75rem; color:var(--text3); margin-bottom:1.25rem; line-height:1.4;">
+            <i class="fas fa-shield-halved" style="color:var(--gold);"></i> 
+            Pelajar bertanggungjawab memastikan alatan dijaga dengan rapi. Sebarang kehilangan atau kerosakan perlu diganti mengikut peraturan PMKL.
+          </div>
+
+          <div class="modal-actions" style="padding:0;">
+            <button type="button" class="btn-modal-close" onclick="closeBorrowModal()">Batal</button>
+            <button type="submit" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
+              <i class="fas fa-check-circle"></i> Sahkan &amp; Jana Pas Pinjaman
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: DIGITAL LOAN PASS ── -->
+  <div class="modal-overlay" id="loanPassModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(34,211,160,0.15); color:#22d3a0;"><i class="fas fa-id-card"></i></div>
+        <div class="modal-top-text">
+          <h3>Pas Pinjaman Digital JPP</h3>
+          <p>Tunjukkan pas ini kepada EXCO di Kaunter JPP</p>
+        </div>
+        <button class="modal-top-close" onclick="closeLoanPassModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body">
+        <div class="loan-pass-wrap">
+          <div class="loan-pass-header">
+            <div>
+              <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">ID Pas Pinjaman</div>
+              <div class="loan-pass-code" id="passCodeDisplay">LN-2026-XXXX</div>
+            </div>
+            <span class="stock-tag available"><i class="fas fa-circle-check"></i> Diluluskan</span>
+          </div>
+
+          <div style="margin-bottom:0.85rem;">
+            <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Alatan Dipinjam</div>
+            <strong style="font-size:1.05rem; color:var(--text);" id="passEquipName">-</strong>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+            <div>
+              <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Nama Peminjam</div>
+              <span style="font-size:0.88rem; font-weight:600; color:var(--text);" id="passStudentName">-</span>
+            </div>
+            <div>
+              <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">No. Matrik</div>
+              <span style="font-size:0.88rem; font-weight:600; color:var(--text);" id="passStudentMatric">-</span>
+            </div>
+          </div>
+
+          <div style="padding:0.65rem 0.85rem; background:rgba(245,200,66,0.1); border-radius:8px; border:1px solid rgba(245,200,66,0.3);">
+            <div style="font-size:0.72rem; color:var(--text2); text-transform:uppercase;">Jangkaan Tarikh Pulang:</div>
+            <strong style="font-size:0.92rem; color:var(--gold);" id="passReturnTime">-</strong>
+          </div>
+
+          <div style="font-size:0.75rem; color:var(--text3); margin-top:0.85rem; text-align:center;">
+            <i class="fas fa-location-dot" style="color:var(--gold);"></i> Lokasi Pengambilan: Bilik Gerakan JPP PMKL (Aras 2)
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn-modal-close" onclick="closeLoanPassModal()">Tutup &amp; Simpan</button>
+        <button class="btn-modal-primary" onclick="showToast('Pas Pinjaman telah disahkan!'); closeLoanPassModal();" style="background:var(--gold); color:#000; font-weight:700;">
+          <i class="fas fa-check"></i> Selesai
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: REPORT LOST & FOUND ── -->
+  <div class="modal-overlay" id="reportLostFoundModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i class="fas fa-box-open"></i></div>
+        <div class="modal-top-text">
+          <h3>Lapor Barangan Hilang / Dijumpai</h3>
+          <p>Hebahkan kepada komuniti pelajar PMKL</p>
+        </div>
+        <button class="modal-top-close" onclick="closeReportLostFoundModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body">
+        <form id="reportLostFoundForm" onsubmit="handleLostFoundSubmit(event)">
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+            <div class="form-group-beta" style="margin-bottom:0;">
+              <label>Status Laporan</label>
+              <select class="form-control-beta" id="lfReportType">
+                <option value="lost">Saya Kehilangan Barangan (Lost)</option>
+                <option value="found">Saya Menjumpai Barangan (Found)</option>
+              </select>
+            </div>
+            <div class="form-group-beta" style="margin-bottom:0;">
+              <label>Kategori Barangan</label>
+              <select class="form-control-beta" id="lfReportCategory">
+                <option value="electronics">Elektronik &amp; Alat Tulis</option>
+                <option value="cards">Kad Matrik &amp; Kunci</option>
+                <option value="clothing">Pakaian &amp; Aksesori</option>
+                <option value="other">Lain-lain Barangan</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group-beta">
+            <label>Nama Barangan</label>
+            <input type="text" class="form-control-beta" id="lfReportTitle" placeholder="cth: Kalkulator Casio 570EX / Dompet Hitam" required>
+          </div>
+
+          <div class="form-group-beta">
+            <label>Lokasi Terakhir / Tempat Dijumpai</label>
+            <input type="text" class="form-control-beta" id="lfReportLocation" placeholder="cth: Bilik Kuliah 3.04 / Kafeteria" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <div class="form-group-beta">
+              <label>Nama Anda / Untuk Dihubungi</label>
+              <input type="text" class="form-control-beta" id="lfReportContactName" placeholder="Nama anda" required>
+            </div>
+            <div class="form-group-beta">
+              <label>No. WhatsApp (cth: 0123456789)</label>
+              <input type="tel" class="form-control-beta" id="lfReportWhatsapp" placeholder="0123456789" required>
+            </div>
+          </div>
+
+          <div class="form-group-beta">
+            <label>Penerangan Terperinci &amp; Ciri-Ciri Khas</label>
+            <textarea class="form-control-beta" id="lfReportDesc" rows="2" placeholder="Warna, pelekat, jenama, atau sebarang tanda pengecaman..." required></textarea>
+          </div>
+
+          <div class="modal-actions" style="padding:0;">
+            <button type="button" class="btn-modal-close" onclick="closeReportLostFoundModal()">Batal</button>
+            <button type="submit" class="btn-modal-primary" style="background:#ed005a; color:#fff; font-weight:700;">
+              <i class="fas fa-bullhorn"></i> Siarkan ke Noticeboard
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: MERCHANDISE PRE-ORDER ── -->
+  <div class="modal-overlay" id="merchOrderModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i class="fas fa-bag-shopping"></i></div>
+        <div class="modal-top-text">
+          <h3 id="merchModalTitle">Pra-Tempahan Rasmi JPP</h3>
+          <p id="merchModalSubtitle">Bayar melalui DuitNow QR JPP PMKL</p>
+        </div>
+        <button class="modal-top-close" onclick="closeMerchOrderModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body">
+        <form id="merchOrderForm" onsubmit="handleMerchSubmit(event)">
+          <div style="padding:0.85rem 1rem; background:var(--surface2); border-radius:10px; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase;">Barangan Dipilih</div>
+              <strong style="font-size:0.95rem; color:var(--text);" id="merchSelectedName">-</strong>
+            </div>
+            <strong style="font-size:1.25rem; color:var(--gold);" id="merchSelectedPrice">RM 0.00</strong>
+          </div>
+
+          <div class="form-group-beta">
+            <label>Nama Penuh Pelajar</label>
+            <input type="text" class="form-control-beta" id="merchStudentName" placeholder="Nama anda" required>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
+            <div class="form-group-beta">
+              <label>No. Matrik</label>
+              <input type="text" class="form-control-beta" id="merchMatric" placeholder="cth: 14DUP24F1001" required>
+            </div>
+            <div class="form-group-beta">
+              <label>No. WhatsApp</label>
+              <input type="tel" class="form-control-beta" id="merchPhone" placeholder="cth: 012-3456789" required>
+            </div>
+          </div>
+
+          <div style="text-align:center; padding:0.85rem; background:rgba(237,0,90,0.06); border:1px solid rgba(237,0,90,0.25); border-radius:12px; margin-bottom:1rem;">
+            <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Kaedah Pembayaran:</div>
+            <div style="font-weight:700; font-size:0.92rem; color:#ed005a; margin:0.25rem 0;">
+              <i class="fas fa-qrcode"></i> DuitNow National QR / Tunai di Kaunter
+            </div>
+            <div style="font-size:0.75rem; color:var(--text2);">
+              Resit rasmi dan pas pengambilan akan dihantar melalui WhatsApp selepas pengesahan.
+            </div>
+          </div>
+
+          <div class="modal-actions" style="padding:0;">
+            <button type="button" class="btn-modal-close" onclick="closeMerchOrderModal()">Batal</button>
+            <button type="submit" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
+              <i class="fas fa-cart-check"></i> Hantar Pra-Tempahan
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
