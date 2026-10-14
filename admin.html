@@ -478,6 +478,9 @@
       <button class="admin-tab" onclick="switchTab('tabAlbum')">
         <i class="fas fa-images"></i> Photo Album
       </button>
+      <button class="admin-tab" onclick="switchTab('tabPrinting')">
+        <i class="fas fa-print"></i> Stesen Cetakan & Queue
+      </button>
     </div>
 
     <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
@@ -815,6 +818,150 @@
       </div>
     </div>
 
+    <!-- ══ TAB 6: PRINTING STATION & QUEUE ══ -->
+    <div class="tab-content" id="tabPrinting">
+      
+      <!-- Top Counter Controls -->
+      <div class="status-banner" style="margin-bottom:1.5rem;">
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <div class="status-pill status-live" id="adminPrintPill">
+            <i class="fas fa-print"></i> <span id="adminPrintStatusPillText">KAUNTER BUKA</span>
+          </div>
+          <div style="font-size:0.85rem; color:var(--text2);" id="adminQueueCountBadge">
+            0 Dokumen Dalam Giliran
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn-hero btn-hero-outline" onclick="loadPrintQueue(true)">
+            <i class="fas fa-rotate"></i> Muat Semula Giliran
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-grid-2">
+        
+        <!-- Column 1: Live Print Queue -->
+        <div>
+          <div class="admin-card">
+            <div class="sec-label"><i class="fas fa-list-check"></i> Live Dispatch Queue</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+              <h3 style="margin:0;">Giliran Cetakan Pelajar</h3>
+              <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-bolt" style="color:var(--gold);"></i> Auto-sync aktif</span>
+            </div>
+            <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
+              Pesanan cetakan yang dihantar oleh pelajar. Klik butang <strong>"Hantar ke Printer"</strong> untuk mencetak terus ke pencetak fizikal.
+            </p>
+
+            <div id="adminPrintQueueList">
+              <div style="color:var(--text3); font-size:0.85rem; padding:1.5rem; text-align:center;">
+                <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:0.5rem; display:block;"></i>
+                Memuatkan giliran cetakan...
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Counter Status & Rates -->
+        <div>
+          
+          <!-- Counter Settings -->
+          <div class="admin-card">
+            <div class="sec-label"><i class="fas fa-sliders"></i> Status Kaunter</div>
+            <h3>Tetapan Kaunter Cetakan</h3>
+            <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
+              Kawal status ketersediaan kaunter dan maklumat operasi yang dipaparkan kepada pelajar.
+            </p>
+
+            <div class="form-group">
+              <label>Status Kaunter</label>
+              <select id="admPrintStatus" class="form-ctrl">
+                <option value="open">Buka / Sedia Mencetak (Open)</option>
+                <option value="busy">Sedang Sibuk (Busy / High Queue)</option>
+                <option value="closed">Tutup Sementara (Closed)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Waktu Operasi Kaunter</label>
+              <input type="text" id="admPrintHours" class="form-ctrl" value="Isnin – Jumaat: 8:30 AM – 5:00 PM">
+            </div>
+
+            <div class="form-group">
+              <label>Lokasi Stesen / Kaunter</label>
+              <input type="text" id="admPrintLocation" class="form-ctrl" value="Bilik Gerakan JPP, Aras 2, PMKL">
+            </div>
+
+            <div class="form-group">
+              <label>Pemberitahuan / Nota Khas</label>
+              <input type="text" id="admPrintNotice" class="form-ctrl" value="Bayar di kaunter semasa mengambil cetakan.">
+            </div>
+
+            <button class="btn-hero btn-hero-primary" onclick="savePrintingSettings()">
+              <i class="fas fa-floppy-disk"></i> Simpan Status Kaunter
+            </button>
+          </div>
+
+          <!-- Price Rates Configuration -->
+          <div class="admin-card">
+            <div class="sec-label"><i class="fas fa-tags"></i> Pengurusan Harga</div>
+            <h3>Kadar Harga Cetakan (RM)</h3>
+            <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
+              Kadar harga yang digunakan dalam kalkulator pelajar.
+            </p>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+              <div class="form-group">
+                <label>B&W 1-Sided (A4)</label>
+                <input type="number" step="0.05" id="admRateBwSingle" class="form-ctrl" value="0.10">
+              </div>
+              <div class="form-group">
+                <label>B&W Duplex (A4 / Helai)</label>
+                <input type="number" step="0.05" id="admRateBwDouble" class="form-ctrl" value="0.15">
+              </div>
+              <div class="form-group">
+                <label>Warna Standard (A4)</label>
+                <input type="number" step="0.05" id="admRateColorStd" class="form-ctrl" value="0.50">
+              </div>
+              <div class="form-group">
+                <label>Warna Foto (A4)</label>
+                <input type="number" step="0.05" id="admRateColorPhoto" class="form-ctrl" value="1.00">
+              </div>
+              <div class="form-group">
+                <label>A3 B&W</label>
+                <input type="number" step="0.05" id="admRateA3Bw" class="form-ctrl" value="0.40">
+              </div>
+              <div class="form-group">
+                <label>A3 Warna</label>
+                <input type="number" step="0.05" id="admRateA3Color" class="form-ctrl" value="1.50">
+              </div>
+              <div class="form-group">
+                <label>Stapler & Pita</label>
+                <input type="number" step="0.05" id="admRateBindingStaple" class="form-ctrl" value="0.50">
+              </div>
+              <div class="form-group">
+                <label>Comb Binding</label>
+                <input type="number" step="0.05" id="admRateBindingComb" class="form-ctrl" value="2.00">
+              </div>
+              <div class="form-group">
+                <label>Hard Cover</label>
+                <input type="number" step="0.50" id="admRateBindingHard" class="form-ctrl" value="10.00">
+              </div>
+              <div class="form-group">
+                <label>Laminating A4</label>
+                <input type="number" step="0.05" id="admRateLaminating" class="form-ctrl" value="1.50">
+              </div>
+            </div>
+
+            <button class="btn-hero btn-hero-outline" onclick="savePrintingSettings()" style="margin-top:0.5rem;">
+              <i class="fas fa-tags"></i> Simpan Kadar Harga
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
   </div>
 
   <!-- TOAST NOTIFICATION -->
@@ -900,6 +1047,16 @@
       loadEvents();
       loadRentals();
       loadAlbum();
+      loadPrintingSettings();
+      loadPrintQueue();
+      if (!window._printQueueTimer) {
+        window._printQueueTimer = setInterval(() => {
+          const tab = document.getElementById('tabPrinting');
+          if (tab && tab.classList.contains('active')) {
+            loadPrintQueue(false);
+          }
+        }, 15000);
+      }
       showToast('Welcome, Administrator!');
     }
 
@@ -1470,6 +1627,356 @@
         loadAlbum();
       } catch (err) {
         alert('Failed to delete: ' + err.message);
+      }
+    }
+
+    // ══════════════════════════════════════════════════════
+    // ══ 6. PRINTING STATION & LIVE DISPATCH QUEUE ══
+    // ══════════════════════════════════════════════════════
+    let cachedPrintJobs = [];
+
+    async function loadPrintQueue(showToastFlag = false) {
+      const container = document.getElementById('adminPrintQueueList');
+      if (!container) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/print-jobs?t=${Date.now()}`, {
+          headers: getHeaders(),
+          cache: 'no-store'
+        });
+
+        if (!res.ok) throw new Error('Failed to fetch print queue');
+        const jobs = await res.json();
+        cachedPrintJobs = Array.isArray(jobs) ? jobs : [];
+
+        // Update count badge
+        const badge = document.getElementById('adminQueueCountBadge');
+        if (badge) {
+          badge.textContent = `${cachedPrintJobs.length} Dokumen Dalam Giliran`;
+        }
+
+        if (cachedPrintJobs.length === 0) {
+          container.innerHTML = `
+            <div style="color:var(--text3); font-size:0.9rem; padding:2.5rem 1rem; text-align:center;">
+              <i class="fas fa-inbox" style="font-size:2.2rem; margin-bottom:0.75rem; display:block; color:var(--text3);"></i>
+              Tiada dokumen dalam giliran cetakan pada masa ini.<br>
+              <span style="font-size:0.78rem;">Pesanan yang dihantar oleh pelajar akan muncul di sini secara automatik.</span>
+            </div>
+          `;
+          if (showToastFlag) showToast('Giliran cetakan dikemas kini (0 pesanan).');
+          return;
+        }
+
+        container.innerHTML = '';
+        cachedPrintJobs.forEach(job => {
+          const isPaid = job.paymentStatus === 'paid';
+          const isPrinting = job.status === 'printing';
+          const isDone = job.status === 'completed';
+
+          let statusBadge = '<span class="status-pill status-live" style="font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-clock"></i> QUEUED</span>';
+          if (isPrinting) {
+            statusBadge = '<span class="status-pill status-maint" style="background:rgba(245,200,66,0.15); color:var(--gold); border-color:rgba(245,200,66,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-cog fa-spin"></i> SEDANG DICETAK</span>';
+          } else if (isDone) {
+            statusBadge = '<span class="status-pill status-live" style="background:rgba(59,130,246,0.15); color:#60a5fa; border-color:rgba(59,130,246,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-check-circle"></i> SELESAI</span>';
+          }
+
+          const paymentBadge = isPaid
+            ? '<span style="color:#22d3a0; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-check"></i> Telah Dibayar</span>'
+            : '<span style="color:#ef4444; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-exclamation"></i> Belum Bayar (Di Kaunter)</span>';
+
+          const timeStr = new Date(job.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
+
+          const prefs = job.preferences || {};
+          const pricing = job.pricing || {};
+
+          container.innerHTML += `
+            <div class="queue-card-item">
+              <div class="queue-top-row">
+                <div>
+                  <span class="queue-ticket-id">${job.id}</span>
+                  <span style="font-size:0.78rem; color:var(--text3); margin-left:8px;">${timeStr}</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:0.5rem;">
+                  ${statusBadge}
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; font-size:0.84rem;">
+                <div>
+                  <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Pelajar</div>
+                  <strong>${job.student?.name || '-'}</strong>
+                  <div style="color:var(--text2); font-size:0.78rem;">${job.student?.matric || '-'} ${job.student?.phone ? '• ' + job.student.phone : ''}</div>
+                </div>
+                <div>
+                  <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Dokumen & Spesifikasi</div>
+                  <strong style="color:var(--gold); display:inline-block; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                    <i class="fas fa-file-pdf" style="margin-right:4px;"></i>${job.file?.name || 'document'}
+                  </strong>
+                  <div style="color:var(--text2); font-size:0.78rem;">
+                    ${prefs.paperSize || 'A4'} • ${String(prefs.colorMode || 'bw').toUpperCase()} • ${prefs.sides === 'double' ? 'Duplex' : '1-Sided'} • ${prefs.pages || 1} ms × ${prefs.copies || 1} salinan
+                  </div>
+                </div>
+              </div>
+
+              ${prefs.binding && prefs.binding !== 'none' ? `
+                <div style="font-size:0.78rem; background:var(--surface2); padding:0.4rem 0.65rem; border-radius:6px; margin-bottom:0.6rem; color:var(--text2);">
+                  <strong style="color:var(--gold);"><i class="fas fa-book"></i> Kemasan:</strong> ${prefs.binding.toUpperCase()}
+                  ${prefs.remarks ? `<span style="margin-left:8px; color:var(--text3);">• Nota: "${prefs.remarks}"</span>` : ''}
+                </div>
+              ` : (prefs.remarks ? `
+                <div style="font-size:0.78rem; background:var(--surface2); padding:0.4rem 0.65rem; border-radius:6px; margin-bottom:0.6rem; color:var(--text3);">
+                  <i class="fas fa-comment"></i> Nota Pelajar: "${prefs.remarks}"
+                </div>
+              ` : '')}
+
+              <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0.75rem; background:rgba(245,200,66,0.06); border-radius:8px; border:1px solid rgba(245,200,66,0.15);">
+                <div>
+                  <span style="font-size:0.75rem; color:var(--text3);">Jumlah Perlu Dikutip:</span>
+                  <strong style="font-size:1.1rem; color:var(--gold); margin-left:6px;">RM ${Number(pricing.totalAmount || 0).toFixed(2)}</strong>
+                </div>
+                <div>${paymentBadge}</div>
+              </div>
+
+              <div class="queue-actions-row">
+                <button class="btn-hero btn-hero-primary" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="printJobDirect('${job.id}')" title="Hantar terus ke pencetak fizikal">
+                  <i class="fas fa-print"></i> Hantar ke Printer
+                </button>
+                <button class="btn-hero btn-hero-outline" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="downloadJobFile('${job.id}')" title="Muat turun fail dokumen asal">
+                  <i class="fas fa-download"></i> Muat Turun
+                </button>
+                ${!isPaid ? `
+                  <button class="key-badge" style="color:#22d3a0; border-color:rgba(34,211,160,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'paid')" title="Tanda bayaran diterima">
+                    <i class="fas fa-check"></i> Tanda Dibayar
+                  </button>
+                ` : `
+                  <button class="key-badge" style="color:var(--text3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'unpaid_counter')">
+                    Batal Status Bayar
+                  </button>
+                `}
+                ${!isDone ? `
+                  <button class="key-badge" style="color:#60a5fa; border-color:rgba(59,130,246,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPrintStatus('${job.id}', 'completed')" title="Tanda cetakan telah siap">
+                    <i class="fas fa-box-archive"></i> Tanda Siap
+                  </button>
+                ` : ''}
+                <button class="btn-danger" style="margin-left:auto;" onclick="deletePrintJob('${job.id}')" title="Padam daripada giliran">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        if (showToastFlag) showToast(`Giliran cetakan dimuat semula (${cachedPrintJobs.length} dokumen).`);
+      } catch (err) {
+        container.innerHTML = `<div style="color:#ef4444; font-size:0.85rem; padding:1.5rem; text-align:center;"><i class="fas fa-triangle-exclamation"></i> Ralat memuatkan giliran: ${err.message}</div>`;
+      }
+    }
+
+    function printJobDirect(jobId) {
+      const job = cachedPrintJobs.find(j => j.id === jobId);
+      if (!job || !job.file || !job.file.data) {
+        alert('Fail dokumen tidak ditemui.');
+        return;
+      }
+
+      showToast('Membuka dialog pencetak untuk ' + job.file.name + '...');
+
+      // Auto update status to "printing" on server
+      updateJobPrintStatus(jobId, 'printing', false);
+
+      const fileData = job.file.data;
+      const fileType = job.file.type || '';
+
+      if (fileType.includes('pdf')) {
+        let printFrame = document.getElementById('hiddenPrintIframe');
+        if (!printFrame) {
+          printFrame = document.createElement('iframe');
+          printFrame.id = 'hiddenPrintIframe';
+          printFrame.style.position = 'fixed';
+          printFrame.style.right = '0';
+          printFrame.style.bottom = '0';
+          printFrame.style.width = '0';
+          printFrame.style.height = '0';
+          printFrame.style.border = '0';
+          document.body.appendChild(printFrame);
+        }
+
+        printFrame.src = fileData;
+        printFrame.onload = () => {
+          setTimeout(() => {
+            try {
+              printFrame.contentWindow.focus();
+              printFrame.contentWindow.print();
+            } catch (err) {
+              const w = window.open(fileData, '_blank');
+              if (w) w.focus();
+            }
+          }, 600);
+        };
+      } else {
+        const win = window.open('', '_blank');
+        if (win) {
+          win.document.write(`
+            <html>
+              <head><title>Print ${job.file.name}</title></head>
+              <body style="margin:0; padding:20px; text-align:center;">
+                <img src="${fileData}" style="max-width:100%; height:auto;" onload="window.print();" />
+              </body>
+            </html>
+          `);
+          win.document.close();
+        }
+      }
+    }
+
+    function downloadJobFile(jobId) {
+      const job = cachedPrintJobs.find(j => j.id === jobId);
+      if (!job || !job.file || !job.file.data) return;
+
+      const a = document.createElement('a');
+      a.href = job.file.data;
+      a.download = job.file.name || 'document';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    async function updateJobPrintStatus(jobId, newStatus, reload = true) {
+      try {
+        const res = await fetch(`${API_BASE}/print-jobs`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ action: 'update_status', id: jobId, status: newStatus })
+        });
+        if (!res.ok) throw new Error('Status update failed');
+        if (reload) {
+          showToast('Status cetakan dikemas kini: ' + newStatus);
+          loadPrintQueue(false);
+        }
+      } catch (e) {
+        showToast('Ralat: ' + e.message);
+      }
+    }
+
+    async function updateJobPaymentStatus(jobId, paymentStatus) {
+      try {
+        const res = await fetch(`${API_BASE}/print-jobs`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ action: 'update_status', id: jobId, paymentStatus })
+        });
+        if (!res.ok) throw new Error('Payment status update failed');
+        showToast('Status bayaran dikemas kini!');
+        loadPrintQueue(false);
+      } catch (e) {
+        showToast('Ralat: ' + e.message);
+      }
+    }
+
+    async function deletePrintJob(jobId) {
+      if (!confirm('Adakah anda pasti mahu memadam pesanan cetakan ini daripada giliran?')) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/print-jobs`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify({ action: 'delete', id: jobId })
+        });
+        if (!res.ok) throw new Error('Padam gagal');
+        showToast('Pesanan dipadam daripada giliran.');
+        loadPrintQueue(false);
+      } catch (e) {
+        alert('Ralat memadam pesanan: ' + e.message);
+      }
+    }
+
+    async function loadPrintingSettings() {
+      try {
+        const res = await fetch(`${API_BASE}/printing?t=${Date.now()}`, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to load printing settings');
+        const data = await res.json();
+
+        if (document.getElementById('admPrintStatus')) {
+          document.getElementById('admPrintStatus').value = data.status || 'open';
+        }
+        if (document.getElementById('admPrintHours')) {
+          document.getElementById('admPrintHours').value = data.hours || '';
+        }
+        if (document.getElementById('admPrintLocation')) {
+          document.getElementById('admPrintLocation').value = data.location || '';
+        }
+        if (document.getElementById('admPrintNotice')) {
+          document.getElementById('admPrintNotice').value = data.notice || '';
+        }
+
+        const rates = data.rates || {};
+        if (document.getElementById('admRateBwSingle')) document.getElementById('admRateBwSingle').value = rates.bw_single ?? 0.10;
+        if (document.getElementById('admRateBwDouble')) document.getElementById('admRateBwDouble').value = rates.bw_double ?? 0.15;
+        if (document.getElementById('admRateColorStd')) document.getElementById('admRateColorStd').value = rates.color_standard ?? 0.50;
+        if (document.getElementById('admRateColorPhoto')) document.getElementById('admRateColorPhoto').value = rates.color_photo ?? 1.00;
+        if (document.getElementById('admRateA3Bw')) document.getElementById('admRateA3Bw').value = rates.a3_bw ?? 0.40;
+        if (document.getElementById('admRateA3Color')) document.getElementById('admRateA3Color').value = rates.a3_color ?? 1.50;
+        if (document.getElementById('admRateBindingStaple')) document.getElementById('admRateBindingStaple').value = rates.binding_staple ?? 0.50;
+        if (document.getElementById('admRateBindingComb')) document.getElementById('admRateBindingComb').value = rates.binding_comb ?? 2.00;
+        if (document.getElementById('admRateBindingHard')) document.getElementById('admRateBindingHard').value = rates.binding_hard ?? 10.00;
+        if (document.getElementById('admRateLaminating')) document.getElementById('admRateLaminating').value = rates.laminating_a4 ?? 1.50;
+
+        // Update pill
+        const pill = document.getElementById('adminPrintPill');
+        const pillTxt = document.getElementById('adminPrintStatusPillText');
+        if (pill && pillTxt) {
+          if (data.status === 'closed') {
+            pill.className = 'status-pill status-maint';
+            pillTxt.textContent = 'KAUNTER TUTUP';
+          } else if (data.status === 'busy') {
+            pill.className = 'status-pill status-maint';
+            pill.style.color = 'var(--gold)';
+            pill.style.borderColor = 'rgba(245,200,66,0.3)';
+            pillTxt.textContent = 'KAUNTER SIBUK';
+          } else {
+            pill.className = 'status-pill status-live';
+            pillTxt.textContent = 'KAUNTER BUKA';
+          }
+        }
+      } catch (err) {
+        // Fallback default
+      }
+    }
+
+    async function savePrintingSettings() {
+      const payload = {
+        status: document.getElementById('admPrintStatus').value,
+        hours: document.getElementById('admPrintHours').value.trim(),
+        location: document.getElementById('admPrintLocation').value.trim(),
+        notice: document.getElementById('admPrintNotice').value.trim(),
+        rates: {
+          bw_single: parseFloat(document.getElementById('admRateBwSingle').value) || 0.10,
+          bw_double: parseFloat(document.getElementById('admRateBwDouble').value) || 0.15,
+          color_standard: parseFloat(document.getElementById('admRateColorStd').value) || 0.50,
+          color_photo: parseFloat(document.getElementById('admRateColorPhoto').value) || 1.00,
+          a3_bw: parseFloat(document.getElementById('admRateA3Bw').value) || 0.40,
+          a3_color: parseFloat(document.getElementById('admRateA3Color').value) || 1.50,
+          binding_staple: parseFloat(document.getElementById('admRateBindingStaple').value) || 0.50,
+          binding_comb: parseFloat(document.getElementById('admRateBindingComb').value) || 2.00,
+          binding_hard: parseFloat(document.getElementById('admRateBindingHard').value) || 10.00,
+          laminating_a4: parseFloat(document.getElementById('admRateLaminating').value) || 1.50
+        }
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/printing`, {
+          method: 'POST',
+          headers: getHeaders(),
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        if (!res.ok || data.error) throw new Error(data.error || 'Failed to save');
+
+        showToast('Tetapan kaunter & kadar harga berjaya disimpan!');
+        loadPrintingSettings();
+      } catch (err) {
+        alert('Gagal menyimpan tetapan: ' + err.message);
       }
     }
 

@@ -2540,3 +2540,431 @@
     #lightboxImg {
       transition: opacity 0.15s ease;
     }
+
+/* ══ JPP PRINTING SECTION STYLES ══ */
+.print-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: var(--shadow);
+}
+
+.print-status-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.print-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.print-badge.open {
+  background: rgba(34, 211, 160, 0.15);
+  color: #22d3a0;
+  border: 1px solid rgba(34, 211, 160, 0.3);
+}
+
+.print-badge.busy {
+  background: rgba(245, 200, 66, 0.15);
+  color: #f5c842;
+  border: 1px solid rgba(245, 200, 66, 0.3);
+}
+
+.print-badge.closed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.print-studio-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.75rem;
+  margin-bottom: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .print-studio-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.print-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+
+/* Dropzone Upload */
+.dropzone-box {
+  border: 2px dashed rgba(245, 200, 66, 0.35);
+  background: rgba(245, 200, 66, 0.03);
+  border-radius: 14px;
+  padding: 2.25rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.dropzone-box:hover, .dropzone-box.dragover {
+  border-color: var(--gold);
+  background: rgba(245, 200, 66, 0.08);
+  transform: translateY(-2px);
+}
+
+.dropzone-icon {
+  font-size: 2.75rem;
+  color: var(--gold);
+  margin-bottom: 0.75rem;
+}
+
+.dropzone-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+
+.dropzone-sub {
+  font-size: 0.82rem;
+  color: var(--text3);
+}
+
+.file-selected-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-top: 1rem;
+}
+
+.file-selected-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  overflow: hidden;
+}
+
+.file-icon {
+  font-size: 1.8rem;
+  color: var(--gold);
+}
+
+.file-name {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.file-size {
+  font-size: 0.78rem;
+  color: var(--text3);
+}
+
+/* Preference Cards & Option Chips */
+.pref-section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--text2);
+  margin: 1.5rem 0 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pref-chips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.65rem;
+}
+
+.pref-chip {
+  padding: 0.8rem 0.9rem;
+  border-radius: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.pref-chip:hover {
+  border-color: rgba(245, 200, 66, 0.4);
+}
+
+.pref-chip.active {
+  background: var(--gold-dim);
+  border-color: var(--gold);
+  box-shadow: 0 0 10px rgba(245, 200, 66, 0.2);
+}
+
+.pref-chip-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pref-chip-desc {
+  font-size: 0.76rem;
+  color: var(--text3);
+}
+
+.pref-chip.active .pref-chip-desc {
+  color: var(--gold);
+}
+
+.stepper-wrap {
+  display: inline-flex;
+  align-items: center;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.btn-stepper {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background 0.15s;
+}
+
+.btn-stepper:hover {
+  background: rgba(245, 200, 66, 0.15);
+  color: var(--gold);
+}
+
+.stepper-input {
+  width: 60px;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  outline: none;
+}
+
+/* Sticky Calculator Card */
+.calc-card-sticky {
+  position: sticky;
+  top: 90px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+}
+
+.calc-breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.86rem;
+  color: var(--text2);
+}
+
+.calc-total-box {
+  margin: 1.25rem 0;
+  padding: 1.25rem;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.calc-total-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text3);
+  margin-bottom: 0.25rem;
+}
+
+.calc-total-price {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--gold);
+  font-family: var(--font-head);
+}
+
+.pay-counter-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  background: rgba(34, 211, 160, 0.1);
+  border: 1px dashed rgba(34, 211, 160, 0.4);
+  border-radius: 10px;
+  color: #22d3a0;
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Digital Ticket */
+.ticket-card {
+  background: var(--surface);
+  border: 2px dashed rgba(245, 200, 66, 0.5);
+  border-radius: 18px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  max-width: 500px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.ticket-header-code {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  padding: 0.5rem 1rem;
+  background: var(--gold-dim);
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.ticket-detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  text-align: left;
+  background: var(--surface2);
+  padding: 1rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  font-size: 0.82rem;
+}
+
+.ticket-detail-item label {
+  color: var(--text3);
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.ticket-detail-item span {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Print Rates Reference Table */
+.rates-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 1rem;
+}
+
+.rates-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.rates-table th {
+  background: var(--surface2);
+  color: var(--text2);
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+  letter-spacing: 0.5px;
+}
+
+.rates-table td {
+  padding: 0.85rem 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+}
+
+.rates-table tr:hover td {
+  background: rgba(245, 200, 66, 0.03);
+}
+
+/* Print Queue in Admin */
+.queue-card-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+}
+
+.queue-card-item:hover {
+  border-color: rgba(245, 200, 66, 0.4);
+}
+
+.queue-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.queue-ticket-id {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 0.95rem;
+}
+
+.queue-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}

@@ -4,6 +4,8 @@ import * as annApi from './functions/api/announcements.js';
 import * as eventsApi from './functions/api/events.js';
 import * as rentalsApi from './functions/api/rentals.js';
 import * as albumApi from './functions/api/album.js';
+import * as printingApi from './functions/api/printing.js';
+import * as printJobsApi from './functions/api/print-jobs.js';
 
 export default {
   async fetch(request, env) {
@@ -43,6 +45,18 @@ export default {
       if (request.method === 'DELETE') return albumApi.onRequestDelete(context);
       if (request.method === 'OPTIONS') return albumApi.onRequestOptions();
       return albumApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/printing') {
+      if (request.method === 'POST') return printingApi.onRequestPost(context);
+      if (request.method === 'OPTIONS') return printingApi.onRequestOptions();
+      return printingApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/print-jobs') {
+      if (request.method === 'POST') return printJobsApi.onRequestPost(context);
+      if (request.method === 'OPTIONS') return printJobsApi.onRequestOptions();
+      return printJobsApi.onRequestGet(context);
     }
 
     // Serve Static Assets (HTML, CSS, JS, Images)

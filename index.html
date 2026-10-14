@@ -42,6 +42,7 @@
       <a class="nav-link" data-section="events">Events</a>
       <a class="nav-link" data-section="members">Members</a>
       <a class="nav-link" data-section="album">Album</a>
+      <a class="nav-link" data-section="printing">Printing</a>
       <a class="nav-link" data-section="rent">Rent</a>
       <a class="nav-link" data-section="contact">Contact</a>
     </div>
@@ -79,6 +80,7 @@
             <a class="qa-chip" onclick="navigate('announcements')"><i class="fas fa-megaphone"></i> Announcements</a>
             <a class="qa-chip" onclick="navigate('events')"><i class="fas fa-calendar"></i> Events</a>
             <a class="qa-chip" onclick="navigate('members')"><i class="fas fa-users"></i> Members</a>
+            <a class="qa-chip" onclick="navigate('printing')"><i class="fas fa-print"></i> Printing Hub</a>
             <a class="qa-chip" onclick="navigate('rent')"><i class="fas fa-home"></i> Rent House</a>
             <a class="qa-chip" onclick="navigate('contact')"><i class="fas fa-envelope"></i> Contact</a>
             <a class="qa-chip" onclick="navigate('album')"><i class="fas fa-images"></i> Gallery</a>
@@ -138,6 +140,14 @@
             <div class="dash-card-icon"><i class="fas fa-home"></i></div>
             <h4>Rent House</h4>
             <p>Affordable student housing near PMKL</p>
+          </a>
+          <a class="dash-card" onclick="navigate('printing')"
+            style="--card-color: #06b6d4; --card-color-bg: rgba(6,182,212,0.12);">
+            <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
+            <div class="dash-card-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
+                class="fas fa-print"></i></div>
+            <h4>Printing Hub</h4>
+            <p>Upload documents, set preferences & collect at counter</p>
           </a>
           <a class="dash-card" onclick="showToast('Academic Resources — Coming Soon!')">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
@@ -713,6 +723,326 @@
       </div>
     </section>
 
+    <section class="section" id="printing">
+      <div class="sec-wrap" style="padding-top: 2.5rem;">
+        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label"><i class="fas fa-print"></i> Student Printing Hub</div>
+        <h2 class="sec-title">Pusat Cetakan Pelajar JPP PMKL</h2>
+        <p class="sec-sub">Muat naik dokumen anda, tetapkan pilihan cetakan, dan hantar terus ke stesen pencetak. Bayar di kaunter semasa mengambil dokumen anda.</p>
+
+        <!-- Live Counter Status Bar -->
+        <div class="print-status-bar">
+          <div class="print-status-info">
+            <span class="print-badge open" id="printLiveBadge">
+              <i class="fas fa-circle-check"></i> <span id="printLiveStatusText">KAUNTER BUKA / READY TO PRINT</span>
+            </span>
+            <span style="font-size:0.85rem; color:var(--text2);" id="printHoursText">
+              <i class="fas fa-clock" style="color:var(--gold); margin-right:4px;"></i> Isnin – Jumaat: 8:30 AM – 5:00 PM
+            </span>
+            <span style="font-size:0.85rem; color:var(--text2);" id="printLocationText">
+              <i class="fas fa-map-marker-alt" style="color:var(--gold); margin-right:4px;"></i> Bilik Gerakan JPP, Aras 2, PMKL
+            </span>
+          </div>
+          <div style="font-size:0.82rem; color:var(--gold);" id="printNoticeText">
+            <i class="fas fa-circle-info"></i> Bayar di kaunter secara Tunai atau DuitNow QR
+          </div>
+        </div>
+
+        <!-- Printing Studio Layout -->
+        <div class="print-studio-layout">
+          
+          <!-- Left Column: Form & Preferences -->
+          <div style="display:flex; flex-direction:column; gap:1.5rem;">
+            
+            <!-- Step 1: File Upload -->
+            <div class="print-card">
+              <div class="sec-label"><i class="fas fa-file-arrow-up"></i> Langkah 1</div>
+              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;">Muat Naik Dokumen</h3>
+              <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1.25rem;">
+                Format yang disokong: PDF, Word (DOCX), PowerPoint (PPTX), atau Imej (JPG, PNG). Saiz maksimum: 15MB.
+              </p>
+
+              <input type="file" id="printFileInput" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg" style="display:none;" onchange="handleFileSelect(event)">
+              
+              <div class="dropzone-box" id="dropzoneBox" onclick="document.getElementById('printFileInput').click()">
+                <div class="dropzone-icon"><i class="fas fa-cloud-arrow-up"></i></div>
+                <div class="dropzone-title">Klik atau Seret Fail ke Sini</div>
+                <div class="dropzone-sub">PDF, DOCX, PPTX, JPG, PNG (Maks 15MB)</div>
+              </div>
+
+              <div id="fileSelectedBox" class="file-selected-box" style="display:none;">
+                <div class="file-selected-info">
+                  <div class="file-icon" id="fileSelectedIcon"><i class="fas fa-file-pdf"></i></div>
+                  <div>
+                    <div class="file-name" id="fileSelectedName">document.pdf</div>
+                    <div class="file-size" id="fileSelectedSize">0 KB</div>
+                  </div>
+                </div>
+                <button class="btn-danger" onclick="clearSelectedFile()" style="padding:0.35rem 0.65rem;" title="Padam fail">
+                  <i class="fas fa-times"></i> Padam
+                </button>
+              </div>
+            </div>
+
+            <!-- Step 2: Preferences -->
+            <div class="print-card">
+              <div class="sec-label"><i class="fas fa-sliders"></i> Langkah 2</div>
+              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;">Tetapan & Pilihan Cetakan</h3>
+              <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1rem;">
+                Pilih mod warna, muka surat, dan kemasan jilidan mengikut keperluan tugasan anda.
+              </p>
+
+              <!-- Color Mode -->
+              <div class="pref-section-title"><i class="fas fa-palette"></i> Mod Warna (Color)</div>
+              <div class="pref-chips-grid">
+                <div class="pref-chip active" data-pref="color" data-val="bw" onclick="setPreference('color', 'bw')">
+                  <div class="pref-chip-title">Hitam Putih (B&W) <i class="fas fa-check-circle"></i></div>
+                  <div class="pref-chip-desc" id="prefRateBwDesc">RM 0.10 / ms</div>
+                </div>
+                <div class="pref-chip" data-pref="color" data-val="color_std" onclick="setPreference('color', 'color_std')">
+                  <div class="pref-chip-title">Warna (Standard)</div>
+                  <div class="pref-chip-desc" id="prefRateColorStdDesc">RM 0.50 / ms</div>
+                </div>
+                <div class="pref-chip" data-pref="color" data-val="color_photo" onclick="setPreference('color', 'color_photo')">
+                  <div class="pref-chip-title">Warna Penuh / Foto</div>
+                  <div class="pref-chip-desc" id="prefRateColorPhotoDesc">RM 1.00 / ms</div>
+                </div>
+              </div>
+
+              <!-- Sides Duplex -->
+              <div class="pref-section-title"><i class="fas fa-copy"></i> Muka Surat (Sides)</div>
+              <div class="pref-chips-grid">
+                <div class="pref-chip active" data-pref="sides" data-val="single" onclick="setPreference('sides', 'single')">
+                  <div class="pref-chip-title">1-Sided (Sebelah) <i class="fas fa-check-circle"></i></div>
+                  <div class="pref-chip-desc">Muka depan sahaja</div>
+                </div>
+                <div class="pref-chip" data-pref="sides" data-val="double" onclick="setPreference('sides', 'double')">
+                  <div class="pref-chip-title">2-Sided (Duplex)</div>
+                  <div class="pref-chip-desc">Depan & Belakang</div>
+                </div>
+              </div>
+
+              <!-- Paper Size -->
+              <div class="pref-section-title"><i class="fas fa-file"></i> Saiz Kertas (Paper Size)</div>
+              <div class="pref-chips-grid">
+                <div class="pref-chip active" data-pref="size" data-val="a4" onclick="setPreference('size', 'a4')">
+                  <div class="pref-chip-title">A4 (Standard) <i class="fas fa-check-circle"></i></div>
+                  <div class="pref-chip-desc">80 gsm kualiti tinggi</div>
+                </div>
+                <div class="pref-chip" data-pref="size" data-val="a3" onclick="setPreference('size', 'a3')">
+                  <div class="pref-chip-title">A3 (Besar)</div>
+                  <div class="pref-chip-desc">Pelan / Poster</div>
+                </div>
+              </div>
+
+              <!-- Page Count & Copies -->
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-top:1.25rem;">
+                <div>
+                  <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">
+                    Bilangan Muka Surat:
+                  </label>
+                  <input type="number" id="inpPages" class="form-ctrl" value="1" min="1" max="500" oninput="recalculatePrintPrice()">
+                  <span style="font-size:0.73rem; color:var(--text3); margin-top:3px; display:block;">Dikesan automatik jika fail PDF.</span>
+                </div>
+                <div>
+                  <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">
+                    Bilangan Salinan (Sets):
+                  </label>
+                  <div class="stepper-wrap">
+                    <button type="button" class="btn-stepper" onclick="stepCopies(-1)"><i class="fas fa-minus"></i></button>
+                    <input type="number" id="inpCopies" class="stepper-input" value="1" min="1" max="50" readonly>
+                    <button type="button" class="btn-stepper" onclick="stepCopies(1)"><i class="fas fa-plus"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Binding & Finishing -->
+              <div class="pref-section-title"><i class="fas fa-book"></i> Kemasan & Jilidan (Finishing)</div>
+              <div class="pref-chips-grid">
+                <div class="pref-chip active" data-pref="binding" data-val="none" onclick="setPreference('binding', 'none')">
+                  <div class="pref-chip-title">Tiada Jilidan <i class="fas fa-check-circle"></i></div>
+                  <div class="pref-chip-desc">Percuma</div>
+                </div>
+                <div class="pref-chip" data-pref="binding" data-val="staple" onclick="setPreference('binding', 'staple')">
+                  <div class="pref-chip-title">Stapler & Pita Hitam</div>
+                  <div class="pref-chip-desc" id="prefRateBindingStapleDesc">+RM 0.50 / set</div>
+                </div>
+                <div class="pref-chip" data-pref="binding" data-val="comb" onclick="setPreference('binding', 'comb')">
+                  <div class="pref-chip-title">Comb Binding (Ring)</div>
+                  <div class="pref-chip-desc" id="prefRateBindingCombDesc">+RM 2.00 / set</div>
+                </div>
+                <div class="pref-chip" data-pref="binding" data-val="hard" onclick="setPreference('binding', 'hard')">
+                  <div class="pref-chip-title">Hard Cover Binding</div>
+                  <div class="pref-chip-desc" id="prefRateBindingHardDesc">+RM 10.00 / set</div>
+                </div>
+                <div class="pref-chip" data-pref="binding" data-val="laminating" onclick="setPreference('binding', 'laminating')">
+                  <div class="pref-chip-title">Laminating A4</div>
+                  <div class="pref-chip-desc" id="prefRateLaminatingDesc">+RM 1.50 / keping</div>
+                </div>
+              </div>
+
+              <!-- Remarks -->
+              <div style="margin-top:1.25rem;">
+                <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">
+                  Catatan Tambahan (Pilihan):
+                </label>
+                <input type="text" id="inpRemarks" class="form-ctrl" placeholder="Contoh: Muka depan berwarna sahaja, atau segera sebelum 11 pagi...">
+              </div>
+
+            </div>
+
+            <!-- Step 3: Student Particulars -->
+            <div class="print-card">
+              <div class="sec-label"><i class="fas fa-user"></i> Langkah 3</div>
+              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;">Maklumat Pelajar</h3>
+              <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1rem;">
+                Nama dan nombor matrik untuk tujuan pengenalan semasa mengambil cetakan di kaunter.
+              </p>
+
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                <div class="form-group" style="margin-bottom:0;">
+                  <label>Nama Penuh *</label>
+                  <input type="text" id="inpStudentName" class="form-ctrl" placeholder="Contoh: Muhammad Afif" required>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                  <label>No. Matrik Pelajar *</label>
+                  <input type="text" id="inpStudentMatric" class="form-ctrl" placeholder="Contoh: 14DKA24F1020" required>
+                </div>
+              </div>
+
+              <div class="form-group" style="margin-top:1rem; margin-bottom:0;">
+                <label>No. Telefon / WhatsApp (Untuk Makluman)</label>
+                <input type="tel" id="inpStudentPhone" class="form-ctrl" placeholder="Contoh: 012-3456789">
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Column: Sticky Pricing & Submit Card -->
+          <div>
+            <div class="calc-card-sticky">
+              <div class="sec-label"><i class="fas fa-receipt"></i> Anggaran Kos</div>
+              <h3 style="font-size:1.15rem; margin-bottom:1rem;">Ringkasan Pesanan</h3>
+
+              <div class="calc-breakdown-row">
+                <span>Pilihan Cetakan:</span>
+                <strong id="summaryFormat" style="color:var(--text); text-align:right;">A4 • B&W (1-Sided)</strong>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Muka Surat & Salinan:</span>
+                <span id="summaryPagesCount">1 ms × 1 salinan</span>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Kos Cetakan:</span>
+                <span id="summaryPrintCost" style="font-weight:600; color:var(--text);">RM 0.10</span>
+              </div>
+              <div class="calc-breakdown-row">
+                <span>Jilidan / Kemasan:</span>
+                <span id="summaryBindingCost" style="font-weight:600; color:var(--text);">RM 0.00</span>
+              </div>
+
+              <!-- Total Display Box -->
+              <div class="calc-total-box">
+                <div class="calc-total-label">Jumlah Perlu Dibayar</div>
+                <div class="calc-total-price" id="summaryTotalAmount">RM 0.10</div>
+              </div>
+
+              <!-- Pay at Counter Info Pill -->
+              <div class="pay-counter-pill">
+                <i class="fas fa-hand-holding-dollar" style="font-size:1.4rem;"></i>
+                <div>
+                  <strong>Bayar di Kaunter:</strong>
+                  <div style="font-size:0.78rem; opacity:0.9; margin-top:2px;">Tunai atau DuitNow QR semasa mengambil dokumen di bilik JPP.</div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button class="btn-hero btn-hero-primary" id="btnSubmitPrintJob" style="width:100%; justify-content:center; padding:0.95rem; font-size:0.95rem;" onclick="submitPrintJob()">
+                <i class="fas fa-print"></i> Hantar Dokumen ke Printer
+              </button>
+
+              <div style="margin-top:1rem; text-align:center; font-size:0.75rem; color:var(--text3);">
+                <i class="fas fa-shield-alt"></i> Fail anda diproses dengan selamat dan sulit oleh JPP PMKL.
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- My Recent Print Tickets -->
+        <div id="myRecentTicketsWrap" style="display:none; margin-bottom:2.5rem;">
+          <div class="sec-label"><i class="fas fa-ticket"></i> Status Pesanan Anda</div>
+          <h3 style="margin-bottom:1rem; font-size:1.15rem;">Tiket Cetakan Terkini</h3>
+          <div id="myRecentTicketsList"></div>
+        </div>
+
+        <!-- Rates Reference Table -->
+        <div class="sec-label"><i class="fas fa-tags"></i> Senarai Harga</div>
+        <h3 style="margin-bottom:0.4rem; font-size:1.15rem;">Kadar Harga Cetakan Rasmi PMKL</h3>
+        <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1rem;">Kadar mesra pelajar yang diselaraskan oleh Jawatankuasa Perwakilan Pelajar PMKL.</p>
+        
+        <div class="rates-table-wrap">
+          <table class="rates-table">
+            <thead>
+              <tr>
+                <th>Perkhidmatan</th>
+                <th>Spesifikasi</th>
+                <th>Harga Pelajar</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Hitam Putih (A4)</strong></td>
+                <td>1-Sided (Sebelah sahaja)</td>
+                <td><strong style="color:var(--gold);" id="tblRateBwSingle">RM 0.10 / ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Hitam Putih (A4)</strong></td>
+                <td>2-Sided (Depan & Belakang)</td>
+                <td><strong style="color:var(--gold);" id="tblRateBwDouble">RM 0.15 / helai</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Berwarna Standard (A4)</strong></td>
+                <td>Grafik / Teks berwarna</td>
+                <td><strong style="color:var(--gold);" id="tblRateColorStd">RM 0.50 / ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Warna Penuh / Foto (A4)</strong></td>
+                <td>Liputan dakwat tinggi</td>
+                <td><strong style="color:var(--gold);" id="tblRateColorPhoto">RM 1.00 / ms</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Kertas A3</strong></td>
+                <td>Hitam Putih / Berwarna</td>
+                <td><strong style="color:var(--gold);">RM 0.40 / RM 1.50</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Stapler & Pita Hitam</strong></td>
+                <td>Kemasan dokumen & laporan ringkas</td>
+                <td><strong style="color:var(--gold);" id="tblRateBindingStaple">RM 0.50 / set</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Comb Binding</strong></td>
+                <td>Ring plastik + Kulit Plastik Lutsinar Depan & Belakang</td>
+                <td><strong style="color:var(--gold);" id="tblRateBindingComb">RM 2.00 / set</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Hard Cover Project</strong></td>
+                <td>Penjilidan kulit tebal projek akhir</td>
+                <td><strong style="color:var(--gold);" id="tblRateBindingHard">RM 10.00 / set</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Laminating A4</strong></td>
+                <td>Salutan plastik kalis air</td>
+                <td><strong style="color:var(--gold);" id="tblRateLaminating">RM 1.50 / keping</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
     <section class="section" id="contact">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
         <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
@@ -814,6 +1144,71 @@
     </div>
   </div>
 
+  <!-- Print Ticket Modal -->
+  <div class="modal-overlay" id="printTicketModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:var(--gold-dim); color:var(--gold);"><i class="fas fa-ticket"></i></div>
+        <div class="modal-top-text">
+          <h3 id="ticketModalTitle">Tiket Pesanan Cetakan</h3>
+          <p id="ticketModalSub">Pusat Cetakan Pelajar JPP PMKL</p>
+        </div>
+        <button class="modal-top-close" onclick="closePrintTicketModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body" style="padding-top:1.25rem;">
+        <div class="ticket-card" style="box-shadow:none; padding:1.25rem; border-color:var(--gold);">
+          <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase; letter-spacing:0.5px;">Nombor Tiket / Job ID</div>
+          <div class="ticket-header-code" id="ticketDisplayCode">PRN-XXXX</div>
+          
+          <div class="print-badge open" id="ticketStatusBadge" style="margin-bottom:1rem;">
+            <i class="fas fa-clock"></i> <span id="ticketStatusText">Menunggu Cetakan (Queued)</span>
+          </div>
+
+          <div class="ticket-detail-grid">
+            <div class="ticket-detail-item">
+              <label>Nama Pelajar</label>
+              <span id="ticketStudentName">-</span>
+            </div>
+            <div class="ticket-detail-item">
+              <label>No. Matrik</label>
+              <span id="ticketStudentMatric">-</span>
+            </div>
+            <div class="ticket-detail-item">
+              <label>Fail Dokumen</label>
+              <span id="ticketFileName" style="display:inline-block; max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">-</span>
+            </div>
+            <div class="ticket-detail-item">
+              <label>Pilihan Cetakan</label>
+              <span id="ticketPrefsSummary">-</span>
+            </div>
+            <div class="ticket-detail-item" style="grid-column: 1 / -1; display:flex; justify-content:space-between; align-items:center; background:rgba(245,200,66,0.1); padding:0.6rem 0.75rem; border-radius:6px;">
+              <div>
+                <label style="color:var(--gold);">Jumlah Perlu Dibayar di Kaunter</label>
+                <div style="font-size:1.25rem; font-weight:800; color:var(--gold);" id="ticketPriceAmount">RM 0.00</div>
+              </div>
+              <div style="font-size:0.72rem; color:var(--text2); text-align:right;">
+                Status: <strong style="color:#ef4444;" id="ticketPaymentText">Belum Bayar (Di Kaunter)</strong>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-size:0.8rem; color:var(--text2); margin-top:0.5rem; text-align:left; line-height:1.4;">
+            <i class="fas fa-circle-info" style="color:var(--gold); margin-right:4px;"></i>
+            Sila tunjukkan nombor tiket ini semasa mengambil cetakan anda di <strong>Bilik Gerakan JPP (Aras 2)</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-actions" style="flex-wrap:wrap; gap:0.5rem;">
+        <button class="btn-modal-close" onclick="closePrintTicketModal()">Tutup & Simpan</button>
+        <button class="btn-modal-primary" id="btnDirectPrintNow" onclick="directPrintFromTicket()" style="background:var(--gold); color:#000; font-weight:700;">
+          <i class="fas fa-print"></i> Cetak Terus Sekarang
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Photo Lightbox -->
   <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxOnBg(event)">
     <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
@@ -854,6 +1249,7 @@
       </div>
       <div class="footer-col">
         <h4>Resources</h4>
+        <a onclick="navigate('printing')">Printing Hub</a>
         <a onclick="navigate('album')">Photo Album</a>
         <a onclick="navigate('rent')">Rent House</a>
         <a onclick="navigate('contact')">Contact Us</a>
