@@ -14,6 +14,7 @@
   <link rel="shortcut icon" href="JPP LOGO.png">
   <link rel="apple-touch-icon" href="JPP LOGO.png">
   <link rel="stylesheet" href="css/styles.css?v=2.3">
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 </head>
 
 <body>
@@ -947,8 +948,98 @@
                 <div class="calc-total-price" id="summaryTotalAmount">RM 0.10</div>
               </div>
 
+              <!-- Payment Method Selector -->
+              <div style="margin-top:1.25rem;">
+                <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.5rem; text-transform:uppercase;">
+                  <i class="fas fa-credit-card" style="color:var(--gold); margin-right:4px;"></i> Kaedah Pembayaran:
+                </label>
+                <div class="pref-chips-grid" style="grid-template-columns: 1fr 1fr; margin-bottom:1rem;">
+                  <div class="pref-chip active" id="payMethodQrChip" onclick="setPaymentMethod('duitnow_qr')">
+                    <div class="pref-chip-title">
+                      <span><i class="fas fa-qrcode" style="color:#ed005a; margin-right:4px;"></i> DuitNow QR</span>
+                      <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="pref-chip-desc">Disahkan Bot Pintar</div>
+                  </div>
+                  <div class="pref-chip" id="payMethodCounterChip" onclick="setPaymentMethod('counter')">
+                    <div class="pref-chip-title">
+                      <span><i class="fas fa-hand-holding-dollar" style="color:#22d3a0; margin-right:4px;"></i> Di Kaunter</span>
+                    </div>
+                    <div class="pref-chip-desc">Tunai semasa ambil</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DuitNow QR Payment & Bot Verification Box -->
+              <div id="qrPaymentBox" style="display:block; margin-bottom:1.25rem;">
+                <div class="qr-payment-card">
+                  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+                    <span style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.5px; color:#ed005a; font-weight:800;">
+                      <i class="fas fa-bolt"></i> DuitNow National QR
+                    </span>
+                    <span class="tag tag-gold" style="font-size:0.7rem;">Auto-Verify</span>
+                  </div>
+                  <div style="font-weight:700; font-size:0.92rem; color:var(--text); margin-bottom:0.6rem;" id="qrAccountTitle">
+                    JPP POLITEKNIK METRO KL
+                  </div>
+                  <div class="qr-image-wrap">
+                    <img id="duitNowQrImg" src="banners/duitnow_qr.svg" alt="DuitNow QR JPP PMKL" style="width:100%; max-width:210px; border-radius:12px; display:block; margin:0 auto; box-shadow:0 6px 20px rgba(0,0,0,0.25);">
+                  </div>
+                  <div class="qr-amount-pill" style="margin-top:0.75rem; padding:0.65rem 0.85rem; background:rgba(237,0,90,0.1); border:1px solid rgba(237,0,90,0.3); border-radius:10px; text-align:center;">
+                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Jumlah Tepat Perlu Dipindahkan:</div>
+                    <strong style="font-size:1.4rem; color:#ed005a;" id="qrTargetAmountDisplay">RM 0.10</strong>
+                  </div>
+                  <div style="font-size:0.73rem; color:var(--text3); margin-top:0.4rem; text-align:center;">
+                    <i class="fas fa-circle-info" style="color:var(--gold);"></i> Masukkan <strong>No. Matrik</strong> anda dalam ruang rujukan bank.
+                  </div>
+                </div>
+
+                <!-- Receipt Upload Box -->
+                <div style="margin-top:1.25rem;">
+                  <div style="font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.4rem; text-transform:uppercase; display:flex; justify-content:space-between; align-items:center;">
+                    <span><i class="fas fa-receipt" style="color:var(--gold); margin-right:4px;"></i> Muat Naik Resit Bank:</span>
+                    <span style="font-size:0.72rem; color:#22d3a0;"><i class="fas fa-robot"></i> Bot Pengesahan Aktif</span>
+                  </div>
+
+                  <input type="file" id="receiptFileInput" accept="image/*,.pdf" style="display:none;" onchange="handleReceiptSelect(event)">
+                  
+                  <div class="dropzone-box" id="receiptDropzoneBox" onclick="document.getElementById('receiptFileInput').click()" style="padding:1.25rem 1rem; border-color:rgba(237,0,90,0.4); background:rgba(237,0,90,0.04);">
+                    <div class="dropzone-icon" style="font-size:2rem; color:#ed005a; margin-bottom:0.35rem;"><i class="fas fa-camera"></i></div>
+                    <div class="dropzone-title" style="font-size:0.9rem;">Klik untuk Muat Naik Resit Bayaran</div>
+                    <div class="dropzone-sub" style="font-size:0.75rem;">Screenshot transaksi MAE, CIMB, TNG, dsb.</div>
+                  </div>
+
+                  <div id="receiptPreviewBox" style="display:none; margin-top:0.75rem; background:var(--surface2); border:1px solid var(--border); border-radius:10px; padding:0.75rem; align-items:center; justify-content:space-between;">
+                    <div style="display:flex; align-items:center; gap:0.75rem; overflow:hidden;">
+                      <img id="receiptThumbImg" src="" style="width:44px; height:44px; object-fit:cover; border-radius:6px; border:1px solid var(--border);" alt="Resit">
+                      <div>
+                        <div id="receiptFileName" style="font-size:0.82rem; font-weight:600; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:180px;">resit.jpg</div>
+                        <div id="receiptFileSize" style="font-size:0.72rem; color:var(--text3);">0 KB</div>
+                      </div>
+                    </div>
+                    <button class="btn-danger" onclick="clearSelectedReceipt()" style="padding:0.3rem 0.6rem; font-size:0.75rem;">Ganti</button>
+                  </div>
+
+                  <!-- Bot Scanning Radar Indicator -->
+                  <div id="botScanningIndicator" style="display:none; margin-top:0.75rem; padding:1rem; background:rgba(245,200,66,0.08); border:1px solid rgba(245,200,66,0.25); border-radius:10px; text-align:center;">
+                    <div style="font-size:1.6rem; color:var(--gold); margin-bottom:0.35rem;">
+                      <i class="fas fa-robot fa-bounce"></i>
+                    </div>
+                    <div style="font-weight:700; font-size:0.86rem; color:var(--text);" id="botScanStatusTitle">Bot sedang mengimbas &amp; membaca resit...</div>
+                    <div style="font-size:0.76rem; color:var(--text3); margin-top:0.25rem;" id="botScanStatusDetail">Mengekstrak teks transaksi melalui OCR pintar...</div>
+                    <div style="margin-top:0.6rem; height:4px; background:var(--surface2); border-radius:2px; overflow:hidden;">
+                      <div id="botProgressBar" style="height:100%; width:30%; background:var(--gold); transition:width 0.3s;"></div>
+                    </div>
+                  </div>
+
+                  <!-- Bot Decision Result Card -->
+                  <div id="botResultCard" style="display:none; margin-top:0.75rem;"></div>
+
+                </div>
+              </div>
+
               <!-- Pay at Counter Info Pill -->
-              <div class="pay-counter-pill">
+              <div id="counterPaymentBox" class="pay-counter-pill" style="display:none;">
                 <i class="fas fa-hand-holding-dollar" style="font-size:1.4rem;"></i>
                 <div>
                   <strong>Bayar di Kaunter:</strong>

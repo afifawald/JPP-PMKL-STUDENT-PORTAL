@@ -964,6 +964,32 @@
 
   </div>
 
+  <!-- RECEIPT PREVIEW MODAL -->
+  <div class="modal-overlay" id="adminReceiptModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i class="fas fa-receipt"></i></div>
+        <div class="modal-top-text">
+          <h3 id="admReceiptTitle">Bukti Resit Pembayaran</h3>
+          <p id="admReceiptSub">Disahkan oleh Bot Pintar JPP</p>
+        </div>
+        <button class="modal-top-close" onclick="closeReceiptModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-content-body" style="padding:1.25rem; text-align:center;">
+        <div style="background:#000; border-radius:10px; padding:0.5rem; margin-bottom:1rem; max-height:450px; overflow:auto;">
+          <img id="admReceiptImg" src="" style="max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto;" alt="Resit Pelajar">
+        </div>
+        <div id="admReceiptDetails" style="background:var(--surface2); padding:0.85rem; border-radius:8px; text-align:left; font-size:0.82rem; line-height:1.5;"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-close" onclick="closeReceiptModal()">Tutup</button>
+        <button class="btn-modal-primary" id="btnDownloadReceipt" onclick="downloadCurrentReceipt()" style="background:var(--gold); color:#000; font-weight:700;">
+          <i class="fas fa-download"></i> Muat Turun Resit
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- TOAST NOTIFICATION -->
   <div class="toast" id="toast">
     <i class="fas fa-check-circle"></i>
@@ -1672,6 +1698,8 @@
           const isPaid = job.paymentStatus === 'paid';
           const isPrinting = job.status === 'printing';
           const isDone = job.status === 'completed';
+          const isQr = job.paymentMethod === 'duitnow_qr';
+          const hasReceipt = job.receipt && job.receipt.data;
 
           let statusBadge = '<span class="status-pill status-live" style="font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-clock"></i> QUEUED</span>';
           if (isPrinting) {
@@ -1680,9 +1708,27 @@
             statusBadge = '<span class="status-pill status-live" style="background:rgba(59,130,246,0.15); color:#60a5fa; border-color:rgba(59,130,246,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-check-circle"></i> SELESAI</span>';
           }
 
-          const paymentBadge = isPaid
-            ? '<span style="color:#22d3a0; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-check"></i> Telah Dibayar</span>'
-            : '<span style="color:#ef4444; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-exclamation"></i> Belum Bayar (Di Kaunter)</span>';
+          let paymentBadge = '';
+          if (isQr) {
+            paymentBadge = `
+              <div style="text-align:right;">
+                <span style="color:#22d3a0; font-weight:700; font-size:0.78rem;">
+                  <i class="fas fa-qrcode" style="color:#ed005a;"></i> DuitNow QR (Disahkan Bot)
+                </span>
+                ${hasReceipt ? `
+                  <div style="margin-top:3px;">
+                    <button class="key-badge" style="padding:0.18rem 0.55rem; font-size:0.72rem; color:var(--gold); border-color:rgba(245,200,66,0.4);" onclick="viewReceiptModal('${job.id}')">
+                      <i class="fas fa-receipt"></i> Semak Resit
+                    </button>
+                  </div>
+                ` : ''}
+              </div>
+            `;
+          } else {
+            paymentBadge = isPaid
+              ? '<span style="color:#22d3a0; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-check"></i> Telah Dibayar</span>'
+              : '<span style="color:#ef4444; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-exclamation"></i> Belum Bayar (Di Kaunter)</span>';
+          }
 
           const timeStr = new Date(job.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
 
@@ -1978,6 +2024,52 @@
       } catch (err) {
         alert('Gagal menyimpan tetapan: ' + err.message);
       }
+    }
+
+    let currentViewingReceiptJob = null;
+
+    function viewReceiptModal(jobId) {
+      const job = cachedPrintJobs.find(j => j.id === jobId);
+      if (!job || !job.receipt || !job.receipt.data) {
+        alert('Tiada fail resit bagi pesanan ini.');
+        return;
+      }
+
+      currentViewingReceiptJob = job;
+      const modal = document.getElementById('adminReceiptModal');
+      document.getElementById('admReceiptTitle').textContent = 'Resit Bayaran: ' + job.id;
+      document.getElementById('admReceiptSub').textContent = `Pelajar: ${job.student?.name} (${job.student?.matric})`;
+      document.getElementById('admReceiptImg').src = job.receipt.data;
+
+      const r = job.receipt;
+      document.getElementById('admReceiptDetails').innerHTML = `
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
+          <div><strong>Status Bot:</strong> <span style="color:#22d3a0;">${r.botVerified ? '✓ Disahkan Sah' : 'Menunggu Semakan'}</span></div>
+          <div><strong>Jumlah Perlu:</strong> <span style="color:var(--gold);">RM ${Number(job.pricing?.totalAmount || 0).toFixed(2)}</span></div>
+          <div><strong>No. Rujukan:</strong> ${r.detectedRef || '-'}</div>
+          <div><strong>Masa Muat Naik:</strong> ${r.verifiedAt ? new Date(r.verifiedAt).toLocaleTimeString() : '-'}</div>
+        </div>
+      `;
+
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReceiptModal() {
+      const modal = document.getElementById('adminReceiptModal');
+      if (modal) modal.style.display = 'none';
+      document.body.style.overflow = '';
+      currentViewingReceiptJob = null;
+    }
+
+    function downloadCurrentReceipt() {
+      if (!currentViewingReceiptJob || !currentViewingReceiptJob.receipt) return;
+      const a = document.createElement('a');
+      a.href = currentViewingReceiptJob.receipt.data;
+      a.download = `receipt_${currentViewingReceiptJob.id}.jpg`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
     }
 
     // Data will load automatically inside unlockDashboard() once verified

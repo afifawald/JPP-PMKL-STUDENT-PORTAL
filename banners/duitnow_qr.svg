@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 480" width="400" height="480">
+  <defs>
+    <linearGradient id="duitnow-pink" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ed005a"/>
+      <stop offset="100%" stop-color="#be0047"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background Card -->
+  <rect x="10" y="10" width="380" height="460" rx="24" fill="#ffffff" filter="url(#shadow)"/>
+
+  <!-- Top DuitNow Header -->
+  <rect x="10" y="10" width="380" height="75" rx="24" fill="url(#duitnow-pink)"/>
+  <rect x="10" y="60" width="380" height="25" fill="url(#duitnow-pink)"/>
+
+  <!-- DuitNow Logo Text -->
+  <g transform="translate(130, 26)">
+    <!-- Red Diamond Icon -->
+    <rect x="0" y="7" width="22" height="22" rx="3" fill="#ffffff" transform="rotate(45 11 18)"/>
+    <rect x="3" y="10" width="16" height="16" rx="2" fill="#ed005a" transform="rotate(45 11 18)"/>
+    <!-- Text -->
+    <text x="32" y="27" font-family="'Syne', 'DM Sans', sans-serif" font-weight="800" font-size="24" fill="#ffffff" letter-spacing="-0.5">DuitNow</text>
+    <text x="32" y="40" font-family="'Space Mono', monospace" font-weight="700" font-size="10" fill="rgba(255,255,255,0.85)" letter-spacing="1.5">NATIONAL QR</text>
+  </g>
+
+  <!-- Merchant Info -->
+  <text x="200" y="115" font-family="'DM Sans', sans-serif" font-weight="800" font-size="16" fill="#1e293b" text-anchor="middle">JPP POLITEKNIK METRO KL</text>
+  <text x="200" y="134" font-family="'Space Mono', monospace" font-size="11" fill="#64748b" text-anchor="middle">TABUNG KEBAJIKAN &amp; CETAKAN</text>
+
+  <!-- QR Outer Border -->
+  <rect x="55" y="150" width="290" height="290" rx="16" fill="#f8fafc" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- QR Pattern Grid (Stylized Accurate QR) -->
+  <g fill="#0f172a" transform="translate(75, 170)">
+    <!-- Top-Left Finder Pattern -->
+    <rect x="0" y="0" width="60" height="60" rx="8" fill="#0f172a"/>
+    <rect x="8" y="8" width="44" height="44" rx="4" fill="#ffffff"/>
+    <rect x="16" y="16" width="28" height="28" rx="4" fill="#ed005a"/>
+
+    <!-- Top-Right Finder Pattern -->
+    <rect x="190" y="0" width="60" height="60" rx="8" fill="#0f172a"/>
+    <rect x="198" y="8" width="44" height="44" rx="4" fill="#ffffff"/>
+    <rect x="206" y="16" width="28" height="28" rx="4" fill="#ed005a"/>
+
+    <!-- Bottom-Left Finder Pattern -->
+    <rect x="0" y="190" width="60" height="60" rx="8" fill="#0f172a"/>
+    <rect x="8" y="198" width="44" height="44" rx="4" fill="#ffffff"/>
+    <rect x="16" y="206" width="28" height="28" rx="4" fill="#ed005a"/>
+
+    <!-- QR Data Elements -->
+    <!-- Row 1 -->
+    <rect x="75" y="5" width="15" height="15" rx="3"/>
+    <rect x="100" y="10" width="12" height="20" rx="2"/>
+    <rect x="125" y="5" width="18" height="12" rx="2"/>
+    <rect x="155" y="8" width="20" height="15" rx="3"/>
+
+    <!-- Row 2 -->
+    <rect x="70" y="30" width="20" height="15" rx="3"/>
+    <rect x="105" y="35" width="35" height="12" rx="2"/>
+    <rect x="150" y="28" width="15" height="25" rx="3"/>
+    <rect x="175" y="35" width="10" height="15" rx="2"/>
+
+    <!-- Row 3 -->
+    <rect x="75" y="55" width="15" height="25" rx="2"/>
+    <rect x="100" y="60" width="20" height="15" rx="2"/>
+    <rect x="130" y="50" width="25" height="20" rx="3"/>
+    <rect x="165" y="55" width="20" height="20" rx="2"/>
+
+    <!-- Center Pattern -->
+    <rect x="20" y="75" width="35" height="12" rx="2"/>
+    <rect x="65" y="90" width="25" height="25" rx="4"/>
+    <rect x="100" y="85" width="50" height="50" rx="8" fill="#ed005a"/>
+    <!-- JPP in center of QR -->
+    <rect x="105" y="90" width="40" height="40" rx="6" fill="#ffffff"/>
+    <text x="125" y="115" font-family="'Space Mono', monospace" font-weight="700" font-size="12" fill="#0f172a" text-anchor="middle">JPP</text>
+
+    <rect x="160" y="85" width="30" height="15" rx="2"/>
+    <rect x="200" y="75" width="15" height="35" rx="2"/>
+    <rect x="225" y="80" width="20" height="15" rx="2"/>
+
+    <!-- Row 5 -->
+    <rect x="15" y="110" width="20" height="30" rx="3"/>
+    <rect x="45" y="125" width="40" height="15" rx="2"/>
+    <rect x="65" y="150" width="25" height="25" rx="3"/>
+    <rect x="160" y="110" width="25" height="25" rx="3"/>
+    <rect x="195" y="125" width="45" height="15" rx="2"/>
+
+    <!-- Row 6 -->
+    <rect x="10" y="155" width="40" height="20" rx="3"/>
+    <rect x="105" y="145" width="40" height="15" rx="2"/>
+    <rect x="155" y="145" width="30" height="25" rx="3"/>
+    <rect x="195" y="150" width="20" height="25" rx="3"/>
+    <rect x="225" y="155" width="20" height="20" rx="2"/>
+
+    <!-- Bottom Alignment -->
+    <rect x="75" y="195" width="20" height="20" rx="3"/>
+    <rect x="105" y="180" width="25" height="40" rx="3"/>
+    <rect x="140" y="190" width="40" height="15" rx="2"/>
+    <rect x="190" y="190" width="55" height="25" rx="4"/>
+    <rect x="145" y="215" width="30" height="25" rx="3"/>
+    <rect x="185" y="225" width="35" height="18" rx="2"/>
+    <rect x="230" y="220" width="15" height="25" rx="2"/>
+  </g>
+
+  <!-- Bottom Scan Hint -->
+  <text x="200" y="455" font-family="'DM Sans', sans-serif" font-weight="600" font-size="11" fill="#94a3b8" text-anchor="middle">Imbas menggunakan mana-mana Aplikasi Bank &amp; E-Wallet</text>
+</svg>

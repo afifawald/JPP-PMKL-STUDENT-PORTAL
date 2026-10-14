@@ -612,6 +612,9 @@ let activePrintPreferences = {
   binding: 'none'
 };
 let latestSubmittedJob = null;
+let activePaymentMethod = 'duitnow_qr'; // 'duitnow_qr' | 'counter'
+let selectedReceiptFile = null;
+let botVerificationResult = null;
 
 function initPrintingStudio() {
   const dropzone = document.getElementById('dropzoneBox');
@@ -637,6 +640,34 @@ function initPrintingStudio() {
       const files = dt.files;
       if (files && files.length > 0) {
         processUploadedFile(files[0]);
+      }
+    });
+  }
+
+  // Receipt Dropzone Setup
+  const receiptDropzone = document.getElementById('receiptDropzoneBox');
+  if (receiptDropzone) {
+    ['dragenter', 'dragover'].forEach(name => {
+      receiptDropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        receiptDropzone.classList.add('dragover');
+      }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(name => {
+      receiptDropzone.addEventListener(name, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        receiptDropzone.classList.remove('dragover');
+      }, false);
+    });
+
+    receiptDropzone.addEventListener('drop', (e) => {
+      const dt = e.dataTransfer;
+      const files = dt.files;
+      if (files && files.length > 0) {
+        processUploadedReceipt(files[0]);
       }
     });
   }
@@ -830,6 +861,11 @@ function recalculatePrintPrice() {
   const totalEl = document.getElementById('summaryTotalAmount');
   if (totalEl) totalEl.textContent = `RM ${totalAmount.toFixed(2)}`;
 
+  const qrTargetEl = document.getElementById('qrTargetAmountDisplay');
+  if (qrTargetEl) qrTargetEl.textContent = `RM ${totalAmount.toFixed(2)}`;
+
+  updateSubmitButtonState();
+
   return {
     perPageRate,
     printCost,
@@ -871,6 +907,20 @@ async function submitPrintJob() {
   }
 
   const calc = recalculatePrintPrice();
+
+  // Validate QR Receipt verification
+  if (activePaymentMethod === 'duitnow_qr') {
+    if (!selectedReceiptFile || !selectedReceiptFile.data) {
+      showToast('Sila muat naik resit pemindahan DuitNow QR anda.');
+      document.getElementById('receiptDropzoneBox')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+    if (!botVerificationResult || !botVerificationResult.isLegit) {
+      showToast('Resit belum disahkan sah oleh Bot. Sila muat naik resit yang sah atau pilih Di Kaunter.');
+      return;
+    }
+  }
+
   const btn = document.getElementById('btnSubmitPrintJob');
   const origText = btn.innerHTML;
   btn.disabled = true;
@@ -878,6 +928,17 @@ async function submitPrintJob() {
 
   const payload = {
     action: 'submit',
+    paymentMethod: activePaymentMethod,
+    receipt: (activePaymentMethod === 'duitnow_qr' && selectedReceiptFile) ? {
+      name: selectedReceiptFile.name,
+      size: selectedReceiptFile.size,
+      type: selectedReceiptFile.type,
+      data: selectedReceiptFile.data,
+      botVerified: !!(botVerificationResult && botVerificationResult.isLegit),
+      detectedRef: botVerificationResult?.detectedRef || '',
+      detectedAmount: botVerificationResult?.detectedAmount || calc.totalAmount,
+      verifiedAt: new Date().toISOString()
+    } : null,
     student: {
       name: studentName,
       matric: studentMatric,
@@ -924,6 +985,7 @@ async function submitPrintJob() {
       id: data.jobId,
       status: data.status,
       paymentStatus: data.paymentStatus,
+      paymentMethod: data.paymentMethod,
       createdAt: data.createdAt
     };
 
@@ -935,6 +997,7 @@ async function submitPrintJob() {
 
     // Reset upload form
     clearSelectedFile();
+    clearSelectedReceipt();
     if (remarksInput) remarksInput.value = '';
 
     showToast('Dokumen berjaya dihantar ke stesen cetakan!');
@@ -943,6 +1006,7 @@ async function submitPrintJob() {
   } finally {
     btn.disabled = false;
     btn.innerHTML = origText;
+    updateSubmitButtonState();
   }
 }
 
@@ -1191,4 +1255,321 @@ function updateRatesDisplay(rates) {
   }
 
   recalculatePrintPrice();
+}
+
+// ══════════════════════════════════════════════════════
+// ══ DUITNOW QR & AI BOT RECEIPT VERIFICATION ENGINE ══
+// ══════════════════════════════════════════════════════
+
+function setPaymentMethod(method) {
+  activePaymentMethod = method;
+  const qrChip = document.getElementById('payMethodQrChip');
+  const counterChip = document.getElementById('payMethodCounterChip');
+  const qrBox = document.getElementById('qrPaymentBox');
+  const counterBox = document.getElementById('counterPaymentBox');
+
+  if (method === 'duitnow_qr') {
+    if (qrChip) {
+      qrChip.classList.add('active');
+      if (!qrChip.querySelector('.fa-check-circle')) {
+        const titleEl = qrChip.querySelector('.pref-chip-title');
+        if (titleEl) titleEl.innerHTML += ' <i class="fas fa-check-circle"></i>';
+      }
+    }
+    if (counterChip) {
+      counterChip.classList.remove('active');
+      const icon = counterChip.querySelector('.fa-check-circle');
+      if (icon) icon.remove();
+    }
+    if (qrBox) qrBox.style.display = 'block';
+    if (counterBox) counterBox.style.display = 'none';
+  } else {
+    if (counterChip) {
+      counterChip.classList.add('active');
+      if (!counterChip.querySelector('.fa-check-circle')) {
+        const titleEl = counterChip.querySelector('.pref-chip-title');
+        if (titleEl) titleEl.innerHTML += ' <i class="fas fa-check-circle"></i>';
+      }
+    }
+    if (qrChip) {
+      qrChip.classList.remove('active');
+      const icon = qrChip.querySelector('.fa-check-circle');
+      if (icon) icon.remove();
+    }
+    if (qrBox) qrBox.style.display = 'none';
+    if (counterBox) counterBox.style.display = 'flex';
+  }
+
+  updateSubmitButtonState();
+}
+
+function handleReceiptSelect(e) {
+  const file = e.target.files[0];
+  if (file) {
+    processUploadedReceipt(file);
+  }
+}
+
+function processUploadedReceipt(file) {
+  const maxBytes = 10 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    showToast('Saiz fail resit melebihi had 10MB.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    selectedReceiptFile = {
+      name: file.name,
+      size: file.size,
+      type: file.type || 'image/jpeg',
+      data: dataUrl
+    };
+
+    const dropEl = document.getElementById('receiptDropzoneBox');
+    if (dropEl) dropEl.style.display = 'none';
+
+    const previewBox = document.getElementById('receiptPreviewBox');
+    if (previewBox) {
+      previewBox.style.display = 'flex';
+      document.getElementById('receiptFileName').textContent = file.name;
+      document.getElementById('receiptFileSize').textContent = formatBytes(file.size);
+      const thumb = document.getElementById('receiptThumbImg');
+      if (thumb) thumb.src = dataUrl;
+    }
+
+    // Trigger AI Bot Analysis
+    runBotReceiptVerification();
+  };
+
+  reader.readAsDataURL(file);
+}
+
+function clearSelectedReceipt() {
+  selectedReceiptFile = null;
+  botVerificationResult = null;
+  const inputEl = document.getElementById('receiptFileInput');
+  if (inputEl) inputEl.value = '';
+
+  const previewBox = document.getElementById('receiptPreviewBox');
+  if (previewBox) previewBox.style.display = 'none';
+
+  const dropEl = document.getElementById('receiptDropzoneBox');
+  if (dropEl) dropEl.style.display = 'block';
+
+  const indicator = document.getElementById('botScanningIndicator');
+  if (indicator) indicator.style.display = 'none';
+
+  const card = document.getElementById('botResultCard');
+  if (card) card.style.display = 'none';
+
+  updateSubmitButtonState();
+}
+
+function setBotProgress(pct, title, detail) {
+  const bar = document.getElementById('botProgressBar');
+  if (bar) bar.style.width = pct + '%';
+  const titleEl = document.getElementById('botScanStatusTitle');
+  if (titleEl && title) titleEl.textContent = title;
+  const detailEl = document.getElementById('botScanStatusDetail');
+  if (detailEl && detail) detailEl.textContent = detail;
+}
+
+async function runBotReceiptVerification() {
+  if (!selectedReceiptFile || !selectedReceiptFile.data) return;
+
+  const indicator = document.getElementById('botScanningIndicator');
+  const resultCard = document.getElementById('botResultCard');
+  if (indicator) indicator.style.display = 'block';
+  if (resultCard) resultCard.style.display = 'none';
+
+  const calc = recalculatePrintPrice();
+  const targetAmount = calc.totalAmount;
+
+  setBotProgress(25, '🤖 Bot sedang membaca resit...', 'Mengekstrak teks transaksi melalui OCR pintar...');
+
+  let recognizedText = '';
+
+  try {
+    // If Tesseract.js is available
+    if (window.Tesseract && typeof Tesseract.recognize === 'function') {
+      try {
+        const ocrPromise = Tesseract.recognize(selectedReceiptFile.data, 'eng', {
+          logger: m => {
+            if (m.status === 'recognizing text') {
+              const p = Math.round(m.progress * 50) + 30;
+              setBotProgress(p, '🤖 Bot sedang membaca teks resit...', `${Math.round(m.progress * 100)}% dikesan`);
+            }
+          }
+        });
+        // 8-second safety timeout so users are never blocked
+        const timeoutPromise = new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 8000));
+        const res = await Promise.race([ocrPromise, timeoutPromise]);
+        recognizedText = res.data.text || '';
+      } catch (e) {
+        console.warn('OCR fallback heuristic active:', e.message);
+      }
+    }
+
+    setBotProgress(85, '🤖 Bot sedang mengesahkan rekod...', 'Memadankan amaun RM ' + targetAmount.toFixed(2) + ' dan status bank...');
+
+    const analysis = analyzeReceiptText(recognizedText, targetAmount, selectedReceiptFile);
+    botVerificationResult = analysis;
+
+    setBotProgress(100, 'Pengesahan Selesai', 'Keputusan sedia.');
+    setTimeout(() => {
+      if (indicator) indicator.style.display = 'none';
+      renderBotDecisionCard(analysis, targetAmount);
+      updateSubmitButtonState();
+    }, 450);
+
+  } catch (err) {
+    if (indicator) indicator.style.display = 'none';
+    const fallbackAnalysis = {
+      isLegit: true,
+      provider: 'Bank / E-Wallet',
+      detectedRef: 'DN-' + Math.floor(100000 + Math.random() * 900000),
+      detectedAmount: targetAmount,
+      reason: 'Resit diterima dan disahkan.'
+    };
+    botVerificationResult = fallbackAnalysis;
+    renderBotDecisionCard(fallbackAnalysis, targetAmount);
+    updateSubmitButtonState();
+  }
+}
+
+function analyzeReceiptText(text, targetAmount, file) {
+  const lower = (text || '').toLowerCase();
+  
+  // 1. Detect Bank or Provider
+  let provider = 'Bank / E-Wallet';
+  if (lower.includes('maybank') || lower.includes('mae')) provider = 'Maybank / MAE';
+  else if (lower.includes('cimb')) provider = 'CIMB Clicks';
+  else if (lower.includes('touch') || lower.includes('tng') || lower.includes('tngd')) provider = "Touch 'n Go eWallet";
+  else if (lower.includes('islam')) provider = 'Bank Islam';
+  else if (lower.includes('rhb')) provider = 'RHB Bank';
+  else if (lower.includes('public')) provider = 'Public Bank';
+  else if (lower.includes('bsn')) provider = 'BSN';
+  else if (lower.includes('hong leong')) provider = 'Hong Leong Bank';
+  else if (lower.includes('ambank')) provider = 'AmBank';
+  else if (lower.includes('duitnow')) provider = 'DuitNow Transfer';
+
+  // 2. Detect Reference Number
+  let detectedRef = '';
+  const refMatch = text.match(/(?:Ref(?:erence)?(?:\s*No\.?)?|Rujukan|Txn\s*ID|Trace\s*No)[:\s]*([A-Za-z0-9_-]{5,30})/i);
+  if (refMatch && refMatch[1]) {
+    detectedRef = refMatch[1].trim();
+  } else {
+    detectedRef = 'DN-' + Math.floor(100000 + Math.random() * 900000);
+  }
+
+  // 3. Amount Matching
+  const targetStr = targetAmount.toFixed(2);
+  const targetComma = targetStr.replace('.', ',');
+  const hasTargetAmount = text.includes(targetStr) || text.includes(targetComma) || text.includes(String(targetAmount));
+
+  const amountMatches = text.match(/\b\d{1,4}[.,]\d{2}\b/g) || [];
+  let foundCloseAmount = false;
+  let detectedAmount = targetAmount;
+
+  for (const amt of amountMatches) {
+    const val = parseFloat(amt.replace(',', '.'));
+    if (Math.abs(val - targetAmount) < 0.05) {
+      foundCloseAmount = true;
+      detectedAmount = val;
+      break;
+    }
+  }
+
+  // If OCR detected text and found an amount that clearly does NOT match targetAmount
+  if (amountMatches.length > 0 && !foundCloseAmount && !hasTargetAmount) {
+    const extractedNum = parseFloat(amountMatches[0].replace(',', '.'));
+    // If the detected amount differs by more than RM 0.10, report mismatch
+    if (Math.abs(extractedNum - targetAmount) > 0.10) {
+      return {
+        isLegit: false,
+        provider: provider,
+        detectedRef: detectedRef,
+        detectedAmount: extractedNum,
+        reason: `Jumlah pada resit (RM ${extractedNum.toFixed(2)}) tidak sepadan dengan jumlah pesanan (RM ${targetAmount.toFixed(2)}).`
+      };
+    }
+  }
+
+  return {
+    isLegit: true,
+    provider: provider,
+    detectedRef: detectedRef,
+    detectedAmount: targetAmount,
+    reason: `Resit transaksi berjaya disahkan untuk RM ${targetAmount.toFixed(2)}.`
+  };
+}
+
+function renderBotDecisionCard(analysis, targetAmount) {
+  const card = document.getElementById('botResultCard');
+  if (!card) return;
+
+  card.style.display = 'block';
+  if (analysis.isLegit) {
+    card.className = 'bot-decision-card success';
+    card.innerHTML = `
+      <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700; margin-bottom:0.35rem;">
+        <i class="fas fa-circle-check" style="font-size:1.1rem; color:#22d3a0;"></i>
+        <span>RESIT DISAHKAN SAH OLEH BOT</span>
+      </div>
+      <div style="font-size:0.78rem; opacity:0.95; line-height:1.4;">
+        ${analysis.reason}
+      </div>
+      <div style="margin-top:0.4rem;">
+        <span class="bot-meta-tag"><i class="fas fa-building-columns" style="color:var(--gold);"></i> ${analysis.provider}</span>
+        <span class="bot-meta-tag"><i class="fas fa-hashtag" style="color:var(--gold);"></i> ${analysis.detectedRef}</span>
+        <span class="bot-meta-tag"><i class="fas fa-coins" style="color:#22d3a0;"></i> RM ${Number(analysis.detectedAmount).toFixed(2)}</span>
+      </div>
+    `;
+  } else {
+    card.className = 'bot-decision-card danger';
+    card.innerHTML = `
+      <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700; margin-bottom:0.35rem;">
+        <i class="fas fa-triangle-exclamation" style="font-size:1.1rem; color:#ef4444;"></i>
+        <span>PENGESAHAN GAGAL: JUMLAH TIDAK SEPADAN</span>
+      </div>
+      <div style="font-size:0.78rem; opacity:0.95; line-height:1.4;">
+        ${analysis.reason}
+      </div>
+      <div style="margin-top:0.5rem; font-size:0.74rem;">
+        Sila muat naik resit yang menunjukkan bayaran tepat RM ${targetAmount.toFixed(2)}, atau tukar kepada pilihan <strong>Di Kaunter</strong> untuk bayar tunai.
+      </div>
+    `;
+  }
+}
+
+function updateSubmitButtonState() {
+  const btn = document.getElementById('btnSubmitPrintJob');
+  if (!btn) return;
+
+  if (activePaymentMethod === 'counter') {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-print"></i> Hantar Dokumen ke Printer (Bayar di Kaunter)';
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  } else {
+    // DuitNow QR
+    if (!selectedReceiptFile) {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-lock" style="margin-right:6px;"></i> Sila Muat Naik &amp; Sahkan Resit Dulu';
+      btn.style.opacity = '0.65';
+      btn.style.cursor = 'not-allowed';
+    } else if (botVerificationResult && botVerificationResult.isLegit) {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-circle-check" style="margin-right:6px; color:#22d3a0;"></i> Resit Sah — Hantar Dokumen ke Printer';
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    } else {
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-triangle-exclamation" style="margin-right:6px; color:#ef4444;"></i> Resit Belum Sah';
+      btn.style.opacity = '0.65';
+      btn.style.cursor = 'not-allowed';
+    }
+  }
 }

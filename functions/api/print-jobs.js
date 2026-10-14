@@ -142,8 +142,19 @@ export async function onRequestPost(context) {
           bindingCost: parseFloat(payload.pricing?.bindingCost) || 0.00,
           totalAmount: parseFloat(payload.pricing?.totalAmount) || 0.10
         },
+        paymentMethod: payload.paymentMethod || "counter", // "duitnow_qr" | "counter"
+        receipt: payload.receipt && payload.receipt.data ? {
+          name: payload.receipt.name || "receipt.jpg",
+          size: payload.receipt.size || 0,
+          type: payload.receipt.type || "image/jpeg",
+          data: payload.receipt.data,
+          botVerified: !!payload.receipt.botVerified,
+          detectedRef: payload.receipt.detectedRef || "",
+          detectedAmount: payload.receipt.detectedAmount || 0,
+          verifiedAt: payload.receipt.verifiedAt || new Date().toISOString()
+        } : null,
         status: "queued", // "queued" | "printing" | "completed" | "cancelled"
-        paymentStatus: "unpaid_counter" // "unpaid_counter" | "paid"
+        paymentStatus: (payload.paymentMethod === "duitnow_qr" && payload.receipt?.botVerified) ? "paid" : "unpaid_counter"
       };
 
       // Add to front of queue
@@ -163,6 +174,7 @@ export async function onRequestPost(context) {
         jobId: newJob.id,
         status: newJob.status,
         paymentStatus: newJob.paymentStatus,
+        paymentMethod: newJob.paymentMethod,
         totalAmount: newJob.pricing.totalAmount,
         createdAt: newJob.createdAt
       }), {
