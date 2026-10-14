@@ -3,15 +3,15 @@
 
 const DEFAULT_PRINTING_SETTINGS = {
   status: "open", // "open" | "busy" | "closed"
-  statusText: "Buka / Sedia Mencetak",
-  hours: "Isnin – Jumaat: 8:30 AM – 5:00 PM",
-  location: "Bilik Gerakan JPP, Aras 2, PMKL",
+  statusText: "Open / Ready to Print",
+  hours: "Monday – Friday: 8:30 AM – 5:00 PM",
+  location: "JPP Action Room, Level 2, PMKL",
   contact: "03-4251 8000",
   whatsapp: "60123456789",
-  notice: "Sila muat naik dokumen anda (PDF digalakkan). Bayar di kaunter atau imbas QR.",
+  notice: "Upload your document (PDF recommended). Pay via DuitNow QR or at the counter.",
   qrImage: "banners/duitnow_qr.svg",
   qrAccountName: "JPP POLITEKNIK METRO KL",
-  qrBank: "DuitNow QR (Semua Bank & E-Wallet)",
+  qrBank: "DuitNow QR (All Banks & E-Wallets)",
   rates: {
     bw_single: 0.10,        // RM per page (Black & White 1-sided)
     bw_double: 0.15,        // RM per sheet (Black & White 2-sided)

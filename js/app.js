@@ -687,7 +687,7 @@ function processUploadedFile(file) {
   // Max 15MB limit
   const maxBytes = 15 * 1024 * 1024;
   if (file.size > maxBytes) {
-    showToast('Saiz fail melebihi had maksimum 15MB.');
+    showToast('File size exceeds the 15MB limit.');
     return;
   }
 
@@ -736,7 +736,7 @@ function processUploadedFile(file) {
     }
 
     recalculatePrintPrice();
-    showToast('Fail sedia: ' + file.name);
+    showToast('File ready: ' + file.name);
   };
 
   reader.readAsDataURL(file);
@@ -807,31 +807,31 @@ function recalculatePrintPrice() {
         const sheets = Math.ceil(pages / 2);
         perPageRate = rates.bw_double;
         printCost = sheets * perPageRate * copies;
-        formatText = `A4 • Hitam Putih (Duplex)`;
+        formatText = `A4 • Black & White (Duplex)`;
       } else {
         perPageRate = rates.bw_single;
         printCost = pages * perPageRate * copies;
-        formatText = `A4 • Hitam Putih (1-Sided)`;
+        formatText = `A4 • Black & White (1-Sided)`;
       }
     } else if (color === 'color_std') {
       perPageRate = rates.color_standard;
       printCost = pages * perPageRate * copies;
-      formatText = `A4 • Berwarna Standard`;
+      formatText = `A4 • Standard Color`;
     } else if (color === 'color_photo') {
       perPageRate = rates.color_photo;
       printCost = pages * perPageRate * copies;
-      formatText = `A4 • Warna Penuh / Foto`;
+      formatText = `A4 • Full Color / Photo`;
     }
   } else {
     // A3
     if (color === 'bw') {
       perPageRate = rates.a3_bw;
       printCost = pages * perPageRate * copies;
-      formatText = `A3 • Hitam Putih`;
+      formatText = `A3 • Black & White`;
     } else {
       perPageRate = rates.a3_color;
       printCost = pages * perPageRate * copies;
-      formatText = `A3 • Berwarna`;
+      formatText = `A3 • Color`;
     }
   }
 
@@ -850,7 +850,7 @@ function recalculatePrintPrice() {
   if (fmtEl) fmtEl.textContent = formatText;
 
   const countEl = document.getElementById('summaryPagesCount');
-  if (countEl) countEl.textContent = `${pages} ms × ${copies} salinan`;
+  if (countEl) countEl.textContent = `${pages} page${pages > 1 ? 's' : ''} × ${copies} set${copies > 1 ? 's' : ''}`;
 
   const prnCostEl = document.getElementById('summaryPrintCost');
   if (prnCostEl) prnCostEl.textContent = `RM ${printCost.toFixed(2)}`;
@@ -879,7 +879,7 @@ function recalculatePrintPrice() {
 
 async function submitPrintJob() {
   if (!selectedPrintFile || !selectedPrintFile.data) {
-    showToast('Sila muat naik fail dokumen terlebih dahulu.');
+    showToast('Please upload your document file first.');
     document.getElementById('dropzoneBox')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     return;
   }
@@ -895,13 +895,13 @@ async function submitPrintJob() {
   const remarks = remarksInput ? remarksInput.value.trim() : '';
 
   if (!studentName) {
-    showToast('Sila masukkan nama penuh anda.');
+    showToast('Please enter your full name.');
     nameInput?.focus();
     return;
   }
 
   if (!studentMatric) {
-    showToast('Sila masukkan nombor matrik anda.');
+    showToast('Please enter your student matric number.');
     matricInput?.focus();
     return;
   }
@@ -911,12 +911,12 @@ async function submitPrintJob() {
   // Validate QR Receipt verification
   if (activePaymentMethod === 'duitnow_qr') {
     if (!selectedReceiptFile || !selectedReceiptFile.data) {
-      showToast('Sila muat naik resit pemindahan DuitNow QR anda.');
+      showToast('Please upload your DuitNow QR payment receipt.');
       document.getElementById('receiptDropzoneBox')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
     if (!botVerificationResult || !botVerificationResult.isLegit) {
-      showToast('Resit belum disahkan sah oleh Bot. Sila muat naik resit yang sah atau pilih Di Kaunter.');
+      showToast('Receipt has not been verified by the AI Bot. Please upload a valid receipt or choose Pay at Counter.');
       return;
     }
   }
@@ -924,7 +924,7 @@ async function submitPrintJob() {
   const btn = document.getElementById('btnSubmitPrintJob');
   const origText = btn.innerHTML;
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menghantar ke Printer...';
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Dispatching to Printer...';
 
   const payload = {
     action: 'submit',
@@ -976,7 +976,7 @@ async function submitPrintJob() {
 
     const data = await res.json();
     if (!res.ok || data.error) {
-      throw new Error(data.error || 'Gagal menghantar pesanan cetakan.');
+      throw new Error(data.error || 'Failed to submit print job.');
     }
 
     // Success!
@@ -1000,9 +1000,9 @@ async function submitPrintJob() {
     clearSelectedReceipt();
     if (remarksInput) remarksInput.value = '';
 
-    showToast('Dokumen berjaya dihantar ke stesen cetakan!');
+    showToast('Document successfully dispatched to printing station!');
   } catch (err) {
-    showToast('Ralat: ' + err.message);
+    showToast('Error: ' + err.message);
   } finally {
     btn.disabled = false;
     btn.innerHTML = origText;
@@ -1016,7 +1016,7 @@ function openPrintTicketModal(job) {
   document.getElementById('ticketStudentMatric').textContent = job.student.matric;
   document.getElementById('ticketFileName').textContent = job.file.name;
 
-  const prefSummary = `${job.preferences.paperSize} • ${job.preferences.colorMode.toUpperCase()} • ${job.preferences.pages}ms × ${job.preferences.copies} salinan`;
+  const prefSummary = `${job.preferences.paperSize} • ${job.preferences.colorMode.toUpperCase()} • ${job.preferences.pages} page${job.preferences.pages > 1 ? 's' : ''} × ${job.preferences.copies} set${job.preferences.copies > 1 ? 's' : ''}`;
   document.getElementById('ticketPrefsSummary').textContent = prefSummary;
   document.getElementById('ticketPriceAmount').textContent = `RM ${job.pricing.totalAmount.toFixed(2)}`;
 
@@ -1024,21 +1024,21 @@ function openPrintTicketModal(job) {
   const txt = document.getElementById('ticketStatusText');
   if (job.status === 'completed') {
     badge.className = 'print-badge open';
-    txt.textContent = 'Sedia Diambil (Ready)';
+    txt.textContent = 'Ready for Pickup';
   } else if (job.status === 'printing') {
     badge.className = 'print-badge busy';
-    txt.textContent = 'Sedang Dicetak (Printing)';
+    txt.textContent = 'Printing in Progress';
   } else {
     badge.className = 'print-badge open';
-    txt.textContent = 'Menunggu Cetakan (Queued)';
+    txt.textContent = 'Queued for Printing';
   }
 
   const payText = document.getElementById('ticketPaymentText');
   if (job.paymentStatus === 'paid') {
-    payText.textContent = 'Telah Dibayar (Paid)';
+    payText.textContent = 'Paid via DuitNow QR';
     payText.style.color = '#22d3a0';
   } else {
-    payText.textContent = 'Belum Bayar (Di Kaunter)';
+    payText.textContent = 'Unpaid (Pay at Counter)';
     payText.style.color = '#ef4444';
   }
 
@@ -1141,10 +1141,10 @@ function renderMyRecentTickets() {
     tickets.forEach(t => {
       const isPaid = t.paymentStatus === 'paid';
       const statusPill = t.status === 'completed'
-        ? '<span class="print-badge open">Selesai / Sedia Diambil</span>'
+        ? '<span class="print-badge open">Ready for Pickup</span>'
         : (t.status === 'printing'
-          ? '<span class="print-badge busy">Sedang Dicetak</span>'
-          : '<span class="print-badge open">Dalam Giliran (Queued)</span>');
+          ? '<span class="print-badge busy">Printing in Progress</span>'
+          : '<span class="print-badge open">Queued for Printing</span>');
 
       list.innerHTML += `
         <div class="queue-card-item">
@@ -1157,12 +1157,12 @@ function renderMyRecentTickets() {
           </div>
           <div style="font-size:0.85rem; color:var(--text); margin-bottom:4px;">
             <i class="fas fa-file" style="color:var(--gold); margin-right:5px;"></i> <strong>${t.fileName}</strong>
-            &nbsp;•&nbsp; ${t.formatText} &nbsp;•&nbsp; ${t.pages} ms × ${t.copies}
+            &nbsp;•&nbsp; ${t.formatText} &nbsp;•&nbsp; ${t.pages} pages × ${t.copies}
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-top:8px;">
-            <div>Jumlah: <strong style="color:var(--gold);">RM ${Number(t.totalAmount).toFixed(2)}</strong></div>
+            <div>Total: <strong style="color:var(--gold);">RM ${Number(t.totalAmount).toFixed(2)}</strong></div>
             <div style="font-size:0.78rem; color:${isPaid ? '#22d3a0' : '#ef4444'};">
-              ${isPaid ? '✓ Telah Dibayar' : '• Belum Bayar (Di Kaunter)'}
+              ${isPaid ? '✓ Paid' : '• Unpaid (Pay at Counter)'}
             </div>
           </div>
         </div>
@@ -1183,13 +1183,13 @@ function updatePrintingStatusUI(settings) {
   if (badge && txt) {
     if (settings.status === 'closed') {
       badge.className = 'print-badge closed';
-      txt.textContent = 'KAUNTER TUTUP (CLOSED)';
+      txt.textContent = 'COUNTER CLOSED';
     } else if (settings.status === 'busy') {
       badge.className = 'print-badge busy';
-      txt.textContent = 'SEDANG SIBUK (BUSY)';
+      txt.textContent = 'STATION BUSY / HIGH QUEUE';
     } else {
       badge.className = 'print-badge open';
-      txt.textContent = 'KAUNTER BUKA / READY TO PRINT';
+      txt.textContent = 'COUNTER OPEN / READY TO PRINT';
     }
   }
 
@@ -1208,13 +1208,13 @@ function updatePrintingStatusUI(settings) {
 
 function updateRatesDisplay(rates) {
   if (document.getElementById('prefRateBwDesc')) {
-    document.getElementById('prefRateBwDesc').textContent = `RM ${rates.bw_single.toFixed(2)} / ms`;
+    document.getElementById('prefRateBwDesc').textContent = `RM ${rates.bw_single.toFixed(2)} / page`;
   }
   if (document.getElementById('prefRateColorStdDesc')) {
-    document.getElementById('prefRateColorStdDesc').textContent = `RM ${rates.color_standard.toFixed(2)} / ms`;
+    document.getElementById('prefRateColorStdDesc').textContent = `RM ${rates.color_standard.toFixed(2)} / page`;
   }
   if (document.getElementById('prefRateColorPhotoDesc')) {
-    document.getElementById('prefRateColorPhotoDesc').textContent = `RM ${rates.color_photo.toFixed(2)} / ms`;
+    document.getElementById('prefRateColorPhotoDesc').textContent = `RM ${rates.color_photo.toFixed(2)} / page`;
   }
   if (document.getElementById('prefRateBindingStapleDesc')) {
     document.getElementById('prefRateBindingStapleDesc').textContent = `+RM ${rates.binding_staple.toFixed(2)} / set`;
@@ -1226,20 +1226,20 @@ function updateRatesDisplay(rates) {
     document.getElementById('prefRateBindingHardDesc').textContent = `+RM ${rates.binding_hard.toFixed(2)} / set`;
   }
   if (document.getElementById('prefRateLaminatingDesc')) {
-    document.getElementById('prefRateLaminatingDesc').textContent = `+RM ${rates.laminating_a4.toFixed(2)} / keping`;
+    document.getElementById('prefRateLaminatingDesc').textContent = `+RM ${rates.laminating_a4.toFixed(2)} / sheet`;
   }
 
   if (document.getElementById('tblRateBwSingle')) {
-    document.getElementById('tblRateBwSingle').textContent = `RM ${rates.bw_single.toFixed(2)} / ms`;
+    document.getElementById('tblRateBwSingle').textContent = `RM ${rates.bw_single.toFixed(2)} / page`;
   }
   if (document.getElementById('tblRateBwDouble')) {
-    document.getElementById('tblRateBwDouble').textContent = `RM ${rates.bw_double.toFixed(2)} / helai`;
+    document.getElementById('tblRateBwDouble').textContent = `RM ${rates.bw_double.toFixed(2)} / sheet`;
   }
   if (document.getElementById('tblRateColorStd')) {
-    document.getElementById('tblRateColorStd').textContent = `RM ${rates.color_standard.toFixed(2)} / ms`;
+    document.getElementById('tblRateColorStd').textContent = `RM ${rates.color_standard.toFixed(2)} / page`;
   }
   if (document.getElementById('tblRateColorPhoto')) {
-    document.getElementById('tblRateColorPhoto').textContent = `RM ${rates.color_photo.toFixed(2)} / ms`;
+    document.getElementById('tblRateColorPhoto').textContent = `RM ${rates.color_photo.toFixed(2)} / page`;
   }
   if (document.getElementById('tblRateBindingStaple')) {
     document.getElementById('tblRateBindingStaple').textContent = `RM ${rates.binding_staple.toFixed(2)} / set`;
@@ -1251,7 +1251,7 @@ function updateRatesDisplay(rates) {
     document.getElementById('tblRateBindingHard').textContent = `RM ${rates.binding_hard.toFixed(2)} / set`;
   }
   if (document.getElementById('tblRateLaminating')) {
-    document.getElementById('tblRateLaminating').textContent = `RM ${rates.laminating_a4.toFixed(2)} / keping`;
+    document.getElementById('tblRateLaminating').textContent = `RM ${rates.laminating_a4.toFixed(2)} / sheet`;
   }
 
   recalculatePrintPrice();
@@ -1313,7 +1313,7 @@ function handleReceiptSelect(e) {
 function processUploadedReceipt(file) {
   const maxBytes = 10 * 1024 * 1024;
   if (file.size > maxBytes) {
-    showToast('Saiz fail resit melebihi had 10MB.');
+    showToast('Receipt file size exceeds the 10MB limit.');
     return;
   }
 
@@ -1387,7 +1387,7 @@ async function runBotReceiptVerification() {
   const calc = recalculatePrintPrice();
   const targetAmount = calc.totalAmount;
 
-  setBotProgress(25, '🤖 Bot sedang membaca resit...', 'Mengekstrak teks transaksi melalui OCR pintar...');
+  setBotProgress(25, '🤖 AI Bot is scanning receipt...', 'Extracting transaction text via smart OCR...');
 
   let recognizedText = '';
 
@@ -1399,7 +1399,7 @@ async function runBotReceiptVerification() {
           logger: m => {
             if (m.status === 'recognizing text') {
               const p = Math.round(m.progress * 50) + 30;
-              setBotProgress(p, '🤖 Bot sedang membaca teks resit...', `${Math.round(m.progress * 100)}% dikesan`);
+              setBotProgress(p, '🤖 AI Bot is scanning receipt text...', `${Math.round(m.progress * 100)}% analyzed`);
             }
           }
         });
@@ -1412,12 +1412,12 @@ async function runBotReceiptVerification() {
       }
     }
 
-    setBotProgress(85, '🤖 Bot sedang mengesahkan rekod...', 'Memadankan amaun RM ' + targetAmount.toFixed(2) + ' dan status bank...');
+    setBotProgress(85, '🤖 AI Bot is validating payment record...', 'Matching amount RM ' + targetAmount.toFixed(2) + ' against bank transaction...');
 
     const analysis = analyzeReceiptText(recognizedText, targetAmount, selectedReceiptFile);
     botVerificationResult = analysis;
 
-    setBotProgress(100, 'Pengesahan Selesai', 'Keputusan sedia.');
+    setBotProgress(100, 'Verification Complete', 'Result ready.');
     setTimeout(() => {
       if (indicator) indicator.style.display = 'none';
       renderBotDecisionCard(analysis, targetAmount);
@@ -1431,7 +1431,7 @@ async function runBotReceiptVerification() {
       provider: 'Bank / E-Wallet',
       detectedRef: 'DN-' + Math.floor(100000 + Math.random() * 900000),
       detectedAmount: targetAmount,
-      reason: 'Resit diterima dan disahkan.'
+      reason: 'Receipt verified successfully.'
     };
     botVerificationResult = fallbackAnalysis;
     renderBotDecisionCard(fallbackAnalysis, targetAmount);
@@ -1492,7 +1492,7 @@ function analyzeReceiptText(text, targetAmount, file) {
         provider: provider,
         detectedRef: detectedRef,
         detectedAmount: extractedNum,
-        reason: `Jumlah pada resit (RM ${extractedNum.toFixed(2)}) tidak sepadan dengan jumlah pesanan (RM ${targetAmount.toFixed(2)}).`
+        reason: `Amount detected on receipt (RM ${extractedNum.toFixed(2)}) does not match order total (RM ${targetAmount.toFixed(2)}).`
       };
     }
   }
@@ -1502,7 +1502,7 @@ function analyzeReceiptText(text, targetAmount, file) {
     provider: provider,
     detectedRef: detectedRef,
     detectedAmount: targetAmount,
-    reason: `Resit transaksi berjaya disahkan untuk RM ${targetAmount.toFixed(2)}.`
+    reason: `Transaction receipt verified successfully for RM ${targetAmount.toFixed(2)}.`
   };
 }
 
@@ -1516,7 +1516,7 @@ function renderBotDecisionCard(analysis, targetAmount) {
     card.innerHTML = `
       <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700; margin-bottom:0.35rem;">
         <i class="fas fa-circle-check" style="font-size:1.1rem; color:#22d3a0;"></i>
-        <span>RESIT DISAHKAN SAH OLEH BOT</span>
+        <span>RECEIPT VERIFIED LEGIT BY AI BOT</span>
       </div>
       <div style="font-size:0.78rem; opacity:0.95; line-height:1.4;">
         ${analysis.reason}
@@ -1532,13 +1532,13 @@ function renderBotDecisionCard(analysis, targetAmount) {
     card.innerHTML = `
       <div style="display:flex; align-items:center; gap:0.5rem; font-weight:700; margin-bottom:0.35rem;">
         <i class="fas fa-triangle-exclamation" style="font-size:1.1rem; color:#ef4444;"></i>
-        <span>PENGESAHAN GAGAL: JUMLAH TIDAK SEPADAN</span>
+        <span>VERIFICATION FAILED: AMOUNT MISMATCH</span>
       </div>
       <div style="font-size:0.78rem; opacity:0.95; line-height:1.4;">
         ${analysis.reason}
       </div>
       <div style="margin-top:0.5rem; font-size:0.74rem;">
-        Sila muat naik resit yang menunjukkan bayaran tepat RM ${targetAmount.toFixed(2)}, atau tukar kepada pilihan <strong>Di Kaunter</strong> untuk bayar tunai.
+        Please upload a receipt displaying the exact payment of RM ${targetAmount.toFixed(2)}, or switch to <strong>Pay at Counter</strong> for cash payment.
       </div>
     `;
   }
@@ -1550,24 +1550,24 @@ function updateSubmitButtonState() {
 
   if (activePaymentMethod === 'counter') {
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-print"></i> Hantar Dokumen ke Printer (Bayar di Kaunter)';
+    btn.innerHTML = '<i class="fas fa-print"></i> Dispatch Job to Printer (Pay at Counter)';
     btn.style.opacity = '1';
     btn.style.cursor = 'pointer';
   } else {
     // DuitNow QR
     if (!selectedReceiptFile) {
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-lock" style="margin-right:6px;"></i> Sila Muat Naik &amp; Sahkan Resit Dulu';
+      btn.innerHTML = '<i class="fas fa-lock" style="margin-right:6px;"></i> Please Upload &amp; Verify Receipt First';
       btn.style.opacity = '0.65';
       btn.style.cursor = 'not-allowed';
     } else if (botVerificationResult && botVerificationResult.isLegit) {
       btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-circle-check" style="margin-right:6px; color:#22d3a0;"></i> Resit Sah — Hantar Dokumen ke Printer';
+      btn.innerHTML = '<i class="fas fa-circle-check" style="margin-right:6px; color:#22d3a0;"></i> Receipt Verified — Dispatch Job to Printer';
       btn.style.opacity = '1';
       btn.style.cursor = 'pointer';
     } else {
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-triangle-exclamation" style="margin-right:6px; color:#ef4444;"></i> Resit Belum Sah';
+      btn.innerHTML = '<i class="fas fa-triangle-exclamation" style="margin-right:6px; color:#ef4444;"></i> Receipt Verification Pending / Invalid';
       btn.style.opacity = '0.65';
       btn.style.cursor = 'not-allowed';
     }

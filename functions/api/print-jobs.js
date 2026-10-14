@@ -61,8 +61,8 @@ export async function onRequestGet(context) {
     const publicJobs = jobs.map(j => ({
       id: j.id,
       createdAt: j.createdAt,
-      studentName: j.student?.name ? (j.student.name.slice(0, 3) + "***") : "Pelajar",
-      fileName: j.file?.name || "Dokumen",
+      studentName: j.student?.name ? (j.student.name.slice(0, 3) + "***") : "Student",
+      fileName: j.file?.name || "Document",
       pages: j.preferences?.pages || 1,
       copies: j.preferences?.copies || 1,
       status: j.status,
@@ -97,14 +97,14 @@ export async function onRequestPost(context) {
     // ── ACTION 1: SUBMIT PRINT JOB (PUBLIC / STUDENT) ──
     if (action === "submit") {
       if (!payload.file || !payload.file.data) {
-        return new Response(JSON.stringify({ error: "Sila sertakan fail untuk dicetak." }), {
+        return new Response(JSON.stringify({ error: "Please upload a document file to print." }), {
           status: 400,
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         });
       }
 
       if (!payload.student || !payload.student.name) {
-        return new Response(JSON.stringify({ error: "Sila masukkan nama dan nombor matrik." }), {
+        return new Response(JSON.stringify({ error: "Please provide your full name and matric ID." }), {
           status: 400,
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         });

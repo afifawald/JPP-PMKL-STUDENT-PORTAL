@@ -479,7 +479,7 @@
         <i class="fas fa-images"></i> Photo Album
       </button>
       <button class="admin-tab" onclick="switchTab('tabPrinting')">
-        <i class="fas fa-print"></i> Stesen Cetakan & Queue
+        <i class="fas fa-print"></i> Printing Station &amp; Queue
       </button>
     </div>
 
@@ -825,15 +825,15 @@
       <div class="status-banner" style="margin-bottom:1.5rem;">
         <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
           <div class="status-pill status-live" id="adminPrintPill">
-            <i class="fas fa-print"></i> <span id="adminPrintStatusPillText">KAUNTER BUKA</span>
+            <i class="fas fa-print"></i> <span id="adminPrintStatusPillText">COUNTER OPEN</span>
           </div>
           <div style="font-size:0.85rem; color:var(--text2);" id="adminQueueCountBadge">
-            0 Dokumen Dalam Giliran
+            0 Documents in Queue
           </div>
         </div>
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
           <button class="btn-hero btn-hero-outline" onclick="loadPrintQueue(true)">
-            <i class="fas fa-rotate"></i> Muat Semula Giliran
+            <i class="fas fa-rotate"></i> Refresh Queue
           </button>
         </div>
       </div>
@@ -845,17 +845,17 @@
           <div class="admin-card">
             <div class="sec-label"><i class="fas fa-list-check"></i> Live Dispatch Queue</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-              <h3 style="margin:0;">Giliran Cetakan Pelajar</h3>
-              <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-bolt" style="color:var(--gold);"></i> Auto-sync aktif</span>
+              <h3 style="margin:0;">Student Print Dispatch Queue</h3>
+              <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-bolt" style="color:var(--gold);"></i> Auto-sync active</span>
             </div>
             <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
-              Pesanan cetakan yang dihantar oleh pelajar. Klik butang <strong>"Hantar ke Printer"</strong> untuk mencetak terus ke pencetak fizikal.
+              Student print orders submitted via portal. Click <strong>"Send to Printer"</strong> to route directly to physical printer.
             </p>
 
             <div id="adminPrintQueueList">
               <div style="color:var(--text3); font-size:0.85rem; padding:1.5rem; text-align:center;">
                 <i class="fas fa-spinner fa-spin" style="font-size:1.5rem; margin-bottom:0.5rem; display:block;"></i>
-                Memuatkan giliran cetakan...
+                Loading print queue...
               </div>
             </div>
           </div>
@@ -866,76 +866,76 @@
           
           <!-- Counter Settings -->
           <div class="admin-card">
-            <div class="sec-label"><i class="fas fa-sliders"></i> Status Kaunter</div>
-            <h3>Tetapan Kaunter Cetakan</h3>
+            <div class="sec-label"><i class="fas fa-sliders"></i> Counter Status</div>
+            <h3>Printing Counter Settings</h3>
             <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
-              Kawal status ketersediaan kaunter dan maklumat operasi yang dipaparkan kepada pelajar.
+              Manage counter availability status and operating information presented to students.
             </p>
 
             <div class="form-group">
-              <label>Status Kaunter</label>
+              <label>Counter Status</label>
               <select id="admPrintStatus" class="form-ctrl">
-                <option value="open">Buka / Sedia Mencetak (Open)</option>
-                <option value="busy">Sedang Sibuk (Busy / High Queue)</option>
-                <option value="closed">Tutup Sementara (Closed)</option>
+                <option value="open">Open / Ready to Print (Open)</option>
+                <option value="busy">High Volume / Busy (Busy)</option>
+                <option value="closed">Temporarily Closed (Closed)</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label>Waktu Operasi Kaunter</label>
-              <input type="text" id="admPrintHours" class="form-ctrl" value="Isnin – Jumaat: 8:30 AM – 5:00 PM">
+              <label>Counter Operating Hours</label>
+              <input type="text" id="admPrintHours" class="form-ctrl" value="Monday – Friday: 8:30 AM – 5:00 PM">
             </div>
 
             <div class="form-group">
-              <label>Lokasi Stesen / Kaunter</label>
-              <input type="text" id="admPrintLocation" class="form-ctrl" value="Bilik Gerakan JPP, Aras 2, PMKL">
+              <label>Station / Counter Location</label>
+              <input type="text" id="admPrintLocation" class="form-ctrl" value="JPP Student Council Center, Level 2, PMKL">
             </div>
 
             <div class="form-group">
-              <label>Pemberitahuan / Nota Khas</label>
-              <input type="text" id="admPrintNotice" class="form-ctrl" value="Bayar di kaunter semasa mengambil cetakan.">
+              <label>Special Notice / Broadcast</label>
+              <input type="text" id="admPrintNotice" class="form-ctrl" value="Pay via DuitNow QR or Cash at counter during pickup.">
             </div>
 
             <button class="btn-hero btn-hero-primary" onclick="savePrintingSettings()">
-              <i class="fas fa-floppy-disk"></i> Simpan Status Kaunter
+              <i class="fas fa-floppy-disk"></i> Save Counter Settings
             </button>
           </div>
 
           <!-- Price Rates Configuration -->
           <div class="admin-card">
-            <div class="sec-label"><i class="fas fa-tags"></i> Pengurusan Harga</div>
-            <h3>Kadar Harga Cetakan (RM)</h3>
+            <div class="sec-label"><i class="fas fa-tags"></i> Price Management</div>
+            <h3>Print Rates Configuration (RM)</h3>
             <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
-              Kadar harga yang digunakan dalam kalkulator pelajar.
+              Base pricing rates applied across the student calculator.
             </p>
 
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
               <div class="form-group">
-                <label>B&W 1-Sided (A4)</label>
+                <label>B&amp;W 1-Sided (A4)</label>
                 <input type="number" step="0.05" id="admRateBwSingle" class="form-ctrl" value="0.10">
               </div>
               <div class="form-group">
-                <label>B&W Duplex (A4 / Helai)</label>
+                <label>B&amp;W Duplex (A4 / Sheet)</label>
                 <input type="number" step="0.05" id="admRateBwDouble" class="form-ctrl" value="0.15">
               </div>
               <div class="form-group">
-                <label>Warna Standard (A4)</label>
+                <label>Standard Color (A4)</label>
                 <input type="number" step="0.05" id="admRateColorStd" class="form-ctrl" value="0.50">
               </div>
               <div class="form-group">
-                <label>Warna Foto (A4)</label>
+                <label>Photo Color (A4)</label>
                 <input type="number" step="0.05" id="admRateColorPhoto" class="form-ctrl" value="1.00">
               </div>
               <div class="form-group">
-                <label>A3 B&W</label>
+                <label>A3 B&amp;W</label>
                 <input type="number" step="0.05" id="admRateA3Bw" class="form-ctrl" value="0.40">
               </div>
               <div class="form-group">
-                <label>A3 Warna</label>
+                <label>A3 Color</label>
                 <input type="number" step="0.05" id="admRateA3Color" class="form-ctrl" value="1.50">
               </div>
               <div class="form-group">
-                <label>Stapler & Pita</label>
+                <label>Stapler &amp; Tape</label>
                 <input type="number" step="0.05" id="admRateBindingStaple" class="form-ctrl" value="0.50">
               </div>
               <div class="form-group">
@@ -953,7 +953,7 @@
             </div>
 
             <button class="btn-hero btn-hero-outline" onclick="savePrintingSettings()" style="margin-top:0.5rem;">
-              <i class="fas fa-tags"></i> Simpan Kadar Harga
+              <i class="fas fa-tags"></i> Save Price Rates
             </button>
           </div>
 
@@ -970,24 +970,25 @@
       <div class="modal-top">
         <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i class="fas fa-receipt"></i></div>
         <div class="modal-top-text">
-          <h3 id="admReceiptTitle">Bukti Resit Pembayaran</h3>
-          <p id="admReceiptSub">Disahkan oleh Bot Pintar JPP</p>
+          <h3 id="admReceiptTitle">Payment Receipt Verification</h3>
+          <p id="admReceiptSub">Verified by JPP AI Bot Engine</p>
         </div>
         <button class="modal-top-close" onclick="closeReceiptModal()"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-content-body" style="padding:1.25rem; text-align:center;">
         <div style="background:#000; border-radius:10px; padding:0.5rem; margin-bottom:1rem; max-height:450px; overflow:auto;">
-          <img id="admReceiptImg" src="" style="max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto;" alt="Resit Pelajar">
+          <img id="admReceiptImg" src="" style="max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto;" alt="Student Receipt">
         </div>
         <div id="admReceiptDetails" style="background:var(--surface2); padding:0.85rem; border-radius:8px; text-align:left; font-size:0.82rem; line-height:1.5;"></div>
       </div>
       <div class="modal-actions">
-        <button class="btn-modal-close" onclick="closeReceiptModal()">Tutup</button>
+        <button class="btn-modal-close" onclick="closeReceiptModal()">Close</button>
         <button class="btn-modal-primary" id="btnDownloadReceipt" onclick="downloadCurrentReceipt()" style="background:var(--gold); color:#000; font-weight:700;">
-          <i class="fas fa-download"></i> Muat Turun Resit
+          <i class="fas fa-download"></i> Download Receipt
         </button>
       </div>
     </div>
+  </div>
   </div>
 
   <!-- TOAST NOTIFICATION -->
@@ -1678,18 +1679,18 @@
         // Update count badge
         const badge = document.getElementById('adminQueueCountBadge');
         if (badge) {
-          badge.textContent = `${cachedPrintJobs.length} Dokumen Dalam Giliran`;
+          badge.textContent = `${cachedPrintJobs.length} Documents in Queue`;
         }
 
         if (cachedPrintJobs.length === 0) {
           container.innerHTML = `
             <div style="color:var(--text3); font-size:0.9rem; padding:2.5rem 1rem; text-align:center;">
               <i class="fas fa-inbox" style="font-size:2.2rem; margin-bottom:0.75rem; display:block; color:var(--text3);"></i>
-              Tiada dokumen dalam giliran cetakan pada masa ini.<br>
-              <span style="font-size:0.78rem;">Pesanan yang dihantar oleh pelajar akan muncul di sini secara automatik.</span>
+              No documents currently in print queue.<br>
+              <span style="font-size:0.78rem;">Orders dispatched by students will appear here automatically.</span>
             </div>
           `;
-          if (showToastFlag) showToast('Giliran cetakan dikemas kini (0 pesanan).');
+          if (showToastFlag) showToast('Print queue refreshed (0 orders).');
           return;
         }
 
@@ -1703,9 +1704,9 @@
 
           let statusBadge = '<span class="status-pill status-live" style="font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-clock"></i> QUEUED</span>';
           if (isPrinting) {
-            statusBadge = '<span class="status-pill status-maint" style="background:rgba(245,200,66,0.15); color:var(--gold); border-color:rgba(245,200,66,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-cog fa-spin"></i> SEDANG DICETAK</span>';
+            statusBadge = '<span class="status-pill status-maint" style="background:rgba(245,200,66,0.15); color:var(--gold); border-color:rgba(245,200,66,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-cog fa-spin"></i> PRINTING</span>';
           } else if (isDone) {
-            statusBadge = '<span class="status-pill status-live" style="background:rgba(59,130,246,0.15); color:#60a5fa; border-color:rgba(59,130,246,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-check-circle"></i> SELESAI</span>';
+            statusBadge = '<span class="status-pill status-live" style="background:rgba(59,130,246,0.15); color:#60a5fa; border-color:rgba(59,130,246,0.3); font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-check-circle"></i> READY FOR PICKUP</span>';
           }
 
           let paymentBadge = '';
@@ -1713,12 +1714,12 @@
             paymentBadge = `
               <div style="text-align:right;">
                 <span style="color:#22d3a0; font-weight:700; font-size:0.78rem;">
-                  <i class="fas fa-qrcode" style="color:#ed005a;"></i> DuitNow QR (Disahkan Bot)
+                  <i class="fas fa-qrcode" style="color:#ed005a;"></i> DuitNow QR (Bot Verified)
                 </span>
                 ${hasReceipt ? `
                   <div style="margin-top:3px;">
                     <button class="key-badge" style="padding:0.18rem 0.55rem; font-size:0.72rem; color:var(--gold); border-color:rgba(245,200,66,0.4);" onclick="viewReceiptModal('${job.id}')">
-                      <i class="fas fa-receipt"></i> Semak Resit
+                      <i class="fas fa-receipt"></i> Review Receipt
                     </button>
                   </div>
                 ` : ''}
@@ -1726,8 +1727,8 @@
             `;
           } else {
             paymentBadge = isPaid
-              ? '<span style="color:#22d3a0; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-check"></i> Telah Dibayar</span>'
-              : '<span style="color:#ef4444; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-exclamation"></i> Belum Bayar (Di Kaunter)</span>';
+              ? '<span style="color:#22d3a0; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-check"></i> Paid</span>'
+              : '<span style="color:#ef4444; font-weight:700; font-size:0.8rem;"><i class="fas fa-circle-exclamation"></i> Unpaid (Pay at Counter)</span>';
           }
 
           const timeStr = new Date(job.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', day: 'numeric', month: 'short' });
@@ -1749,62 +1750,62 @@
 
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; font-size:0.84rem;">
                 <div>
-                  <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Pelajar</div>
+                  <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Student</div>
                   <strong>${job.student?.name || '-'}</strong>
                   <div style="color:var(--text2); font-size:0.78rem;">${job.student?.matric || '-'} ${job.student?.phone ? '• ' + job.student.phone : ''}</div>
                 </div>
                 <div>
-                  <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Dokumen & Spesifikasi</div>
+                  <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Document &amp; Specifications</div>
                   <strong style="color:var(--gold); display:inline-block; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                     <i class="fas fa-file-pdf" style="margin-right:4px;"></i>${job.file?.name || 'document'}
                   </strong>
                   <div style="color:var(--text2); font-size:0.78rem;">
-                    ${prefs.paperSize || 'A4'} • ${String(prefs.colorMode || 'bw').toUpperCase()} • ${prefs.sides === 'double' ? 'Duplex' : '1-Sided'} • ${prefs.pages || 1} ms × ${prefs.copies || 1} salinan
+                    ${prefs.paperSize || 'A4'} • ${String(prefs.colorMode || 'bw').toUpperCase()} • ${prefs.sides === 'double' ? 'Duplex' : '1-Sided'} • ${prefs.pages || 1} pages × ${prefs.copies || 1} copies
                   </div>
                 </div>
               </div>
 
               ${prefs.binding && prefs.binding !== 'none' ? `
                 <div style="font-size:0.78rem; background:var(--surface2); padding:0.4rem 0.65rem; border-radius:6px; margin-bottom:0.6rem; color:var(--text2);">
-                  <strong style="color:var(--gold);"><i class="fas fa-book"></i> Kemasan:</strong> ${prefs.binding.toUpperCase()}
-                  ${prefs.remarks ? `<span style="margin-left:8px; color:var(--text3);">• Nota: "${prefs.remarks}"</span>` : ''}
+                  <strong style="color:var(--gold);"><i class="fas fa-book"></i> Finishing:</strong> ${prefs.binding.toUpperCase()}
+                  ${prefs.remarks ? `<span style="margin-left:8px; color:var(--text3);">• Note: "${prefs.remarks}"</span>` : ''}
                 </div>
               ` : (prefs.remarks ? `
                 <div style="font-size:0.78rem; background:var(--surface2); padding:0.4rem 0.65rem; border-radius:6px; margin-bottom:0.6rem; color:var(--text3);">
-                  <i class="fas fa-comment"></i> Nota Pelajar: "${prefs.remarks}"
+                  <i class="fas fa-comment"></i> Student Note: "${prefs.remarks}"
                 </div>
               ` : '')}
 
               <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem 0.75rem; background:rgba(245,200,66,0.06); border-radius:8px; border:1px solid rgba(245,200,66,0.15);">
                 <div>
-                  <span style="font-size:0.75rem; color:var(--text3);">Jumlah Perlu Dikutip:</span>
+                  <span style="font-size:0.75rem; color:var(--text3);">Total Amount Due:</span>
                   <strong style="font-size:1.1rem; color:var(--gold); margin-left:6px;">RM ${Number(pricing.totalAmount || 0).toFixed(2)}</strong>
                 </div>
                 <div>${paymentBadge}</div>
               </div>
 
               <div class="queue-actions-row">
-                <button class="btn-hero btn-hero-primary" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="printJobDirect('${job.id}')" title="Hantar terus ke pencetak fizikal">
-                  <i class="fas fa-print"></i> Hantar ke Printer
+                <button class="btn-hero btn-hero-primary" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="printJobDirect('${job.id}')" title="Send directly to physical printer">
+                  <i class="fas fa-print"></i> Send to Printer
                 </button>
-                <button class="btn-hero btn-hero-outline" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="downloadJobFile('${job.id}')" title="Muat turun fail dokumen asal">
-                  <i class="fas fa-download"></i> Muat Turun
+                <button class="btn-hero btn-hero-outline" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="downloadJobFile('${job.id}')" title="Download original document file">
+                  <i class="fas fa-download"></i> Download
                 </button>
                 ${!isPaid ? `
-                  <button class="key-badge" style="color:#22d3a0; border-color:rgba(34,211,160,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'paid')" title="Tanda bayaran diterima">
-                    <i class="fas fa-check"></i> Tanda Dibayar
+                  <button class="key-badge" style="color:#22d3a0; border-color:rgba(34,211,160,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'paid')" title="Mark payment as received">
+                    <i class="fas fa-check"></i> Mark Paid
                   </button>
                 ` : `
                   <button class="key-badge" style="color:var(--text3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'unpaid_counter')">
-                    Batal Status Bayar
+                    Revert Payment
                   </button>
                 `}
                 ${!isDone ? `
-                  <button class="key-badge" style="color:#60a5fa; border-color:rgba(59,130,246,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPrintStatus('${job.id}', 'completed')" title="Tanda cetakan telah siap">
-                    <i class="fas fa-box-archive"></i> Tanda Siap
+                  <button class="key-badge" style="color:#60a5fa; border-color:rgba(59,130,246,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPrintStatus('${job.id}', 'completed')" title="Mark print job as ready for pickup">
+                    <i class="fas fa-box-archive"></i> Mark Ready
                   </button>
                 ` : ''}
-                <button class="btn-danger" style="margin-left:auto;" onclick="deletePrintJob('${job.id}')" title="Padam daripada giliran">
+                <button class="btn-danger" style="margin-left:auto;" onclick="deletePrintJob('${job.id}')" title="Delete from queue">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -1812,20 +1813,20 @@
           `;
         });
 
-        if (showToastFlag) showToast(`Giliran cetakan dimuat semula (${cachedPrintJobs.length} dokumen).`);
+        if (showToastFlag) showToast(`Print queue refreshed (${cachedPrintJobs.length} documents).`);
       } catch (err) {
-        container.innerHTML = `<div style="color:#ef4444; font-size:0.85rem; padding:1.5rem; text-align:center;"><i class="fas fa-triangle-exclamation"></i> Ralat memuatkan giliran: ${err.message}</div>`;
+        container.innerHTML = `<div style="color:#ef4444; font-size:0.85rem; padding:1.5rem; text-align:center;"><i class="fas fa-triangle-exclamation"></i> Error loading queue: ${err.message}</div>`;
       }
     }
 
     function printJobDirect(jobId) {
       const job = cachedPrintJobs.find(j => j.id === jobId);
       if (!job || !job.file || !job.file.data) {
-        alert('Fail dokumen tidak ditemui.');
+        alert('Document file not found.');
         return;
       }
 
-      showToast('Membuka dialog pencetak untuk ' + job.file.name + '...');
+      showToast('Opening printer dialog for ' + job.file.name + '...');
 
       // Auto update status to "printing" on server
       updateJobPrintStatus(jobId, 'printing', false);
@@ -1896,11 +1897,11 @@
         });
         if (!res.ok) throw new Error('Status update failed');
         if (reload) {
-          showToast('Status cetakan dikemas kini: ' + newStatus);
+          showToast('Print status updated: ' + newStatus);
           loadPrintQueue(false);
         }
       } catch (e) {
-        showToast('Ralat: ' + e.message);
+        showToast('Error: ' + e.message);
       }
     }
 
@@ -1912,15 +1913,15 @@
           body: JSON.stringify({ action: 'update_status', id: jobId, paymentStatus })
         });
         if (!res.ok) throw new Error('Payment status update failed');
-        showToast('Status bayaran dikemas kini!');
+        showToast('Payment status updated successfully!');
         loadPrintQueue(false);
       } catch (e) {
-        showToast('Ralat: ' + e.message);
+        showToast('Error: ' + e.message);
       }
     }
 
     async function deletePrintJob(jobId) {
-      if (!confirm('Adakah anda pasti mahu memadam pesanan cetakan ini daripada giliran?')) return;
+      if (!confirm('Are you sure you want to delete this print order from queue?')) return;
 
       try {
         const res = await fetch(`${API_BASE}/print-jobs`, {
@@ -1928,11 +1929,11 @@
           headers: getHeaders(),
           body: JSON.stringify({ action: 'delete', id: jobId })
         });
-        if (!res.ok) throw new Error('Padam gagal');
-        showToast('Pesanan dipadam daripada giliran.');
+        if (!res.ok) throw new Error('Delete failed');
+        showToast('Order removed from print queue.');
         loadPrintQueue(false);
       } catch (e) {
-        alert('Ralat memadam pesanan: ' + e.message);
+        alert('Error deleting order: ' + e.message);
       }
     }
 
@@ -1973,15 +1974,15 @@
         if (pill && pillTxt) {
           if (data.status === 'closed') {
             pill.className = 'status-pill status-maint';
-            pillTxt.textContent = 'KAUNTER TUTUP';
+            pillTxt.textContent = 'COUNTER CLOSED';
           } else if (data.status === 'busy') {
             pill.className = 'status-pill status-maint';
             pill.style.color = 'var(--gold)';
             pill.style.borderColor = 'rgba(245,200,66,0.3)';
-            pillTxt.textContent = 'KAUNTER SIBUK';
+            pillTxt.textContent = 'COUNTER BUSY';
           } else {
             pill.className = 'status-pill status-live';
-            pillTxt.textContent = 'KAUNTER BUKA';
+            pillTxt.textContent = 'COUNTER OPEN';
           }
         }
       } catch (err) {
@@ -2019,10 +2020,10 @@
         const data = await res.json();
         if (!res.ok || data.error) throw new Error(data.error || 'Failed to save');
 
-        showToast('Tetapan kaunter & kadar harga berjaya disimpan!');
+        showToast('Counter settings & price rates successfully saved!');
         loadPrintingSettings();
       } catch (err) {
-        alert('Gagal menyimpan tetapan: ' + err.message);
+        alert('Failed to save settings: ' + err.message);
       }
     }
 
@@ -2031,23 +2032,23 @@
     function viewReceiptModal(jobId) {
       const job = cachedPrintJobs.find(j => j.id === jobId);
       if (!job || !job.receipt || !job.receipt.data) {
-        alert('Tiada fail resit bagi pesanan ini.');
+        alert('No receipt file found for this order.');
         return;
       }
 
       currentViewingReceiptJob = job;
       const modal = document.getElementById('adminReceiptModal');
-      document.getElementById('admReceiptTitle').textContent = 'Resit Bayaran: ' + job.id;
-      document.getElementById('admReceiptSub').textContent = `Pelajar: ${job.student?.name} (${job.student?.matric})`;
+      document.getElementById('admReceiptTitle').textContent = 'Payment Receipt: ' + job.id;
+      document.getElementById('admReceiptSub').textContent = `Student: ${job.student?.name} (${job.student?.matric})`;
       document.getElementById('admReceiptImg').src = job.receipt.data;
 
       const r = job.receipt;
       document.getElementById('admReceiptDetails').innerHTML = `
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
-          <div><strong>Status Bot:</strong> <span style="color:#22d3a0;">${r.botVerified ? '✓ Disahkan Sah' : 'Menunggu Semakan'}</span></div>
-          <div><strong>Jumlah Perlu:</strong> <span style="color:var(--gold);">RM ${Number(job.pricing?.totalAmount || 0).toFixed(2)}</span></div>
-          <div><strong>No. Rujukan:</strong> ${r.detectedRef || '-'}</div>
-          <div><strong>Masa Muat Naik:</strong> ${r.verifiedAt ? new Date(r.verifiedAt).toLocaleTimeString() : '-'}</div>
+          <div><strong>Bot Status:</strong> <span style="color:#22d3a0;">${r.botVerified ? '✓ Verified Legit' : 'Pending Review'}</span></div>
+          <div><strong>Total Due:</strong> <span style="color:var(--gold);">RM ${Number(job.pricing?.totalAmount || 0).toFixed(2)}</span></div>
+          <div><strong>Reference No.:</strong> ${r.detectedRef || '-'}</div>
+          <div><strong>Upload Time:</strong> ${r.verifiedAt ? new Date(r.verifiedAt).toLocaleTimeString() : '-'}</div>
         </div>
       `;
 
