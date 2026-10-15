@@ -1059,42 +1059,75 @@ function directPrintFromTicket() {
   }
 
   const fileData = latestSubmittedJob.file.data;
-  const fileType = latestSubmittedJob.file.type || '';
+  const fileName = (latestSubmittedJob.file.name || '').toLowerCase();
+  const fileType = (latestSubmittedJob.file.type || '').toLowerCase();
 
-  if (fileType.includes('pdf')) {
-    const printFrame = document.createElement('iframe');
-    printFrame.style.position = 'fixed';
-    printFrame.style.right = '0';
-    printFrame.style.bottom = '0';
-    printFrame.style.width = '0';
-    printFrame.style.height = '0';
-    printFrame.style.border = '0';
-    printFrame.src = fileData;
+  // 1. PDF Documents: Print via clean Blob URL in dedicated iframe
+  if (fileType.includes('pdf') || fileName.endsWith('.pdf')) {
+    let blob = null;
+    try {
+      const parts = fileData.split(',');
+      const mime = (parts[0].match(/:(.*?);/) || [])[1] || 'application/pdf';
+      const bstr = atob(parts[1]);
+      let n = bstr.length;
+      const u8arr = new Uint8Array(n);
+      while (n--) u8arr[n] = bstr.charCodeAt(n);
+      blob = new Blob([u8arr], { type: mime });
+    } catch (e) {
+      blob = null;
+    }
+
+    const blobUrl = blob ? URL.createObjectURL(blob) : fileData;
+
+    let printFrame = document.getElementById('studentPrintIframe');
+    if (printFrame) printFrame.remove();
+
+    printFrame = document.createElement('iframe');
+    printFrame.id = 'studentPrintIframe';
+    printFrame.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
     document.body.appendChild(printFrame);
+
+    printFrame.src = blobUrl;
     printFrame.onload = () => {
       setTimeout(() => {
         try {
           printFrame.contentWindow.focus();
           printFrame.contentWindow.print();
         } catch (e) {
-          window.open(fileData, '_blank');
+          window.open(blobUrl, '_blank');
         }
+        if (blob) setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
       }, 500);
     };
-  } else {
+    return;
+  }
+
+  // 2. Images (JPG, PNG)
+  if (fileType.startsWith('image/') || /\.(jpe?g|png|webp|gif)$/i.test(fileName)) {
     const printWin = window.open('', '_blank');
     if (printWin) {
       printWin.document.write(`
+        <!DOCTYPE html>
         <html>
           <head><title>Print ${latestSubmittedJob.file.name}</title></head>
-          <body style="margin:0; padding:20px; text-align:center;">
+          <body style="margin:0; padding:20px; text-align:center; background:#fff;">
             <img src="${fileData}" style="max-width:100%; height:auto;" onload="window.print(); window.close();" />
           </body>
         </html>
       `);
       printWin.document.close();
     }
+    return;
   }
+
+  // 3. Word / PowerPoint / other
+  showToast('Downloading document file to open in Office...');
+  const a = document.createElement('a');
+  a.href = fileData;
+  a.download = latestSubmittedJob.file.name || 'document';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 function saveStudentTicketLocal(job) {

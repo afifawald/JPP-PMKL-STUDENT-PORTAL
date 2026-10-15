@@ -1944,6 +1944,11 @@
                     <i class="fas fa-box-archive"></i> Mark Ready
                   </button>
                 ` : ''}
+                ${job.student?.phone ? `
+                  <button class="key-badge" style="color:#25D366; border-color:rgba(37,211,102,0.4); padding:0.45rem 0.75rem;" onclick="notifyStudentWhatsApp('${job.id}')" title="Send ready notification to student via WhatsApp">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Ready
+                  </button>
+                ` : ''}
                 <button class="btn-danger" style="margin-left:auto;" onclick="deletePrintJob('${job.id}')" title="Delete from queue">
                   <i class="fas fa-trash"></i>
                 </button>
@@ -1955,6 +1960,21 @@
         if (showToastFlag) showToast(`Print queue refreshed (${cachedPrintJobs.length} documents).`);
       } catch (err) {
         container.innerHTML = `<div style="color:#ef4444; font-size:0.85rem; padding:1.5rem; text-align:center;"><i class="fas fa-triangle-exclamation"></i> Error loading queue: ${err.message}</div>`;
+      }
+    }
+
+    function dataUrlToBlob(dataUrl) {
+      try {
+        const parts = dataUrl.split(',');
+        const mimeMatch = parts[0].match(/:(.*?);/);
+        const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+        const bstr = atob(parts[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) u8arr[n] = bstr.charCodeAt(n);
+        return new Blob([u8arr], { type: mime });
+      } catch (e) {
+        return null;
       }
     }
 
@@ -1971,48 +1991,60 @@
       updateJobPrintStatus(jobId, 'printing', false);
 
       const fileData = job.file.data;
-      const fileType = job.file.type || '';
+      const fileName = (job.file.name || '').toLowerCase();
+      const fileType = (job.file.type || '').toLowerCase();
 
-      if (fileType.includes('pdf')) {
+      // 1. PDF Documents: Print via clean Blob URL in dedicated iframe
+      if (fileType.includes('pdf') || fileName.endsWith('.pdf')) {
+        const blob = dataUrlToBlob(fileData);
+        const blobUrl = blob ? URL.createObjectURL(blob) : fileData;
+
         let printFrame = document.getElementById('hiddenPrintIframe');
-        if (!printFrame) {
-          printFrame = document.createElement('iframe');
-          printFrame.id = 'hiddenPrintIframe';
-          printFrame.style.position = 'fixed';
-          printFrame.style.right = '0';
-          printFrame.style.bottom = '0';
-          printFrame.style.width = '0';
-          printFrame.style.height = '0';
-          printFrame.style.border = '0';
-          document.body.appendChild(printFrame);
-        }
+        if (printFrame) printFrame.remove();
 
-        printFrame.src = fileData;
+        printFrame = document.createElement('iframe');
+        printFrame.id = 'hiddenPrintIframe';
+        printFrame.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
+        document.body.appendChild(printFrame);
+
+        printFrame.src = blobUrl;
         printFrame.onload = () => {
           setTimeout(() => {
             try {
               printFrame.contentWindow.focus();
               printFrame.contentWindow.print();
             } catch (err) {
-              const w = window.open(fileData, '_blank');
+              const w = window.open(blobUrl, '_blank');
               if (w) w.focus();
             }
-          }, 600);
+            // Revoke blob URL after 60s
+            if (blob) setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+          }, 500);
         };
-      } else {
+        return;
+      }
+
+      // 2. Image Files (JPG, PNG, WebP)
+      if (fileType.startsWith('image/') || /\.(jpe?g|png|webp|gif)$/i.test(fileName)) {
         const win = window.open('', '_blank');
         if (win) {
           win.document.write(`
+            <!DOCTYPE html>
             <html>
               <head><title>Print ${job.file.name}</title></head>
-              <body style="margin:0; padding:20px; text-align:center;">
+              <body style="margin:0; padding:20px; text-align:center; background:#fff;">
                 <img src="${fileData}" style="max-width:100%; height:auto;" onload="window.print();" />
               </body>
             </html>
           `);
           win.document.close();
         }
+        return;
       }
+
+      // 3. Word (.docx/.doc) and PowerPoint (.pptx/.ppt)
+      showToast('Downloading ' + job.file.name + ' to open in MS Word / Office...');
+      downloadJobFile(jobId);
     }
 
     function downloadJobFile(jobId) {
@@ -2025,6 +2057,18 @@
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+    }
+
+    function notifyStudentWhatsApp(jobId) {
+      const job = cachedPrintJobs.find(j => j.id === jobId);
+      if (!job || !job.student || !job.student.phone) {
+        showToast('No phone number provided for this student.');
+        return;
+      }
+      const cleanPhone = job.student.phone.replace(/\D/g, '').replace(/^0/, '60');
+      const text = encodeURIComponent(`Salam ${job.student.name}, dokumen anda ("${job.file?.name}") telah siap dicetak di Pusat Cetakan JPP PMKL (Aras 2). Sila kemukakan No. Tiket [${job.id}] semasa pengambilan. Terima kasih!`);
+      window.open(`https://wa.me/${cleanPhone}?text=${text}`, '_blank');
+      showToast('Opening WhatsApp to notify ' + job.student.name + '...');
     }
 
     async function updateJobPrintStatus(jobId, newStatus, reload = true) {
