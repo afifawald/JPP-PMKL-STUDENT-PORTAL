@@ -84,17 +84,18 @@ export async function onRequestPost(context) {
 
     const newItem = {
       id: "evt-" + Date.now(),
-      title: item.title || "Untitled Event",
-      dateDay: item.dateDay || "TBD",
-      dateMonth: item.dateMonth || "2026",
-      dateFull: item.dateFull || (item.dateDay + " " + item.dateMonth),
-      time: item.time || "TBD",
-      location: item.location || "PMKL Campus",
-      icon: item.icon || "📅",
-      colorGrad: item.colorGrad || "event-thumb-grad1"
+      title: String(item.title || "Untitled Event").trim().slice(0, 200),
+      dateDay: String(item.dateDay || "TBD").trim().slice(0, 10),
+      dateMonth: String(item.dateMonth || "2026").trim().slice(0, 15),
+      dateFull: String(item.dateFull || (item.dateDay + " " + item.dateMonth)).trim().slice(0, 40),
+      time: String(item.time || "TBD").trim().slice(0, 50),
+      location: String(item.location || "PMKL Campus").trim().slice(0, 120),
+      icon: String(item.icon || "📅").slice(0, 10),
+      colorGrad: String(item.colorGrad || "event-thumb-grad1").slice(0, 30)
     };
 
     list.unshift(newItem);
+    if (list.length > 50) list = list.slice(0, 50);
 
     if (context.env.PORTAL_DATA) {
       await context.env.PORTAL_DATA.put("events", JSON.stringify(list));

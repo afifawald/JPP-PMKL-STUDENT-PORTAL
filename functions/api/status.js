@@ -53,7 +53,15 @@ export async function onRequestPost(context) {
       });
     }
 
-    const payload = await context.request.json();
+    const payload = await context.request.json().catch(() => ({}));
+
+    // If payload is empty, this is an auth ping from the admin login check
+    if (!payload || Object.keys(payload).length === 0) {
+      return new Response(JSON.stringify({ success: true, verified: true }), {
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
     let current = DEFAULT_STATUS;
     if (context.env.PORTAL_DATA) {
       const stored = await context.env.PORTAL_DATA.get("status", { type: "json" });

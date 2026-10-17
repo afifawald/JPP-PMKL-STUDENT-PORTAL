@@ -46,9 +46,24 @@ export async function onRequestGet(context) {
       });
     }
 
-    // Admin view: return all jobs with file data for direct printing
+    // Admin view: return jobs without multi-megabyte base64 blobs unless requested
     if (isAdmin) {
-      return new Response(JSON.stringify(jobs), {
+      const includeBlobs = url.searchParams.get("full") === "true";
+      const adminJobs = jobs.map(j => includeBlobs ? j : {
+        ...j,
+        file: { name: j.file?.name, size: j.file?.size, type: j.file?.type, hasData: !!j.file?.data },
+        receipt: j.receipt ? {
+          name: j.receipt.name,
+          size: j.receipt.size,
+          type: j.receipt.type,
+          hasData: !!j.receipt.data,
+          botVerified: j.receipt.botVerified,
+          detectedRef: j.receipt.detectedRef,
+          detectedAmount: j.receipt.detectedAmount,
+          verifiedAt: j.receipt.verifiedAt
+        } : null
+      });
+      return new Response(JSON.stringify(adminJobs), {
         headers: {
           "Content-Type": "application/json",
           "Cache-Control": "no-cache, no-store, must-revalidate",
@@ -96,8 +111,16 @@ export async function onRequestPost(context) {
 
     // ── ACTION 1: SUBMIT PRINT JOB (PUBLIC / STUDENT) ──
     if (action === "submit") {
-      if (!payload.file || !payload.file.data) {
+      if (!payload.file || !payload.file.data || typeof payload.file.data !== 'string') {
         return new Response(JSON.stringify({ error: "Please upload a document file to print." }), {
+          status: 400,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+
+      // 7MB base64 cap (~5MB file) to prevent Cloudflare KV 25MB limits from crashing
+      if (payload.file.data.length > 7000000) {
+        return new Response(JSON.stringify({ error: "Document file exceeds maximum upload size (approx 5MB). Please compress your PDF." }), {
           status: 400,
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         });
@@ -110,59 +133,90 @@ export async function onRequestPost(context) {
         });
       }
 
+      // Check receipt size if attached
+      if (payload.receipt?.data && typeof payload.receipt.data === 'string' && payload.receipt.data.length > 3000000) {
+        return new Response(JSON.stringify({ error: "Receipt image exceeds 2MB limit. Please upload a smaller receipt." }), {
+          status: 400,
+          headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+        });
+      }
+
+      // Server-side validation of preferences & pricing
+      const pages = Math.max(1, Math.min(parseInt(payload.preferences?.pages) || 1, 500));
+      const copies = Math.max(1, Math.min(parseInt(payload.preferences?.copies) || 1, 50));
+      const colorMode = payload.preferences?.colorMode === "color" ? "color" : "bw";
+      const sides = payload.preferences?.sides === "double" ? "double" : "single";
+      const binding = String(payload.preferences?.binding || "none");
+
+      let perPageRate = colorMode === "color" ? 0.50 : 0.10;
+      let bindingRate = 0.00;
+      if (binding === "staple") bindingRate = 0.50;
+      else if (binding === "comb") bindingRate = 2.00;
+      else if (binding === "hard") bindingRate = 10.00;
+
+      const printCost = +(pages * copies * perPageRate).toFixed(2);
+      const bindingCost = +(copies * bindingRate).toFixed(2);
+      const computedTotal = Math.max(0.10, +(printCost + bindingCost).toFixed(2));
+
       const randomSuffix = Math.floor(1000 + Math.random() * 9000);
       const newId = `PRN-${Date.now().toString(36).toUpperCase()}-${randomSuffix}`;
+
+      const hasReceipt = !!(payload.receipt && payload.receipt.data);
+      const paymentMethod = payload.paymentMethod === "duitnow_qr" ? "duitnow_qr" : "counter";
+      const paymentStatus = paymentMethod === "duitnow_qr"
+        ? (hasReceipt ? "paid_pending_verification" : "unpaid_qr")
+        : "unpaid_counter";
 
       const newJob = {
         id: newId,
         createdAt: new Date().toISOString(),
         student: {
-          name: String(payload.student.name).trim(),
-          matric: String(payload.student.matric || "").trim().toUpperCase(),
-          phone: String(payload.student.phone || "").trim()
+          name: String(payload.student.name).trim().slice(0, 100),
+          matric: String(payload.student.matric || "").trim().toUpperCase().slice(0, 30),
+          phone: String(payload.student.phone || "").trim().slice(0, 25)
         },
         file: {
-          name: payload.file.name || "Document.pdf",
-          size: payload.file.size || 0,
-          type: payload.file.type || "application/pdf",
-          data: payload.file.data // Base64 data URL
+          name: String(payload.file.name || "Document.pdf").slice(0, 150),
+          size: Math.min(Number(payload.file.size) || 0, 10000000),
+          type: String(payload.file.type || "application/pdf").slice(0, 50),
+          data: payload.file.data
         },
         preferences: {
-          paperSize: payload.preferences?.paperSize || "A4",
-          colorMode: payload.preferences?.colorMode || "bw",
-          sides: payload.preferences?.sides || "single",
-          pages: parseInt(payload.preferences?.pages) || 1,
-          copies: parseInt(payload.preferences?.copies) || 1,
-          binding: payload.preferences?.binding || "none",
-          remarks: String(payload.preferences?.remarks || "").trim()
+          paperSize: String(payload.preferences?.paperSize || "A4").slice(0, 10),
+          colorMode,
+          sides,
+          pages,
+          copies,
+          binding,
+          remarks: String(payload.preferences?.remarks || "").trim().slice(0, 300)
         },
         pricing: {
-          perPageRate: parseFloat(payload.pricing?.perPageRate) || 0.10,
-          printCost: parseFloat(payload.pricing?.printCost) || 0.10,
-          bindingCost: parseFloat(payload.pricing?.bindingCost) || 0.00,
-          totalAmount: parseFloat(payload.pricing?.totalAmount) || 0.10
+          perPageRate,
+          printCost,
+          bindingCost,
+          totalAmount: computedTotal
         },
-        paymentMethod: payload.paymentMethod || "counter", // "duitnow_qr" | "counter"
-        receipt: payload.receipt && payload.receipt.data ? {
-          name: payload.receipt.name || "receipt.jpg",
-          size: payload.receipt.size || 0,
-          type: payload.receipt.type || "image/jpeg",
+        paymentMethod,
+        receipt: hasReceipt ? {
+          name: String(payload.receipt.name || "receipt.jpg").slice(0, 100),
+          size: Math.min(Number(payload.receipt.size) || 0, 5000000),
+          type: String(payload.receipt.type || "image/jpeg").slice(0, 50),
           data: payload.receipt.data,
           botVerified: !!payload.receipt.botVerified,
-          detectedRef: payload.receipt.detectedRef || "",
-          detectedAmount: payload.receipt.detectedAmount || 0,
+          detectedRef: String(payload.receipt.detectedRef || "").slice(0, 60),
+          detectedAmount: parseFloat(payload.receipt.detectedAmount) || 0,
           verifiedAt: payload.receipt.verifiedAt || new Date().toISOString()
         } : null,
-        status: "queued", // "queued" | "printing" | "completed" | "cancelled"
-        paymentStatus: (payload.paymentMethod === "duitnow_qr" && payload.receipt?.botVerified) ? "paid" : "unpaid_counter"
+        status: "queued",
+        paymentStatus
       };
 
       // Add to front of queue
       jobs.unshift(newJob);
 
-      // Keep maximum 40 recent jobs in KV to preserve storage
-      if (jobs.length > 40) {
-        jobs = jobs.slice(0, 40);
+      // Keep maximum 30 recent jobs in KV to preserve storage limits
+      if (jobs.length > 30) {
+        jobs = jobs.slice(0, 30);
       }
 
       if (context.env.PORTAL_DATA) {

@@ -51,8 +51,15 @@ export async function onRequestPost(context) {
     }
 
     const item = await context.request.json();
-    if (!item.src) {
+    if (!item.src || typeof item.src !== 'string') {
       return new Response(JSON.stringify({ error: "Image data (src) is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" }
+      });
+    }
+
+    if (item.src.length > 3500000) {
+      return new Response(JSON.stringify({ error: "Image file exceeds 2.5MB. Please compress your photo before uploading." }), {
         status: 400,
         headers: { "Content-Type": "application/json" }
       });
@@ -67,11 +74,12 @@ export async function onRequestPost(context) {
     const newPhoto = {
       id: "alb-" + Date.now(),
       src: item.src,
-      caption: item.caption || "JPP PMKL Event",
-      date: item.date || new Date().getFullYear().toString()
+      caption: String(item.caption || "JPP PMKL Event").trim().slice(0, 150),
+      date: String(item.date || new Date().getFullYear()).trim().slice(0, 30)
     };
 
     list.unshift(newPhoto);
+    if (list.length > 30) list = list.slice(0, 30);
 
     if (context.env.PORTAL_DATA) {
       await context.env.PORTAL_DATA.put("album", JSON.stringify(list));
