@@ -119,8 +119,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .admin-card {
@@ -181,8 +188,15 @@
     }
 
     @keyframes pulseDanger {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.6;
+      }
     }
 
     .form-group {
@@ -374,9 +388,21 @@
     }
 
     @keyframes shakeCard {
-      0%, 100% { transform: translateX(0); }
-      20%, 60% { transform: translateX(-8px); }
-      40%, 80% { transform: translateX(8px); }
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-8px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(8px);
+      }
     }
 
     .shake {
@@ -399,7 +425,8 @@
       <form id="lockForm" onsubmit="handleAdminLogin(event)">
         <div class="lock-input-wrap">
           <i class="fas fa-key lock-input-icon"></i>
-          <input type="password" id="lockPassInput" class="lock-input" placeholder="Enter Admin Passkey" autocomplete="current-password" autofocus required>
+          <input type="password" id="lockPassInput" class="lock-input" placeholder="Enter Admin Passkey"
+            autocomplete="current-password" autofocus required>
           <button type="button" class="lock-eye-btn" onclick="togglePassVisibility()" title="Show/Hide Password">
             <i class="fas fa-eye" id="lockEyeIcon"></i>
           </button>
@@ -407,7 +434,8 @@
 
         <div id="lockErrorMsg" class="lock-error" style="display:none;"></div>
 
-        <button type="submit" class="btn-hero btn-hero-primary" id="btnUnlock" style="width:100%; margin-top:1rem; justify-content:center;">
+        <button type="submit" class="btn-hero btn-hero-primary" id="btnUnlock"
+          style="width:100%; margin-top:1rem; justify-content:center;">
           <i class="fas fa-arrow-right-to-bracket"></i> Unlock Control Center
         </button>
       </form>
@@ -437,7 +465,8 @@
       <a href="index.html" class="qa-chip" target="_blank" style="text-decoration:none;">
         <i class="fas fa-external-link-alt"></i> View Live Portal
       </a>
-      <button class="key-badge" onclick="logoutAdmin()" title="Lock & Sign Out" style="color:#ef4444; border-color:rgba(239,68,68,0.3);">
+      <button class="key-badge" onclick="logoutAdmin()" title="Lock & Sign Out"
+        style="color:#ef4444; border-color:rgba(239,68,68,0.3);">
         <i class="fas fa-arrow-right-from-bracket"></i> Sign Out
       </button>
       <button class="btn-icon" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
@@ -489,21 +518,24 @@
     <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
     <div class="tab-content active" id="tabStatus">
       <div class="admin-grid-2">
-        
+
         <!-- Live Ticker Controller -->
         <div class="admin-card">
           <div class="sec-label"><i class="fas fa-bell"></i> Top Banner</div>
           <h3>Live Ticker Headline</h3>
           <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1rem;">
-            This moving ticker appears right at the top of the portal. Edits here will be pushed instantly to all students.
+            This moving ticker appears right at the top of the portal. Edits here will be pushed instantly to all
+            students.
           </p>
 
           <div class="form-group">
             <label>Ticker Message</label>
-            <textarea id="inpTicker" class="form-ctrl" rows="4" placeholder="Type breaking announcement ticker..."></textarea>
+            <textarea id="inpTicker" class="form-ctrl" rows="4"
+              placeholder="Type breaking announcement ticker..."></textarea>
           </div>
 
-          <div style="margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: var(--surface2); border: 1px dashed var(--border); font-size:0.82rem;">
+          <div
+            style="margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 8px; background: var(--surface2); border: 1px dashed var(--border); font-size:0.82rem;">
             <strong style="color:var(--gold);"><i class="fas fa-eye"></i> Live Preview:</strong>
             <div id="tickerPreview" style="margin-top: 0.35rem; color: var(--text); font-style: italic;">...</div>
           </div>
@@ -551,7 +583,7 @@
     <!-- ══ TAB 2: ANNOUNCEMENTS ══ -->
     <div class="tab-content" id="tabAnnouncements">
       <div class="admin-grid-2">
-        
+
         <!-- Post Announcement Form -->
         <div class="admin-card">
           <div class="sec-label"><i class="fas fa-pen-nib"></i> Publish Content</div>
@@ -577,13 +609,15 @@
             </div>
             <div class="form-group">
               <label>Author / EXCO</label>
-              <input type="text" id="annAuthor" class="form-ctrl" value="JPP PMKL" placeholder="e.g. JPP PMKL or EXCO Sports">
+              <input type="text" id="annAuthor" class="form-ctrl" value="JPP PMKL"
+                placeholder="e.g. JPP PMKL or EXCO Sports">
             </div>
           </div>
 
           <div class="form-group">
             <label>Announcement Content</label>
-            <textarea id="annContent" class="form-ctrl" rows="4" placeholder="Detailed information for students..."></textarea>
+            <textarea id="annContent" class="form-ctrl" rows="4"
+              placeholder="Detailed information for students..."></textarea>
           </div>
 
           <button class="btn-hero btn-hero-primary" onclick="createAnnouncement()">
@@ -738,7 +772,8 @@
 
           <div class="form-group">
             <label>Unit Details & Rules</label>
-            <textarea id="rentDetails" class="form-ctrl" rows="3" placeholder="e.g. Fully furnished room, 2 Pax, Muslim students only."></textarea>
+            <textarea id="rentDetails" class="form-ctrl" rows="3"
+              placeholder="e.g. Fully furnished room, 2 Pax, Muslim students only."></textarea>
           </div>
 
           <button class="btn-hero btn-hero-primary" onclick="createRental()">
@@ -771,19 +806,25 @@
           <div class="sec-label"><i class="fas fa-camera"></i> New Gallery Photo</div>
           <h3>Upload Photo to Album</h3>
           <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.2rem;">
-            Upload campus photos and event highlights directly from your device. Images are automatically optimized for fast loading on all devices.
+            Upload campus photos and event highlights directly from your device. Images are automatically optimized for
+            fast loading on all devices.
           </p>
 
           <div class="form-group">
             <label>Select Photo (JPG, PNG, WebP)</label>
-            <input type="file" id="albumFileInput" accept="image/*" class="form-ctrl" onchange="previewAlbumPhoto(event)">
+            <input type="file" id="albumFileInput" accept="image/*" class="form-ctrl"
+              onchange="previewAlbumPhoto(event)">
           </div>
 
           <!-- Preview box -->
           <div id="albumPreviewBox" style="display:none; margin-bottom:1.2rem; text-align:center;">
-            <div style="position:relative; display:inline-block; max-width:100%; border-radius:12px; overflow:hidden; border:1px solid var(--border);">
-              <img id="albumPreviewImg" src="" alt="Preview" style="max-height:220px; max-width:100%; display:block; object-fit:contain; background:var(--surface);">
-              <button type="button" onclick="clearAlbumPreview()" style="position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer;" title="Remove image">
+            <div
+              style="position:relative; display:inline-block; max-width:100%; border-radius:12px; overflow:hidden; border:1px solid var(--border);">
+              <img id="albumPreviewImg" src="" alt="Preview"
+                style="max-height:220px; max-width:100%; display:block; object-fit:contain; background:var(--surface);">
+              <button type="button" onclick="clearAlbumPreview()"
+                style="position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.7); color:#fff; border:none; border-radius:50%; width:28px; height:28px; cursor:pointer;"
+                title="Remove image">
                 <i class="fas fa-times"></i>
               </button>
             </div>
@@ -823,7 +864,7 @@
 
     <!-- ══ TAB 6: PRINTING STATION & QUEUE ══ -->
     <div class="tab-content" id="tabPrinting">
-      
+
       <!-- Top Counter Controls -->
       <div class="status-banner" style="margin-bottom:1.5rem;">
         <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
@@ -842,17 +883,19 @@
       </div>
 
       <div class="admin-grid-2">
-        
+
         <!-- Column 1: Live Print Queue -->
         <div>
           <div class="admin-card">
             <div class="sec-label"><i class="fas fa-list-check"></i> Live Dispatch Queue</div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
               <h3 style="margin:0;">Student Print Dispatch Queue</h3>
-              <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-bolt" style="color:var(--gold);"></i> Auto-sync active</span>
+              <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-bolt"
+                  style="color:var(--gold);"></i> Auto-sync active</span>
             </div>
             <p style="color:var(--text2); font-size:0.85rem; margin-bottom:1.25rem;">
-              Student print orders submitted via portal. Click <strong>"Send to Printer"</strong> to route directly to physical printer.
+              Student print orders submitted via portal. Click <strong>"Send to Printer"</strong> to route directly to
+              physical printer.
             </p>
 
             <div id="adminPrintQueueList">
@@ -866,7 +909,7 @@
 
         <!-- Column 2: Counter Status & Rates -->
         <div>
-          
+
           <!-- Counter Settings -->
           <div class="admin-card">
             <div class="sec-label"><i class="fas fa-sliders"></i> Counter Status</div>
@@ -891,12 +934,14 @@
 
             <div class="form-group">
               <label>Station / Counter Location</label>
-              <input type="text" id="admPrintLocation" class="form-ctrl" value="JPP Student Council Center, Level 2, PMKL">
+              <input type="text" id="admPrintLocation" class="form-ctrl"
+                value="JPP Student Council Center, Level 2, PMKL">
             </div>
 
             <div class="form-group">
               <label>Special Notice / Broadcast</label>
-              <input type="text" id="admPrintNotice" class="form-ctrl" value="Pay via DuitNow QR or Cash at counter during pickup.">
+              <input type="text" id="admPrintNotice" class="form-ctrl"
+                value="Pay via DuitNow QR or Cash at counter during pickup.">
             </div>
 
             <button class="btn-hero btn-hero-primary" onclick="savePrintingSettings()">
@@ -968,9 +1013,11 @@
     <!-- ══ TAB 7: BETA LAB MANAGEMENT (THE 3 PILLARS) ══ -->
     <div class="tab-content" id="tabBetaLab">
       <!-- Status Banner -->
-      <div class="status-banner" style="margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(168,85,247,0.12), rgba(6,182,212,0.08)); border-color:rgba(168,85,247,0.3);">
+      <div class="status-banner"
+        style="margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(168,85,247,0.12), rgba(6,182,212,0.08)); border-color:rgba(168,85,247,0.3);">
         <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
-          <div class="status-pill status-live" style="background:rgba(168,85,247,0.2); color:#c084fc; border-color:rgba(168,85,247,0.4);">
+          <div class="status-pill status-live"
+            style="background:rgba(168,85,247,0.2); color:#c084fc; border-color:rgba(168,85,247,0.4);">
             <i class="fas fa-flask"></i> <span>BETA LAB CONSOLE</span>
           </div>
           <div style="font-size:0.85rem; color:var(--text2);" id="adminBetaStatsSummary">
@@ -1000,16 +1047,20 @@
       <!-- 1. E-Aduan Queue Pane -->
       <div id="adminBetaPaneAduan">
         <div class="admin-card">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
             <div>
               <div class="sec-label"><i class="fas fa-inbox"></i> Peti Masuk Aduan</div>
               <h3 style="font-size:1.1rem; color:var(--text);">Senarai Aduan &amp; Maklum Balas Pelajar</h3>
             </div>
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
               <button class="tag tag-gold" style="cursor:pointer;" onclick="filterAdminAduan('all')">Semua</button>
-              <button class="tag tag-blue" style="cursor:pointer;" onclick="filterAdminAduan('submitted')">Diterima</button>
-              <button class="tag tag-gold" style="cursor:pointer;" onclick="filterAdminAduan('in_progress')">Tindakan</button>
-              <button class="tag tag-green" style="cursor:pointer;" onclick="filterAdminAduan('resolved')">Selesai</button>
+              <button class="tag tag-blue" style="cursor:pointer;"
+                onclick="filterAdminAduan('submitted')">Diterima</button>
+              <button class="tag tag-gold" style="cursor:pointer;"
+                onclick="filterAdminAduan('in_progress')">Tindakan</button>
+              <button class="tag tag-green" style="cursor:pointer;"
+                onclick="filterAdminAduan('resolved')">Selesai</button>
             </div>
           </div>
 
@@ -1023,7 +1074,8 @@
       <div id="adminBetaPaneLost" style="display:none;">
         <div class="admin-card">
           <div class="sec-label"><i class="fas fa-boxes-stacked"></i> Papan Hebahan Komuniti</div>
-          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Pengurusan Barangan Hilang &amp; Dijumpai</h3>
+          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Pengurusan Barangan Hilang &amp;
+            Dijumpai</h3>
           <div id="adminLostFoundList">
             <!-- Dynamic Lost/Found items -->
           </div>
@@ -1034,8 +1086,9 @@
       <div id="adminBetaPaneEquip" style="display:none;">
         <div class="admin-card">
           <div class="sec-label"><i class="fas fa-boxes-packing"></i> Inventori &amp; Log Peminjaman</div>
-          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Buku Log Pinjaman Alatan Sukan &amp; Acara JPP</h3>
-          
+          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Buku Log Pinjaman Alatan Sukan &amp;
+            Acara JPP</h3>
+
           <div style="overflow-x:auto; margin-bottom:1.5rem;">
             <table class="rates-table">
               <thead>
@@ -1069,7 +1122,8 @@
   <div class="modal-overlay" id="aduanActionModal">
     <div class="modal-box" style="max-width: 520px;">
       <div class="modal-top">
-        <div class="modal-top-icon" style="background:rgba(168,85,247,0.15); color:#c084fc;"><i class="fas fa-pen-to-square"></i></div>
+        <div class="modal-top-icon" style="background:rgba(168,85,247,0.15); color:#c084fc;"><i
+            class="fas fa-pen-to-square"></i></div>
         <div class="modal-top-text">
           <h3 id="aduanActionModalTitle">Tindakan EXCO JPP</h3>
           <p id="aduanActionModalTicket">ID: ADU-XXXX</p>
@@ -1079,7 +1133,9 @@
       <div class="modal-content-body" style="padding-top:1.25rem;">
         <input type="hidden" id="aduanActionId">
         <div style="margin-bottom:1rem;">
-          <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Status Aduan:</label>
+          <label
+            style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Status
+            Aduan:</label>
           <select id="aduanActionStatus" class="form-ctrl" style="width:100%;">
             <option value="submitted">Diterima (Dalam Barisan)</option>
             <option value="in_review">Dalam Semakan EXCO</option>
@@ -1089,13 +1145,17 @@
           </select>
         </div>
         <div style="margin-bottom:1rem;">
-          <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Catatan Tindakan Rasmi JPP (Dipaparkan kepada Pelajar):</label>
-          <textarea id="aduanActionNotes" class="form-ctrl" rows="3" style="width:100%;" placeholder="cth: Laporan telah dimajukan kepada Unit Pembangunan PMKL pada 15/10..."></textarea>
+          <label
+            style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Catatan
+            Tindakan Rasmi JPP (Dipaparkan kepada Pelajar):</label>
+          <textarea id="aduanActionNotes" class="form-ctrl" rows="3" style="width:100%;"
+            placeholder="cth: Laporan telah dimajukan kepada Unit Pembangunan PMKL pada 15/10..."></textarea>
         </div>
       </div>
       <div class="modal-actions">
         <button class="btn-modal-close" onclick="closeAduanActionModal()">Batal</button>
-        <button class="btn-modal-primary" onclick="saveAduanAction()" style="background:#a855f7; color:#fff; font-weight:700;">
+        <button class="btn-modal-primary" onclick="saveAduanAction()"
+          style="background:#a855f7; color:#fff; font-weight:700;">
           <i class="fas fa-save"></i> Simpan Tindakan
         </button>
       </div>
@@ -1106,7 +1166,8 @@
   <div class="modal-overlay" id="adminReceiptModal">
     <div class="modal-box" style="max-width: 520px;">
       <div class="modal-top">
-        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i class="fas fa-receipt"></i></div>
+        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i
+            class="fas fa-receipt"></i></div>
         <div class="modal-top-text">
           <h3 id="admReceiptTitle">Payment Receipt Verification</h3>
           <p id="admReceiptSub">Verified by JPP AI Bot Engine</p>
@@ -1114,14 +1175,19 @@
         <button class="modal-top-close" onclick="closeReceiptModal()"><i class="fas fa-times"></i></button>
       </div>
       <div class="modal-content-body" style="padding:1.25rem; text-align:center;">
-        <div style="background:#000; border-radius:10px; padding:0.5rem; margin-bottom:1rem; max-height:450px; overflow:auto;">
-          <img id="admReceiptImg" src="" style="max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto;" alt="Student Receipt">
+        <div
+          style="background:#000; border-radius:10px; padding:0.5rem; margin-bottom:1rem; max-height:450px; overflow:auto;">
+          <img id="admReceiptImg" src=""
+            style="max-width:100%; height:auto; border-radius:6px; display:block; margin:0 auto;" alt="Student Receipt">
         </div>
-        <div id="admReceiptDetails" style="background:var(--surface2); padding:0.85rem; border-radius:8px; text-align:left; font-size:0.82rem; line-height:1.5;"></div>
+        <div id="admReceiptDetails"
+          style="background:var(--surface2); padding:0.85rem; border-radius:8px; text-align:left; font-size:0.82rem; line-height:1.5;">
+        </div>
       </div>
       <div class="modal-actions">
         <button class="btn-modal-close" onclick="closeReceiptModal()">Close</button>
-        <button class="btn-modal-primary" id="btnDownloadReceipt" onclick="downloadCurrentReceipt()" style="background:var(--gold); color:#000; font-weight:700;">
+        <button class="btn-modal-primary" id="btnDownloadReceipt" onclick="downloadCurrentReceipt()"
+          style="background:var(--gold); color:#000; font-weight:700;">
           <i class="fas fa-download"></i> Download Receipt
         </button>
       </div>
@@ -1226,9 +1292,21 @@
       showToast('Welcome, Administrator!');
     }
 
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
     function logoutAdmin() {
       sessionStorage.removeItem('jpp_admin_authenticated');
       sessionStorage.removeItem('jpp_admin_key');
+      localStorage.removeItem('jpp_admin_key');
+      localStorage.removeItem('jpp_admin_authenticated');
       adminKey = '';
       document.getElementById('adminLockOverlay').style.display = 'flex';
       document.getElementById('adminNav').style.display = 'none';
@@ -1423,17 +1501,17 @@
             <div class="item-list-row">
               <div style="flex:1;">
                 <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
-                  <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
-                  <strong style="font-size:0.9rem;">${item.title}</strong>
+                  <span class="tag tag-${escapeHtml(item.tagColor || 'gold')}">${escapeHtml(item.category || 'Notice')}</span>
+                  <strong style="font-size:0.9rem;">${escapeHtml(item.title)}</strong>
                 </div>
                 <div style="font-size:0.78rem; color:var(--text2); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
-                  ${item.content}
+                  ${escapeHtml(item.content)}
                 </div>
                 <div style="font-size:0.72rem; color:var(--text3); margin-top:0.35rem;">
-                  <i class="fas fa-calendar"></i> ${item.date} • <i class="fas fa-user"></i> ${item.author || 'JPP'}
+                  <i class="fas fa-calendar"></i> ${escapeHtml(item.date)} • <i class="fas fa-user"></i> ${escapeHtml(item.author || 'JPP')}
                 </div>
               </div>
-              <button class="btn-danger" onclick="deleteAnnouncement('${item.id}')">
+              <button class="btn-danger" onclick="deleteAnnouncement('${escapeHtml(item.id)}')">
                 <i class="fas fa-trash"></i> Delete
               </button>
             </div>
@@ -1503,16 +1581,16 @@
         list.forEach(item => {
           container.innerHTML += `
             <div class="item-list-row">
-              <div style="font-size:1.8rem;">${item.icon || '📅'}</div>
+              <div style="font-size:1.8rem;">${escapeHtml(item.icon || '📅')}</div>
               <div style="flex:1;">
-                <strong style="font-size:0.9rem;">${item.title}</strong>
+                <strong style="font-size:0.9rem;">${escapeHtml(item.title)}</strong>
                 <div style="font-size:0.78rem; color:var(--text2); margin-top:0.25rem;">
-                  <i class="fas fa-calendar-alt"></i> ${item.dateDay} ${item.dateMonth} • 
-                  <i class="fas fa-clock"></i> ${item.time} • 
-                  <i class="fas fa-map-marker-alt"></i> ${item.location}
+                  <i class="fas fa-calendar-alt"></i> ${escapeHtml(item.dateDay)} ${escapeHtml(item.dateMonth)} • 
+                  <i class="fas fa-clock"></i> ${escapeHtml(item.time)} • 
+                  <i class="fas fa-map-marker-alt"></i> ${escapeHtml(item.location)}
                 </div>
               </div>
-              <button class="btn-danger" onclick="deleteEvent('${item.id}')">
+              <button class="btn-danger" onclick="deleteEvent('${escapeHtml(item.id)}')">
                 <i class="fas fa-trash"></i> Delete
               </button>
             </div>
@@ -1588,16 +1666,16 @@
             <div class="item-list-row">
               <div style="flex:1;">
                 <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.25rem;">
-                  <span class="tag tag-gold">${item.apartment}</span>
-                  <span class="tag tag-blue">${item.block}</span>
-                  <strong style="font-size:0.9rem;">${item.unit} (${item.price}/mo)</strong>
+                  <span class="tag tag-gold">${escapeHtml(item.apartment)}</span>
+                  <span class="tag tag-blue">${escapeHtml(item.block)}</span>
+                  <strong style="font-size:0.9rem;">${escapeHtml(item.unit)} (${escapeHtml(item.price)}/mo)</strong>
                 </div>
-                <div style="font-size:0.78rem; color:var(--text2);">${item.details}</div>
+                <div style="font-size:0.78rem; color:var(--text2);">${escapeHtml(item.details)}</div>
                 <div style="font-size:0.72rem; color:var(--text3); margin-top:0.35rem;">
-                  <i class="fas fa-phone"></i> ${item.contact}
+                  <i class="fas fa-phone"></i> ${escapeHtml(item.contact)}
                 </div>
               </div>
-              <button class="btn-danger" onclick="deleteRental('${item.id}')">
+              <button class="btn-danger" onclick="deleteRental('${escapeHtml(item.id)}')">
                 <i class="fas fa-trash"></i> Delete
               </button>
             </div>
@@ -1725,14 +1803,14 @@
         list.forEach(item => {
           container.innerHTML += `
             <div class="item-list-row">
-              <img src="${item.src}" alt="${item.caption}" style="width:55px; height:55px; object-fit:cover; border-radius:8px; border:1px solid var(--border);" onerror="this.src='albums/jpp.jpeg'">
+              <img src="${item.src}" alt="${escapeHtml(item.caption)}" style="width:55px; height:55px; object-fit:cover; border-radius:8px; border:1px solid var(--border);" onerror="this.src='albums/jpp.jpeg'">
               <div style="flex:1;">
-                <strong style="font-size:0.9rem;">${item.caption}</strong>
+                <strong style="font-size:0.9rem;">${escapeHtml(item.caption)}</strong>
                 <div style="font-size:0.75rem; color:var(--text3); margin-top:0.25rem;">
-                  <i class="fas fa-calendar"></i> ${item.date || '2026'}
+                  <i class="fas fa-calendar"></i> ${escapeHtml(item.date || '2026')}
                 </div>
               </div>
-              <button class="btn-danger" onclick="deletePhoto('${item.id}')">
+              <button class="btn-danger" onclick="deletePhoto('${escapeHtml(item.id)}')">
                 <i class="fas fa-trash"></i> Delete
               </button>
             </div>
@@ -1836,10 +1914,11 @@
         container.innerHTML = '';
         cachedPrintJobs.forEach(job => {
           const isPaid = job.paymentStatus === 'paid';
+          const isPendingVerif = job.paymentStatus === 'paid_pending_verification';
           const isPrinting = job.status === 'printing';
           const isDone = job.status === 'completed';
           const isQr = job.paymentMethod === 'duitnow_qr';
-          const hasReceipt = job.receipt && job.receipt.data;
+          const hasReceipt = job.receipt && (job.receipt.data || job.receipt.hasData);
 
           let statusBadge = '<span class="status-pill status-live" style="font-size:0.72rem; padding:0.25rem 0.65rem;"><i class="fas fa-clock"></i> QUEUED</span>';
           if (isPrinting) {
@@ -1850,14 +1929,16 @@
 
           let paymentBadge = '';
           if (isQr) {
+            const qrStatusColor = isPaid ? '#22d3a0' : (isPendingVerif ? '#f5c842' : '#ef4444');
+            const qrStatusText = isPaid ? 'Paid (Verified)' : (isPendingVerif ? 'Review Receipt (Pending)' : 'Unpaid (QR)');
             paymentBadge = `
               <div style="text-align:right;">
-                <span style="color:#22d3a0; font-weight:700; font-size:0.78rem;">
-                  <i class="fas fa-qrcode" style="color:#ed005a;"></i> DuitNow QR (Bot Verified)
+                <span style="color:${qrStatusColor}; font-weight:700; font-size:0.78rem;">
+                  <i class="fas fa-qrcode" style="color:#ed005a;"></i> ${qrStatusText}
                 </span>
                 ${hasReceipt ? `
                   <div style="margin-top:3px;">
-                    <button class="key-badge" style="padding:0.18rem 0.55rem; font-size:0.72rem; color:var(--gold); border-color:rgba(245,200,66,0.4);" onclick="viewReceiptModal('${job.id}')">
+                    <button class="key-badge" style="padding:0.18rem 0.55rem; font-size:0.72rem; color:var(--gold); border-color:rgba(245,200,66,0.4);" onclick="viewReceiptModal('${escapeHtml(job.id)}')">
                       <i class="fas fa-receipt"></i> Review Receipt
                     </button>
                   </div>
@@ -1879,8 +1960,8 @@
             <div class="queue-card-item">
               <div class="queue-top-row">
                 <div>
-                  <span class="queue-ticket-id">${job.id}</span>
-                  <span style="font-size:0.78rem; color:var(--text3); margin-left:8px;">${timeStr}</span>
+                  <span class="queue-ticket-id">${escapeHtml(job.id)}</span>
+                  <span style="font-size:0.78rem; color:var(--text3); margin-left:8px;">${escapeHtml(timeStr)}</span>
                 </div>
                 <div style="display:flex; align-items:center; gap:0.5rem;">
                   ${statusBadge}
@@ -1890,28 +1971,28 @@
               <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:0.75rem; font-size:0.84rem;">
                 <div>
                   <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Student</div>
-                  <strong>${job.student?.name || '-'}</strong>
-                  <div style="color:var(--text2); font-size:0.78rem;">${job.student?.matric || '-'} ${job.student?.phone ? '• ' + job.student.phone : ''}</div>
+                  <strong>${escapeHtml(job.student?.name || '-')}</strong>
+                  <div style="color:var(--text2); font-size:0.78rem;">${escapeHtml(job.student?.matric || '-')} ${job.student?.phone ? '• ' + escapeHtml(job.student.phone) : ''}</div>
                 </div>
                 <div>
                   <div style="color:var(--text3); font-size:0.72rem; text-transform:uppercase;">Document &amp; Specifications</div>
                   <strong style="color:var(--gold); display:inline-block; max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                    <i class="fas fa-file-pdf" style="margin-right:4px;"></i>${job.file?.name || 'document'}
+                    <i class="fas fa-file-pdf" style="margin-right:4px;"></i>${escapeHtml(job.file?.name || 'document')}
                   </strong>
                   <div style="color:var(--text2); font-size:0.78rem;">
-                    ${prefs.paperSize || 'A4'} • ${String(prefs.colorMode || 'bw').toUpperCase()} • ${prefs.sides === 'double' ? 'Duplex' : '1-Sided'} • ${prefs.pages || 1} pages × ${prefs.copies || 1} copies
+                    ${escapeHtml(prefs.paperSize || 'A4')} • ${escapeHtml(String(prefs.colorMode || 'bw').toUpperCase())} • ${prefs.sides === 'double' ? 'Duplex' : '1-Sided'} • ${Number(prefs.pages) || 1} pages × ${Number(prefs.copies) || 1} copies
                   </div>
                 </div>
               </div>
 
               ${prefs.binding && prefs.binding !== 'none' ? `
                 <div style="font-size:0.78rem; background:var(--surface2); padding:0.4rem 0.65rem; border-radius:6px; margin-bottom:0.6rem; color:var(--text2);">
-                  <strong style="color:var(--gold);"><i class="fas fa-book"></i> Finishing:</strong> ${prefs.binding.toUpperCase()}
-                  ${prefs.remarks ? `<span style="margin-left:8px; color:var(--text3);">• Note: "${prefs.remarks}"</span>` : ''}
+                  <strong style="color:var(--gold);"><i class="fas fa-book"></i> Finishing:</strong> ${escapeHtml(prefs.binding.toUpperCase())}
+                  ${prefs.remarks ? `<span style="margin-left:8px; color:var(--text3);">• Note: "${escapeHtml(prefs.remarks)}"</span>` : ''}
                 </div>
               ` : (prefs.remarks ? `
                 <div style="font-size:0.78rem; background:var(--surface2); padding:0.4rem 0.65rem; border-radius:6px; margin-bottom:0.6rem; color:var(--text3);">
-                  <i class="fas fa-comment"></i> Student Note: "${prefs.remarks}"
+                  <i class="fas fa-comment"></i> Student Note: "${escapeHtml(prefs.remarks)}"
                 </div>
               ` : '')}
 
@@ -1924,32 +2005,32 @@
               </div>
 
               <div class="queue-actions-row">
-                <button class="btn-hero btn-hero-primary" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="printJobDirect('${job.id}')" title="Send directly to physical printer">
+                <button class="btn-hero btn-hero-primary" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="printJobDirect('${escapeHtml(job.id)}')" title="Send directly to physical printer">
                   <i class="fas fa-print"></i> Send to Printer
                 </button>
-                <button class="btn-hero btn-hero-outline" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="downloadJobFile('${job.id}')" title="Download original document file">
+                <button class="btn-hero btn-hero-outline" style="padding:0.45rem 0.85rem; font-size:0.8rem;" onclick="downloadJobFile('${escapeHtml(job.id)}')" title="Download original document file">
                   <i class="fas fa-download"></i> Download
                 </button>
                 ${!isPaid ? `
-                  <button class="key-badge" style="color:#22d3a0; border-color:rgba(34,211,160,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'paid')" title="Mark payment as received">
+                  <button class="key-badge" style="color:#22d3a0; border-color:rgba(34,211,160,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${escapeHtml(job.id)}', 'paid')" title="Mark payment as received">
                     <i class="fas fa-check"></i> Mark Paid
                   </button>
                 ` : `
-                  <button class="key-badge" style="color:var(--text3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${job.id}', 'unpaid_counter')">
+                  <button class="key-badge" style="color:var(--text3); padding:0.45rem 0.75rem;" onclick="updateJobPaymentStatus('${escapeHtml(job.id)}', 'unpaid_counter')">
                     Revert Payment
                   </button>
                 `}
                 ${!isDone ? `
-                  <button class="key-badge" style="color:#60a5fa; border-color:rgba(59,130,246,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPrintStatus('${job.id}', 'completed')" title="Mark print job as ready for pickup">
+                  <button class="key-badge" style="color:#60a5fa; border-color:rgba(59,130,246,0.3); padding:0.45rem 0.75rem;" onclick="updateJobPrintStatus('${escapeHtml(job.id)}', 'completed')" title="Mark print job as ready for pickup">
                     <i class="fas fa-box-archive"></i> Mark Ready
                   </button>
                 ` : ''}
                 ${job.student?.phone ? `
-                  <button class="key-badge" style="color:#25D366; border-color:rgba(37,211,102,0.4); padding:0.45rem 0.75rem;" onclick="notifyStudentWhatsApp('${job.id}')" title="Send ready notification to student via WhatsApp">
+                  <button class="key-badge" style="color:#25D366; border-color:rgba(37,211,102,0.4); padding:0.45rem 0.75rem;" onclick="notifyStudentWhatsApp('${escapeHtml(job.id)}')" title="Send ready notification to student via WhatsApp">
                     <i class="fab fa-whatsapp"></i> WhatsApp Ready
                   </button>
                 ` : ''}
-                <button class="btn-danger" style="margin-left:auto;" onclick="deletePrintJob('${job.id}')" title="Delete from queue">
+                <button class="btn-danger" style="margin-left:auto;" onclick="deletePrintJob('${escapeHtml(job.id)}')" title="Delete from queue">
                   <i class="fas fa-trash"></i>
                 </button>
               </div>
@@ -1959,8 +2040,26 @@
 
         if (showToastFlag) showToast(`Print queue refreshed (${cachedPrintJobs.length} documents).`);
       } catch (err) {
-        container.innerHTML = `<div style="color:#ef4444; font-size:0.85rem; padding:1.5rem; text-align:center;"><i class="fas fa-triangle-exclamation"></i> Error loading queue: ${err.message}</div>`;
+        container.innerHTML = `<div style="color:#ef4444; font-size:0.85rem; padding:1.5rem; text-align:center;"><i class="fas fa-triangle-exclamation"></i> Error loading queue: ${escapeHtml(err.message)}</div>`;
       }
+    }
+
+    async function ensureJobFiles(jobId) {
+      const job = cachedPrintJobs.find(j => j.id === jobId);
+      if (!job) return null;
+      if (job.file && job.file.data) return job;
+      try {
+        const res = await fetch(`${API_BASE}/print-jobs?id=${encodeURIComponent(jobId)}`, {
+          headers: getHeaders()
+        });
+        if (res.ok) {
+          const full = await res.json();
+          if (full.file) job.file = full.file;
+          if (full.receipt) job.receipt = full.receipt;
+          return job;
+        }
+      } catch (e) { }
+      return job;
     }
 
     function dataUrlToBlob(dataUrl) {
@@ -1978,10 +2077,10 @@
       }
     }
 
-    function printJobDirect(jobId) {
-      const job = cachedPrintJobs.find(j => j.id === jobId);
+    async function printJobDirect(jobId) {
+      const job = await ensureJobFiles(jobId);
       if (!job || !job.file || !job.file.data) {
-        alert('Document file not found.');
+        alert('Document file could not be retrieved from server.');
         return;
       }
 
@@ -2031,9 +2130,9 @@
           win.document.write(`
             <!DOCTYPE html>
             <html>
-              <head><title>Print ${job.file.name}</title></head>
+              <head><title>Print ${escapeHtml(job.file.name)}</title></head>
               <body style="margin:0; padding:20px; text-align:center; background:#fff;">
-                <img src="${fileData}" style="max-width:100%; height:auto;" onload="window.print();" />
+                <img src="${job.file.data}" style="max-width:100%; height:auto;" onload="window.print();" />
               </body>
             </html>
           `);
@@ -2047,9 +2146,12 @@
       downloadJobFile(jobId);
     }
 
-    function downloadJobFile(jobId) {
-      const job = cachedPrintJobs.find(j => j.id === jobId);
-      if (!job || !job.file || !job.file.data) return;
+    async function downloadJobFile(jobId) {
+      const job = await ensureJobFiles(jobId);
+      if (!job || !job.file || !job.file.data) {
+        alert('Document file could not be retrieved from server.');
+        return;
+      }
 
       const a = document.createElement('a');
       a.href = job.file.data;
@@ -2212,8 +2314,8 @@
 
     let currentViewingReceiptJob = null;
 
-    function viewReceiptModal(jobId) {
-      const job = cachedPrintJobs.find(j => j.id === jobId);
+    async function viewReceiptModal(jobId) {
+      const job = await ensureJobFiles(jobId);
       if (!job || !job.receipt || !job.receipt.data) {
         alert('No receipt file found for this order.');
         return;
@@ -2230,8 +2332,8 @@
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem;">
           <div><strong>Bot Status:</strong> <span style="color:#22d3a0;">${r.botVerified ? '✓ Verified Legit' : 'Pending Review'}</span></div>
           <div><strong>Total Due:</strong> <span style="color:var(--gold);">RM ${Number(job.pricing?.totalAmount || 0).toFixed(2)}</span></div>
-          <div><strong>Reference No.:</strong> ${r.detectedRef || '-'}</div>
-          <div><strong>Upload Time:</strong> ${r.verifiedAt ? new Date(r.verifiedAt).toLocaleTimeString() : '-'}</div>
+          <div><strong>Reference No.:</strong> ${escapeHtml(r.detectedRef || '-')}</div>
+          <div><strong>Upload Time:</strong> ${r.verifiedAt ? escapeHtml(new Date(r.verifiedAt).toLocaleTimeString()) : '-'}</div>
         </div>
       `;
 
@@ -2293,9 +2395,9 @@
           };
 
           const activeLoans = adminBetaData.loans.filter(l => l.status === 'active');
-          document.getElementById('adminBetaStatsSummary').textContent = 
+          document.getElementById('adminBetaStatsSummary').textContent =
             `${adminBetaData.aduan.length} Aduan • ${adminBetaData.lostFound.length} Barangan • ${activeLoans.length} Pinjaman Aktif`;
-          
+
           document.getElementById('aduanQueueCount').textContent = adminBetaData.aduan.length;
           document.getElementById('lostFoundCount').textContent = adminBetaData.lostFound.length;
           document.getElementById('activeLoansCount').textContent = activeLoans.length;
@@ -2345,38 +2447,41 @@
 
       listEl.innerHTML = items.map(item => {
         const st = statusMap[item.status] || { label: item.status, color: 'var(--gold)' };
+        const studentDisplay = item.student?.isAnonymous
+          ? '<span style="color:#c084fc;">Tanpa Nama (Anonymous)</span>'
+          : `${escapeHtml(item.student?.name || '-')} (${escapeHtml(item.student?.matric || '-')})`;
         return `
           <div class="queue-card-item">
             <div class="queue-top-row">
               <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
-                <span class="queue-ticket-id">${item.id}</span>
-                <span class="tag tag-gold" style="font-size:0.7rem;">${item.categoryLabel || item.category}</span>
-                <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar-alt"></i> ${item.dateFormatted || item.createdAt?.slice(0,10) || '-'}</span>
+                <span class="queue-ticket-id">${escapeHtml(item.id)}</span>
+                <span class="tag tag-gold" style="font-size:0.7rem;">${escapeHtml(item.categoryLabel || item.category)}</span>
+                <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar-alt"></i> ${escapeHtml(item.dateFormatted || item.createdAt?.slice(0, 10) || '-')}</span>
               </div>
-              <span class="ticket-status-pill ${item.status}" style="font-size:0.75rem;">
-                ● ${st.label}
+              <span class="ticket-status-pill ${escapeHtml(item.status)}" style="font-size:0.75rem;">
+                ● ${escapeHtml(st.label)}
               </span>
             </div>
 
-            <h4 style="font-size:1rem; margin-bottom:0.4rem; color:var(--text);">${item.title}</h4>
-            <p style="font-size:0.84rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${item.description}</p>
+            <h4 style="font-size:1rem; margin-bottom:0.4rem; color:var(--text);">${escapeHtml(item.title)}</h4>
+            <p style="font-size:0.84rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${escapeHtml(item.description)}</p>
 
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; background:var(--surface2); padding:0.65rem 0.85rem; border-radius:8px; font-size:0.78rem; margin-bottom:0.75rem;">
-              <div><strong>Lokasi:</strong> ${item.location}</div>
-              <div><strong>Pelajar:</strong> ${item.student?.isAnonymous ? '<span style="color:#c084fc;">Tanpa Nama (Anonymous)</span>' : `${item.student?.name} (${item.student?.matric})`}</div>
-              ${item.student?.phone ? `<div><strong>Telefon:</strong> ${item.student.phone}</div>` : ''}
+              <div><strong>Lokasi:</strong> ${escapeHtml(item.location)}</div>
+              <div><strong>Pelajar:</strong> ${studentDisplay}</div>
+              ${item.student?.phone ? `<div><strong>Telefon:</strong> ${escapeHtml(item.student.phone)}</div>` : ''}
             </div>
 
             <div style="background:rgba(168,85,247,0.06); border:1px solid rgba(168,85,247,0.25); border-radius:8px; padding:0.65rem 0.85rem; font-size:0.78rem; margin-bottom:0.75rem;">
               <strong style="color:var(--gold);"><i class="fas fa-comment-dots"></i> Catatan Tindakan JPP:</strong> 
-              <span style="color:var(--text);">${item.adminNotes || 'Tiada catatan tindakan lagi.'}</span>
+              <span style="color:var(--text);">${escapeHtml(item.adminNotes || 'Tiada catatan tindakan lagi.')}</span>
             </div>
 
             <div class="queue-actions-row">
-              <button class="btn-hero btn-hero-primary" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="openAduanActionModal('${item.id}')">
+              <button class="btn-hero btn-hero-primary" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="openAduanActionModal('${escapeHtml(item.id)}')">
                 <i class="fas fa-pen-to-square"></i> Kemas Kini Tindakan
               </button>
-              <button class="btn-danger" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="deleteAduan('${item.id}')">
+              <button class="btn-danger" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="deleteAduan('${escapeHtml(item.id)}')">
                 <i class="fas fa-trash-can"></i> Padam
               </button>
             </div>
@@ -2471,29 +2576,29 @@
           <div class="queue-card-item">
             <div class="queue-top-row">
               <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
-                <span class="queue-ticket-id">${item.id}</span>
+                <span class="queue-ticket-id">${escapeHtml(item.id)}</span>
                 <span class="lf-badge ${isClaimed ? 'claimed' : (isLost ? 'lost' : 'found')}">
                   ${isClaimed ? 'Telah Dipulangkan' : (isLost ? 'Hilang' : 'Dijumpai')}
                 </span>
-                <span style="font-size:0.75rem; color:var(--text3);">${item.dateReported}</span>
+                <span style="font-size:0.75rem; color:var(--text3);">${escapeHtml(item.dateReported)}</span>
               </div>
               <div style="font-size:0.78rem; color:var(--text2);">
-                <i class="fas fa-location-dot" style="color:var(--gold);"></i> ${item.location}
+                <i class="fas fa-location-dot" style="color:var(--gold);"></i> ${escapeHtml(item.location)}
               </div>
             </div>
 
-            <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">${item.title}</h4>
-            <p style="font-size:0.83rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${item.description}</p>
+            <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">${escapeHtml(item.title)}</h4>
+            <p style="font-size:0.83rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${escapeHtml(item.description)}</p>
             <div style="font-size:0.78rem; color:var(--text3); margin-bottom:0.75rem;">
-              <strong>Pemilik/Penemu:</strong> ${item.contactName} (${item.contactWhatsapp})
+              <strong>Pemilik/Penemu:</strong> ${escapeHtml(item.contactName)} (${escapeHtml(item.contactWhatsapp)})
             </div>
 
             <div class="queue-actions-row">
-              <button class="btn-hero ${isClaimed ? 'btn-hero-outline' : 'btn-hero-primary'}" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="toggleClaimedLostFound('${item.id}', '${item.status}')">
+              <button class="btn-hero ${isClaimed ? 'btn-hero-outline' : 'btn-hero-primary'}" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="toggleClaimedLostFound('${escapeHtml(item.id)}', '${escapeHtml(item.status)}')">
                 <i class="fas ${isClaimed ? 'fa-rotate-left' : 'fa-check'}"></i> 
                 ${isClaimed ? 'Buka Semula Status' : 'Tandakan Selesai / Dituntut'}
               </button>
-              <button class="btn-danger" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="deleteLostFound('${item.id}')">
+              <button class="btn-danger" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="deleteLostFound('${escapeHtml(item.id)}')">
                 <i class="fas fa-trash-can"></i> Padam
               </button>
             </div>
@@ -2547,10 +2652,10 @@
       if (stockTbody) {
         stockTbody.innerHTML = adminBetaData.equipment.map(eq => `
           <tr>
-            <td><strong>${eq.name}</strong></td>
-            <td>${eq.categoryLabel || eq.category}</td>
-            <td>${eq.totalQty} unit</td>
-            <td><strong style="color:${eq.availableQty > 0 ? '#22d3a0' : '#ef4444'};">${eq.availableQty} unit</strong></td>
+            <td><strong>${escapeHtml(eq.name)}</strong></td>
+            <td>${escapeHtml(eq.categoryLabel || eq.category)}</td>
+            <td>${Number(eq.totalQty) || 0} unit</td>
+            <td><strong style="color:${eq.availableQty > 0 ? '#22d3a0' : '#ef4444'};">${Number(eq.availableQty) || 0} unit</strong></td>
             <td>
               <span class="stock-tag ${eq.availableQty > 0 ? 'available' : 'out'}">
                 ${eq.availableQty > 0 ? 'Tersedia' : 'Habis'}
@@ -2572,19 +2677,19 @@
         loansList.innerHTML = activeLoans.map(loan => `
           <div class="queue-card-item">
             <div class="queue-top-row">
-              <span class="queue-ticket-id">${loan.loanId}</span>
+              <span class="queue-ticket-id">${escapeHtml(loan.loanId)}</span>
               <span class="stock-tag available"><i class="fas fa-clock"></i> Sedang Dipinjam</span>
             </div>
-            <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">${loan.equipmentName}</h4>
+            <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">${escapeHtml(loan.equipmentName)}</h4>
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:0.5rem; background:var(--surface2); padding:0.65rem 0.85rem; border-radius:8px; font-size:0.78rem; margin-bottom:0.75rem;">
-              <div><strong>Peminjam:</strong> ${loan.studentName}</div>
-              <div><strong>No. Matrik:</strong> ${loan.matric}</div>
-              <div><strong>No. Telefon:</strong> ${loan.phone}</div>
-              <div><strong>Masa Pinjam:</strong> ${loan.borrowDateFormatted || '-'}</div>
-              <div><strong style="color:var(--gold);">Jangkaan Pulang:</strong> ${loan.expectedReturn}</div>
+              <div><strong>Peminjam:</strong> ${escapeHtml(loan.studentName)}</div>
+              <div><strong>No. Matrik:</strong> ${escapeHtml(loan.matric)}</div>
+              <div><strong>No. Telefon:</strong> ${escapeHtml(loan.phone)}</div>
+              <div><strong>Masa Pinjam:</strong> ${escapeHtml(loan.borrowDateFormatted || '-')}</div>
+              <div><strong style="color:var(--gold);">Jangkaan Pulang:</strong> ${escapeHtml(loan.expectedReturn)}</div>
             </div>
             <div class="queue-actions-row">
-              <button class="btn-hero btn-hero-primary" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="returnEquipmentLoan('${loan.loanId}')">
+              <button class="btn-hero btn-hero-primary" style="padding:0.4rem 0.85rem; font-size:0.78rem;" onclick="returnEquipmentLoan('${escapeHtml(loan.loanId)}')">
                 <i class="fas fa-boxes-packing"></i> Tandakan Pulang (Return to Storage)
               </button>
             </div>

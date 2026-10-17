@@ -1,5 +1,15 @@
 // ══ JPP PMKL STUDENT PORTAL - APP MODULE ══
 
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ── Photo Album Lightbox ──
     let albumPhotos = [
       { src: 'albums/jpp.jpeg', caption: 'JPP PMKL' },
@@ -404,10 +414,10 @@
                     <div class="ann-item">
                       <div class="ann-dot ${dotColor}"></div>
                       <div class="ann-content">
-                        <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
-                        <h5>${item.title}</h5>
-                        <p>${item.content}</p>
-                        <div style="font-size:0.74rem; color:var(--text3);">${item.date}</div>
+                        <span class="tag tag-${escapeHtml(item.tagColor || 'gold')}">${escapeHtml(item.category || 'Notice')}</span>
+                        <h5>${escapeHtml(item.title)}</h5>
+                        <p>${escapeHtml(item.content)}</p>
+                        <div style="font-size:0.74rem; color:var(--text3);">${escapeHtml(item.date)}</div>
                       </div>
                     </div>
                   `;
@@ -425,12 +435,12 @@
                 annList.forEach(item => {
                   pageList.innerHTML += `
                     <div class="ann-card-big">
-                      <span class="tag tag-${item.tagColor || 'gold'}">${item.category || 'Notice'}</span>
-                      <h4>${item.title}</h4>
-                      <p>${item.content}</p>
+                      <span class="tag tag-${escapeHtml(item.tagColor || 'gold')}">${escapeHtml(item.category || 'Notice')}</span>
+                      <h4>${escapeHtml(item.title)}</h4>
+                      <p>${escapeHtml(item.content)}</p>
                       <div class="ann-meta">
-                        <span><i class="fas fa-calendar-alt"></i> ${item.date}</span>
-                        <span><i class="fas fa-user"></i> ${item.author || 'JPP PMKL'}</span>
+                        <span><i class="fas fa-calendar-alt"></i> ${escapeHtml(item.date)}</span>
+                        <span><i class="fas fa-user"></i> ${escapeHtml(item.author || 'JPP PMKL')}</span>
                       </div>
                     </div>
                   `;
@@ -460,12 +470,12 @@
                   dashEvents.innerHTML += `
                     <div class="event-item">
                       <div class="event-date-box">
-                        <div class="day">${item.dateDay}</div>
-                        <div class="mon">${item.dateMonth}</div>
+                        <div class="day">${escapeHtml(item.dateDay)}</div>
+                        <div class="mon">${escapeHtml(item.dateMonth)}</div>
                       </div>
                       <div class="event-info-text">
-                        <h5>${item.title}</h5>
-                        <p><i class="fas fa-clock" style="color:var(--gold);margin-right:0.25rem;"></i>${item.time} — ${item.location}</p>
+                        <h5>${escapeHtml(item.title)}</h5>
+                        <p><i class="fas fa-clock" style="color:var(--gold);margin-right:0.25rem;"></i>${escapeHtml(item.time)} — ${escapeHtml(item.location)}</p>
                       </div>
                     </div>
                   `;
@@ -483,19 +493,19 @@
                 eventsList.forEach(item => {
                   masonry.innerHTML += `
                     <div class="event-card-full">
-                      <div class="event-thumb ${item.colorGrad || 'event-thumb-grad1'}">${item.icon || '📅'}</div>
+                      <div class="event-thumb ${escapeHtml(item.colorGrad || 'event-thumb-grad1')}">${escapeHtml(item.icon || '📅')}</div>
                       <div class="event-card-body">
-                        <h4>${item.title}</h4>
+                        <h4>${escapeHtml(item.title)}</h4>
                         <div class="event-meta-row">
-                          <div class="event-meta-item"><i class="fas fa-calendar-alt"></i> ${item.dateFull || (item.dateDay + ' ' + item.dateMonth)}</div>
+                          <div class="event-meta-item"><i class="fas fa-calendar-alt"></i> ${escapeHtml(item.dateFull || (item.dateDay + ' ' + item.dateMonth))}</div>
                         </div>
                         <div class="event-meta-row">
-                          <div class="event-meta-item"><i class="fas fa-clock"></i> ${item.time}</div>
+                          <div class="event-meta-item"><i class="fas fa-clock"></i> ${escapeHtml(item.time)}</div>
                         </div>
                         <div class="event-meta-row">
-                          <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${item.location}</div>
+                          <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(item.location)}</div>
                         </div>
-                        <button class="btn-event" onclick="showToast('Event: ' + '${item.title.replace(/'/g, "\\'")}')">Learn More</button>
+                        <button class="btn-event" onclick="showToast('Event selected: ' + ${JSON.stringify(item.title || '')})">Learn More</button>
                       </div>
                     </div>
                   `;
@@ -1037,6 +1047,9 @@ function openPrintTicketModal(job) {
   if (job.paymentStatus === 'paid') {
     payText.textContent = 'Paid via DuitNow QR';
     payText.style.color = '#22d3a0';
+  } else if (job.paymentStatus === 'paid_pending_verification') {
+    payText.textContent = 'Receipt Submitted (Pending Counter Verification)';
+    payText.style.color = '#f5c842';
   } else {
     payText.textContent = 'Unpaid (Pay at Counter)';
     payText.style.color = '#ef4444';
@@ -1173,29 +1186,34 @@ function renderMyRecentTickets() {
     list.innerHTML = '';
     tickets.forEach(t => {
       const isPaid = t.paymentStatus === 'paid';
+      const isPending = t.paymentStatus === 'paid_pending_verification';
       const statusPill = t.status === 'completed'
         ? '<span class="print-badge open">Ready for Pickup</span>'
         : (t.status === 'printing'
           ? '<span class="print-badge busy">Printing in Progress</span>'
           : '<span class="print-badge open">Queued for Printing</span>');
 
+      const payDisplay = isPaid
+        ? '<span style="color:#22d3a0;">✓ Paid</span>'
+        : (isPending ? '<span style="color:#f5c842;">⏳ Receipt Submitted (Pending Verification)</span>' : '<span style="color:#ef4444;">• Unpaid (Pay at Counter)</span>');
+
       list.innerHTML += `
         <div class="queue-card-item">
           <div class="queue-top-row">
             <div>
-              <span class="queue-ticket-id">${t.id}</span>
-              <span style="font-size:0.8rem; color:var(--text3); margin-left:8px;">${new Date(t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+              <span class="queue-ticket-id">${escapeHtml(t.id)}</span>
+              <span style="font-size:0.8rem; color:var(--text3); margin-left:8px;">${escapeHtml(new Date(t.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }))}</span>
             </div>
             ${statusPill}
           </div>
           <div style="font-size:0.85rem; color:var(--text); margin-bottom:4px;">
-            <i class="fas fa-file" style="color:var(--gold); margin-right:5px;"></i> <strong>${t.fileName}</strong>
-            &nbsp;•&nbsp; ${t.formatText} &nbsp;•&nbsp; ${t.pages} pages × ${t.copies}
+            <i class="fas fa-file" style="color:var(--gold); margin-right:5px;"></i> <strong>${escapeHtml(t.fileName)}</strong>
+            &nbsp;•&nbsp; ${escapeHtml(t.formatText)} &nbsp;•&nbsp; ${Number(t.pages) || 1} pages × ${Number(t.copies) || 1}
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.82rem; margin-top:8px;">
             <div>Total: <strong style="color:var(--gold);">RM ${Number(t.totalAmount).toFixed(2)}</strong></div>
-            <div style="font-size:0.78rem; color:${isPaid ? '#22d3a0' : '#ef4444'};">
-              ${isPaid ? '✓ Paid' : '• Unpaid (Pay at Counter)'}
+            <div style="font-size:0.78rem;">
+              ${payDisplay}
             </div>
           </div>
         </div>
@@ -1879,19 +1897,19 @@ function renderTicketDetail(item) {
     <div class="ticket-result-card">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; flex-wrap:wrap; gap:0.5rem;">
         <span style="font-family:'Space Mono', monospace; font-size:1rem; font-weight:700; color:var(--gold);">
-          <i class="fas fa-ticket"></i> ${item.id}
+          <i class="fas fa-ticket"></i> ${escapeHtml(item.id)}
         </span>
-        <span class="ticket-status-pill ${st.class}">
-          <i class="fas ${st.icon}"></i> ${st.label}
+        <span class="ticket-status-pill ${escapeHtml(st.class)}">
+          <i class="fas ${escapeHtml(st.icon)}"></i> ${escapeHtml(st.label)}
         </span>
       </div>
 
-      <h4 style="font-size:0.95rem; margin-bottom:0.4rem; color:var(--text);">${item.title}</h4>
-      <p style="font-size:0.82rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${item.description}</p>
+      <h4 style="font-size:0.95rem; margin-bottom:0.4rem; color:var(--text);">${escapeHtml(item.title)}</h4>
+      <p style="font-size:0.82rem; color:var(--text2); line-height:1.4; margin-bottom:0.75rem;">${escapeHtml(item.description)}</p>
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.75rem; color:var(--text3); margin-bottom:0.85rem; padding:0.5rem 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
-        <div><i class="fas fa-location-dot" style="color:var(--gold);"></i> ${item.location}</div>
-        <div><i class="fas fa-calendar" style="color:var(--gold);"></i> ${item.dateFormatted || item.createdAt?.slice(0,10) || '-'}</div>
+        <div><i class="fas fa-location-dot" style="color:var(--gold);"></i> ${escapeHtml(item.location)}</div>
+        <div><i class="fas fa-calendar" style="color:var(--gold);"></i> ${escapeHtml(item.dateFormatted || item.createdAt?.slice(0,10) || '-')}</div>
       </div>
 
       <!-- Official JPP Action Notes Timeline -->
@@ -1900,7 +1918,7 @@ function renderTicketDetail(item) {
           <i class="fas fa-comment-dots"></i> Catatan Tindakan Rasmi JPP:
         </div>
         <div style="font-size:0.8rem; color:var(--text); line-height:1.4;">
-          ${item.adminNotes || 'Laporan telah direkodkan. EXCO JPP sedang mengambil tindakan bersama pihak pentadbiran PMKL.'}
+          ${escapeHtml(item.adminNotes || 'Laporan telah direkodkan. EXCO JPP sedang mengambil tindakan bersama pihak pentadbiran PMKL.')}
         </div>
       </div>
     </div>
@@ -1939,7 +1957,8 @@ function renderLostFoundGrid(filterType = 'all') {
     const isClaimed = it.status === 'claimed';
     const badgeClass = isClaimed ? 'claimed' : (isLost ? 'lost' : 'found');
     const badgeText = isClaimed ? 'Telah Dipulangkan' : (isLost ? 'Hilang' : 'Dijumpai');
-    const waText = encodeURIComponent(`Salam sejahtera, saya menghubungi mengenai barangan: "${it.title}" yang disiarkan di Portal JPP PMKL.`);
+    const cleanPhone = String(it.contactWhatsapp || '').replace(/\D/g, '');
+    const waText = encodeURIComponent(`Salam sejahtera, saya menghubungi mengenai barangan: "${it.title || ''}" yang disiarkan di Portal JPP PMKL.`);
 
     grid.innerHTML += `
       <div class="lf-card">
@@ -1947,15 +1966,15 @@ function renderLostFoundGrid(filterType = 'all') {
           <span class="lf-badge ${badgeClass}">
             <i class="fas ${isClaimed ? 'fa-check' : (isLost ? 'fa-circle-exclamation' : 'fa-hand-holding')}"></i> ${badgeText}
           </span>
-          <span style="font-size:0.74rem; color:var(--text3);">${it.dateReported}</span>
+          <span style="font-size:0.74rem; color:var(--text3);">${escapeHtml(it.dateReported)}</span>
         </div>
         <div class="lf-card-body">
-          <h4>${it.title}</h4>
-          <p>${it.description}</p>
-          <div class="lf-meta-item"><i class="fas fa-location-dot" style="color:var(--gold);"></i> ${it.location}</div>
-          <div class="lf-meta-item"><i class="fas fa-user" style="color:var(--gold);"></i> ${it.contactName}</div>
+          <h4>${escapeHtml(it.title)}</h4>
+          <p>${escapeHtml(it.description)}</p>
+          <div class="lf-meta-item"><i class="fas fa-location-dot" style="color:var(--gold);"></i> ${escapeHtml(it.location)}</div>
+          <div class="lf-meta-item"><i class="fas fa-user" style="color:var(--gold);"></i> ${escapeHtml(it.contactName)}</div>
           ${!isClaimed ? `
-            <a class="btn-whatsapp" href="https://wa.me/${it.contactWhatsapp}?text=${waText}" target="_blank" rel="noopener noreferrer">
+            <a class="btn-whatsapp" href="https://wa.me/${escapeHtml(cleanPhone)}?text=${waText}" target="_blank" rel="noopener noreferrer">
               <i class="fab fa-whatsapp"></i> Hubungi Pemilik / Penemu
             </a>
           ` : `
@@ -2314,14 +2333,22 @@ async function handleBorrowSubmit(e) {
   eq.availableQty -= 1;
   renderEquipmentGrid();
 
-  const loanId = `LN-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+  let loanId = `LN-2026-${Math.floor(1000 + Math.random() * 9000)}`;
 
   try {
-    await fetch('/api/beta?module=equipment', {
+    const res = await fetch('/api/beta?module=equipment', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ equipmentId: equipId, studentName, matric, phone, expectedReturn })
     });
+    if (res.ok) {
+      const data = await res.json();
+      if (data.loanId) loanId = data.loanId;
+      if (typeof data.remainingQty === 'number') {
+        eq.availableQty = data.remainingQty;
+        renderEquipmentGrid();
+      }
+    }
   } catch (err) {}
 
   closeBorrowModal();

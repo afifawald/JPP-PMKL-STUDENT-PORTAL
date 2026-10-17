@@ -161,6 +161,48 @@ function verifyAdmin(request, env) {
   return provided === configuredKey;
 }
 
+function maskAduan(item) {
+  if (!item) return null;
+  const isAnon = !!item.student?.isAnonymous;
+  const rawName = item.student?.name || "Pelajar PMKL";
+  const rawMatric = item.student?.matric || "PMKL";
+  return {
+    id: item.id,
+    createdAt: item.createdAt,
+    dateFormatted: item.dateFormatted,
+    category: item.category,
+    categoryLabel: item.categoryLabel,
+    location: item.location,
+    title: item.title,
+    description: item.description,
+    status: item.status,
+    statusLabel: item.statusLabel,
+    adminNotes: item.adminNotes,
+    student: {
+      name: isAnon ? "Pelajar Tanpa Nama (Anonymous)" : (rawName.length > 2 ? rawName.charAt(0) + "*** " + rawName.slice(-2) : rawName),
+      matric: isAnon ? "Rahsia" : (rawMatric.length > 4 ? rawMatric.slice(0, 3) + "****" + rawMatric.slice(-2) : "****"),
+      isAnonymous: isAnon
+    }
+  };
+}
+
+function maskLoan(l) {
+  if (!l) return null;
+  const rawName = l.studentName || "Pelajar PMKL";
+  const rawMatric = l.matric || "****";
+  return {
+    loanId: l.loanId,
+    equipmentId: l.equipmentId,
+    equipmentName: l.equipmentName,
+    studentName: rawName.length > 2 ? rawName.charAt(0) + "*** " + rawName.slice(-2) : rawName,
+    matric: rawMatric.length > 4 ? rawMatric.slice(0, 3) + "****" : "****",
+    borrowDateFormatted: l.borrowDateFormatted,
+    expectedReturn: l.expectedReturn,
+    status: l.status,
+    statusLabel: l.statusLabel
+  };
+}
+
 export async function onRequestGet(context) {
   try {
     const url = new URL(context.request.url);
@@ -182,7 +224,9 @@ export async function onRequestGet(context) {
           headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
         });
       }
-      return new Response(JSON.stringify(found), {
+      // If student lookup, mask sensitive personal data
+      const resItem = isAdmin ? found : maskAduan(found);
+      return new Response(JSON.stringify(resItem), {
         headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
       });
     }
@@ -194,24 +238,7 @@ export async function onRequestGet(context) {
         const stored = await context.env.PORTAL_DATA.get("beta_aduan", { type: "json" });
         if (Array.isArray(stored)) aduanList = stored;
       }
-      // If not admin, mask sensitive student identity for public feed
-      const safeList = isAdmin ? aduanList : aduanList.map(item => ({
-        id: item.id,
-        createdAt: item.createdAt,
-        dateFormatted: item.dateFormatted,
-        category: item.category,
-        categoryLabel: item.categoryLabel,
-        location: item.location,
-        title: item.title,
-        description: item.description,
-        status: item.status,
-        statusLabel: item.statusLabel,
-        adminNotes: item.adminNotes,
-        student: {
-          name: item.student.isAnonymous ? "Pelajar Tanpa Nama (Anonymous)" : item.student.name.charAt(0) + "*** " + item.student.name.slice(-2),
-          matric: item.student.isAnonymous ? "Rahsia" : item.student.matric.slice(0, 3) + "****" + item.student.matric.slice(-2)
-        }
-      }));
+      const safeList = isAdmin ? aduanList : aduanList.map(maskAduan);
 
       return new Response(JSON.stringify(safeList), {
         headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
@@ -241,7 +268,10 @@ export async function onRequestGet(context) {
         const storedLoans = await context.env.PORTAL_DATA.get("beta_loans", { type: "json" });
         if (Array.isArray(storedLoans)) loanList = storedLoans;
       }
-      return new Response(JSON.stringify({ equipment: equipList, loans: isAdmin ? loanList : loanList.filter(l => l.status === "active") }), {
+      return new Response(JSON.stringify({
+        equipment: equipList,
+        loans: isAdmin ? loanList : loanList.filter(l => l.status === "active").map(maskLoan)
+      }), {
         headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
       });
     }
@@ -263,10 +293,10 @@ export async function onRequestGet(context) {
     }
 
     return new Response(JSON.stringify({
-      aduan: isAdmin ? aduanList : aduanList.slice(0, 10),
+      aduan: isAdmin ? aduanList : aduanList.slice(0, 10).map(maskAduan),
       lostFound: lfList,
       equipment: equipList,
-      loans: loanList
+      loans: isAdmin ? loanList : loanList.filter(l => l.status === "active").map(maskLoan)
     }), {
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
     });
@@ -302,18 +332,18 @@ export async function onRequestPost(context) {
         createdAt: now.toISOString(),
         dateFormatted: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
         student: {
-          name: payload.isAnonymous ? "Pelajar Tanpa Nama" : (payload.name || "Pelajar PMKL"),
-          matric: payload.isAnonymous ? "ANONYMOUS" : (payload.matric || "TIDAK DIBEKALKAN"),
-          phone: payload.isAnonymous ? "" : (payload.phone || ""),
-          email: payload.email || "",
+          name: payload.isAnonymous ? "Pelajar Tanpa Nama" : String(payload.name || "Pelajar PMKL").trim().slice(0, 100),
+          matric: payload.isAnonymous ? "ANONYMOUS" : String(payload.matric || "TIDAK DIBEKALKAN").trim().slice(0, 30),
+          phone: payload.isAnonymous ? "" : String(payload.phone || "").trim().slice(0, 25),
+          email: String(payload.email || "").trim().slice(0, 100),
           isAnonymous: !!payload.isAnonymous
         },
-        category: payload.category || "facility",
-        categoryLabel: payload.categoryLabel || "Kemudahan Kampus",
-        location: payload.location || "Politeknik METrO Kuala Lumpur",
-        title: payload.title || "Maklum Balas / Aduan Pelajar",
-        description: payload.description || "",
-        image: payload.image || null, // compressed base64 if present
+        category: String(payload.category || "facility").slice(0, 50),
+        categoryLabel: String(payload.categoryLabel || "Kemudahan Kampus").slice(0, 100),
+        location: String(payload.location || "Politeknik METrO Kuala Lumpur").trim().slice(0, 150),
+        title: String(payload.title || "Maklum Balas / Aduan Pelajar").trim().slice(0, 200),
+        description: String(payload.description || "").trim().slice(0, 2000),
+        image: (payload.image && typeof payload.image === 'string' && payload.image.length < 2500000) ? payload.image : null,
         status: "submitted",
         statusLabel: "Diterima (Dalam Barisan)",
         adminNotes: "Laporan anda telah diterima oleh sistem JPP PMKL dan sedang dalam semakan EXCO.",
@@ -321,6 +351,7 @@ export async function onRequestPost(context) {
       };
 
       aduanList.unshift(newAduan);
+      if (aduanList.length > 100) aduanList = aduanList.slice(0, 100);
 
       if (context.env.PORTAL_DATA) {
         await context.env.PORTAL_DATA.put("beta_aduan", JSON.stringify(aduanList));
@@ -343,23 +374,27 @@ export async function onRequestPost(context) {
       const itemId = `LF-${new Date().getFullYear()}-${randomSuffix}`;
       const now = new Date();
 
+      const rawPhone = String(payload.contactWhatsapp || "").replace(/\D/g, '').slice(0, 15);
+      const cleanPhone = rawPhone.length > 5 ? rawPhone : "60133280168";
+
       const newItem = {
         id: itemId,
         type: payload.type === "lost" ? "lost" : "found",
-        title: payload.title || "Barangan Tanpa Nama",
-        category: payload.category || "other",
-        categoryLabel: payload.categoryLabel || "Lain-lain",
-        location: payload.location || "Kawasan PMKL",
+        title: String(payload.title || "Barangan Tanpa Nama").trim().slice(0, 200),
+        category: String(payload.category || "other").slice(0, 50),
+        categoryLabel: String(payload.categoryLabel || "Lain-lain").slice(0, 100),
+        location: String(payload.location || "Kawasan PMKL").trim().slice(0, 150),
         dateReported: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-        description: payload.description || "",
-        photo: payload.photo || null,
-        contactName: payload.contactName || "Pelajar PMKL",
-        contactWhatsapp: payload.contactWhatsapp ? payload.contactWhatsapp.replace(/\D/g, '') : "60133280168",
+        description: String(payload.description || "").trim().slice(0, 1500),
+        photo: (payload.photo && typeof payload.photo === 'string' && payload.photo.length < 2500000) ? payload.photo : null,
+        contactName: String(payload.contactName || "Pelajar PMKL").trim().slice(0, 100),
+        contactWhatsapp: cleanPhone,
         status: "open",
         statusLabel: payload.type === "lost" ? "Sedang Dicari" : "Belum Dituntut"
       };
 
       lfList.unshift(newItem);
+      if (lfList.length > 60) lfList = lfList.slice(0, 60);
 
       if (context.env.PORTAL_DATA) {
         await context.env.PORTAL_DATA.put("beta_lostfound", JSON.stringify(lfList));
@@ -372,7 +407,7 @@ export async function onRequestPost(context) {
 
     // ── 3. Submit Equipment Loan ──
     if (module === "equipment") {
-      let equipList = DEFAULT_EQUIPMENT;
+      let equipList = JSON.parse(JSON.stringify(DEFAULT_EQUIPMENT));
       let loanList = DEFAULT_LOANS;
       if (context.env.PORTAL_DATA) {
         const storedEquip = await context.env.PORTAL_DATA.get("beta_equipment", { type: "json" });
@@ -401,17 +436,18 @@ export async function onRequestPost(context) {
         loanId,
         equipmentId: equipList[eqIndex].id,
         equipmentName: equipList[eqIndex].name,
-        studentName: payload.studentName || "Pelajar PMKL",
-        matric: payload.matric || "TIDAK DIBEKALKAN",
-        phone: payload.phone || "",
+        studentName: String(payload.studentName || "Pelajar PMKL").trim().slice(0, 100),
+        matric: String(payload.matric || "TIDAK DIBEKALKAN").trim().slice(0, 30),
+        phone: String(payload.phone || "").trim().slice(0, 25),
         borrowDate: now.toISOString(),
         borrowDateFormatted: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-        expectedReturn: payload.expectedReturn || "Sebelum 6:00 PM Hari Ini",
+        expectedReturn: String(payload.expectedReturn || "Sebelum 6:00 PM Hari Ini").trim().slice(0, 80),
         status: "active",
         statusLabel: "Sedang Dipinjam"
       };
 
       loanList.unshift(newLoan);
+      if (loanList.length > 50) loanList = loanList.slice(0, 50);
 
       if (context.env.PORTAL_DATA) {
         await context.env.PORTAL_DATA.put("beta_equipment", JSON.stringify(equipList));

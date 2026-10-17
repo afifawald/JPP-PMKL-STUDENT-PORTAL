@@ -78,15 +78,16 @@ export async function onRequestPost(context) {
 
     const newItem = {
       id: "ann-" + Date.now(),
-      title: item.title || "Untitled Announcement",
-      category: item.category || "General",
-      tagColor: item.tagColor || (item.category === "Important" ? "gold" : item.category === "Events" ? "blue" : "green"),
-      date: item.date || new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }),
-      author: item.author || "JPP PMKL",
-      content: item.content || ""
+      title: String(item.title || "Untitled Announcement").trim().slice(0, 200),
+      category: String(item.category || "General").trim().slice(0, 50),
+      tagColor: String(item.tagColor || (item.category === "Important" ? "gold" : item.category === "Events" ? "blue" : "green")).slice(0, 20),
+      date: String(item.date || new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })).trim().slice(0, 40),
+      author: String(item.author || "JPP PMKL").trim().slice(0, 80),
+      content: String(item.content || "").trim().slice(0, 2500)
     };
 
     list.unshift(newItem);
+    if (list.length > 50) list = list.slice(0, 50);
 
     if (context.env.PORTAL_DATA) {
       await context.env.PORTAL_DATA.put("announcements", JSON.stringify(list));

@@ -84,17 +84,18 @@ export async function onRequestPost(context) {
 
     const newItem = {
       id: "rent-" + Date.now(),
-      apartment: item.apartment || "Apartment Mahsuri",
-      block: item.block || "Blok 1",
-      unit: item.unit || "Unit New",
-      price: item.price ? (item.price.startsWith("RM") ? item.price : "RM " + item.price) : "RM 400",
-      details: item.details || "Available for PMKL students.",
-      contact: item.contact || "JPP Management",
-      address: item.address || "Setiawangsa, Kuala Lumpur",
-      features: Array.isArray(item.features) ? item.features : (item.features ? item.features.split(",").map(s => s.trim()) : ["Furnished"])
+      apartment: String(item.apartment || "Apartment Mahsuri").trim().slice(0, 100),
+      block: String(item.block || "Blok 1").trim().slice(0, 50),
+      unit: String(item.unit || "Unit New").trim().slice(0, 50),
+      price: String(item.price ? (item.price.startsWith("RM") ? item.price : "RM " + item.price) : "RM 400").trim().slice(0, 30),
+      details: String(item.details || "Available for PMKL students.").trim().slice(0, 1500),
+      contact: String(item.contact || "JPP Management").trim().slice(0, 100),
+      address: String(item.address || "Setiawangsa, Kuala Lumpur").trim().slice(0, 150),
+      features: (Array.isArray(item.features) ? item.features : (item.features ? item.features.split(",").map(s => s.trim()) : ["Furnished"])).slice(0, 15).map(f => String(f).slice(0, 50))
     };
 
     list.unshift(newItem);
+    if (list.length > 50) list = list.slice(0, 50);
 
     if (context.env.PORTAL_DATA) {
       await context.env.PORTAL_DATA.put("rentals", JSON.stringify(list));
