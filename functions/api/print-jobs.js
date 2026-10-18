@@ -214,10 +214,16 @@ export async function onRequestPost(context) {
       // Add to front of queue
       jobs.unshift(newJob);
 
-      // Keep maximum 30 recent jobs in KV to preserve storage limits
+      // Keep maximum 30 recent jobs in KV. Retain raw file blobs only for the most recent active jobs
       if (jobs.length > 30) {
         jobs = jobs.slice(0, 30);
       }
+      jobs.forEach((j, idx) => {
+        if (idx >= 8 || j.status === 'completed' || j.status === 'cancelled') {
+          if (j.file && j.file.data) j.file.data = null;
+          if (j.receipt && j.receipt.data) j.receipt.data = null;
+        }
+      });
 
       if (context.env.PORTAL_DATA) {
         await context.env.PORTAL_DATA.put("print_jobs", JSON.stringify(jobs));
@@ -254,7 +260,13 @@ export async function onRequestPost(context) {
         });
       }
 
-      if (status) jobs[jobIndex].status = status;
+      if (status) {
+        jobs[jobIndex].status = status;
+        if (status === "completed" || status === "cancelled") {
+          if (jobs[jobIndex].file) jobs[jobIndex].file.data = null;
+          if (jobs[jobIndex].receipt) jobs[jobIndex].receipt.data = null;
+        }
+      }
       if (paymentStatus) jobs[jobIndex].paymentStatus = paymentStatus;
       jobs[jobIndex].updatedAt = new Date().toISOString();
 

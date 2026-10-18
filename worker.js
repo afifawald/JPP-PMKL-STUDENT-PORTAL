@@ -7,6 +7,8 @@ import * as albumApi from './functions/api/album.js';
 import * as printingApi from './functions/api/printing.js';
 import * as printJobsApi from './functions/api/print-jobs.js';
 import * as betaApi from './functions/api/beta.js';
+import * as eventRsvpApi from './functions/api/event-rsvp.js';
+import * as merchApi from './functions/api/merch.js';
 
 export default {
   async fetch(request, env) {
@@ -66,6 +68,21 @@ export default {
       if (request.method === 'DELETE') return betaApi.onRequestDelete(context);
       if (request.method === 'OPTIONS') return betaApi.onRequestOptions();
       return betaApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/event-rsvp') {
+      if (request.method === 'POST') return eventRsvpApi.onRequestPost(context);
+      if (request.method === 'DELETE') return eventRsvpApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return eventRsvpApi.onRequestOptions();
+      return eventRsvpApi.onRequestGet(context);
+    }
+
+    if (url.pathname === '/api/merch') {
+      if (request.method === 'POST') return merchApi.onRequestPost(context);
+      if (request.method === 'PATCH') return merchApi.onRequestPatch(context);
+      if (request.method === 'DELETE') return merchApi.onRequestDelete(context);
+      if (request.method === 'OPTIONS') return merchApi.onRequestOptions();
+      return merchApi.onRequestGet(context);
     }
 
     // Serve Static Assets (HTML, CSS, JS, Images)

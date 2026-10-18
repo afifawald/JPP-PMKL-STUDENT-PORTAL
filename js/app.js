@@ -275,22 +275,23 @@ function escapeHtml(str) {
       }
 
       // Render cards using premium portal style setup mechanics
-      listings.forEach(item => {
+      window._activeRentalList = listings;
+      listings.forEach((item, idx) => {
         // Build features tags
         let featureChips = '';
-        item.features.forEach(f => {
-          featureChips += `<div class="feat-chip"><i class="fas fa-check-circle" style="color:var(--gold)"></i> ${f}</div>`;
+        (item.features || []).forEach(f => {
+          featureChips += `<div class="feat-chip"><i class="fas fa-check-circle" style="color:var(--gold)"></i> ${escapeHtml(f)}</div>`;
         });
 
         unitGrid.innerHTML += `
             <div class="rent-card">
-              <div class="rent-price-badge">${item.price}/mo</div>
+              <div class="rent-price-badge">${escapeHtml(item.price)}/mo</div>
               <div class="rent-thumb" style="background: var(--surface2); font-size:2.5rem;">🛋️</div>
               <div class="rent-card-body">
-                <h4>${item.unit}</h4>
-                <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical; overflow:hidden;">${item.details}</p>
+                <h4>${escapeHtml(item.unit)}</h4>
+                <p style="font-size:0.85rem; color:var(--text2); margin-bottom:1rem; display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical; overflow:hidden;">${escapeHtml(item.details)}</p>
                 <div class="rent-features">${featureChips}</div>
-                <button class="btn-rent" onclick="openRentModal('${item.unit}', '${item.address}', '${item.price} / month', '${item.details}', '${item.contact}')">View Details</button>
+                <button class="btn-rent" onclick="openRentModalByIndex(${idx})">View Details</button>
               </div>
             </div>
         `;
@@ -298,6 +299,12 @@ function escapeHtml(str) {
     }
 
     // ── Rent Modal Handlers ──
+    function openRentModalByIndex(idx) {
+      const item = (window._activeRentalList || [])[idx];
+      if (!item) return;
+      openRentModal(item.unit, item.address, item.price + ' / month', item.details, item.contact);
+    }
+
     function openRentModal(title, address, price, details, contact) {
       document.getElementById('modalTitle').textContent = title;
       document.getElementById('modalAddress').textContent = address;
@@ -505,7 +512,7 @@ function escapeHtml(str) {
                         <div class="event-meta-row">
                           <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(item.location)}</div>
                         </div>
-                        <button class="btn-event" onclick="openEventRsvpModal(${JSON.stringify(item.id || '')}, ${JSON.stringify(item.title || '')}, ${JSON.stringify(item.dateFull || (item.dateDay + ' ' + item.dateMonth))})"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+                        <button class="btn-event" onclick="openEventRsvpModal('${escapeHtml(item.id || '').replace(/'/g, "\\'")}', '${escapeHtml(item.title || '').replace(/'/g, "\\'")}', '${escapeHtml(item.dateFull || (item.dateDay + ' ' + item.dateMonth)).replace(/'/g, "\\'")}')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
                       </div>
                     </div>
                   `;
@@ -547,8 +554,8 @@ function escapeHtml(str) {
                 photoList.forEach((photo, idx) => {
                   albumGrid.innerHTML += `
                     <div class="album-item" onclick="openLightbox(${idx})">
-                      <img class="album-item-inner" src="${photo.src}" alt="${photo.caption}" loading="lazy" onerror="this.src='albums/jpp.jpeg'">
-                      <div class="album-item-label"><i class="fas fa-camera"></i> ${photo.caption}</div>
+                      <img class="album-item-inner" src="${escapeHtml(photo.src)}" alt="${escapeHtml(photo.caption)}" loading="lazy" onerror="this.src='albums/jpp.jpeg'">
+                      <div class="album-item-label"><i class="fas fa-camera"></i> ${escapeHtml(photo.caption)}</div>
                     </div>
                   `;
                 });
@@ -1245,15 +1252,15 @@ function updatePrintingStatusUI(settings) {
   }
 
   if (hours && settings.hours) {
-    hours.innerHTML = `<i class="fas fa-clock" style="color:var(--gold); margin-right:4px;"></i> ${settings.hours}`;
+    hours.innerHTML = `<i class="fas fa-clock" style="color:var(--gold); margin-right:4px;"></i> ${escapeHtml(settings.hours)}`;
   }
 
   if (loc && settings.location) {
-    loc.innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--gold); margin-right:4px;"></i> ${settings.location}`;
+    loc.innerHTML = `<i class="fas fa-map-marker-alt" style="color:var(--gold); margin-right:4px;"></i> ${escapeHtml(settings.location)}`;
   }
 
   if (notice && settings.notice) {
-    notice.innerHTML = `<i class="fas fa-circle-info"></i> ${settings.notice}`;
+    notice.innerHTML = `<i class="fas fa-circle-info"></i> ${escapeHtml(settings.notice)}`;
   }
 }
 
@@ -3068,10 +3075,10 @@ function handleGlobalSearchInput(e) {
   }
 
   resultsContainer.innerHTML = matches.slice(0, 8).map(m => `
-    <div class="spotlight-item" onclick="selectGlobalSearchResult('${m.section}')">
+    <div class="spotlight-item" onclick="selectGlobalSearchResult('${escapeHtml(m.section)}')">
       <div style="display:flex; align-items:center; gap:0.75rem;">
         <div style="width:36px; height:36px; border-radius:8px; background:var(--surface2); display:flex; align-items:center; justify-content:center; color:var(--gold); border:1px solid var(--border);">
-          <i class="fas ${m.icon}"></i>
+          <i class="fas ${escapeHtml(m.icon)}"></i>
         </div>
         <div>
           <div style="font-size:0.88rem; font-weight:700; color:var(--text);">${escapeHtml(m.title)}</div>

@@ -2001,7 +2001,7 @@
         list.forEach(item => {
           container.innerHTML += `
             <div class="item-list-row">
-              <img src="${item.src}" alt="${escapeHtml(item.caption)}" style="width:55px; height:55px; object-fit:cover; border-radius:8px; border:1px solid var(--border);" onerror="this.src='albums/jpp.jpeg'">
+              <img src="${escapeHtml(item.src)}" alt="${escapeHtml(item.caption)}" style="width:55px; height:55px; object-fit:cover; border-radius:8px; border:1px solid var(--border);" onerror="this.src='albums/jpp.jpeg'">
               <div style="flex:1;">
                 <strong style="font-size:0.9rem;">${escapeHtml(item.caption)}</strong>
                 <div style="font-size:0.75rem; color:var(--text3); margin-top:0.25rem;">
@@ -2294,7 +2294,11 @@
       // 1. PDF Documents: Print via clean Blob URL in dedicated iframe
       if (fileType.includes('pdf') || fileName.endsWith('.pdf')) {
         const blob = dataUrlToBlob(fileData);
-        const blobUrl = blob ? URL.createObjectURL(blob) : fileData;
+        if (!blob) {
+          alert('Fail PDF tidak sah atau rosak.');
+          return;
+        }
+        const blobUrl = URL.createObjectURL(blob);
 
         let printFrame = document.getElementById('hiddenPrintIframe');
         if (printFrame) printFrame.remove();
@@ -2315,7 +2319,7 @@
               if (w) w.focus();
             }
             // Revoke blob URL after 60s
-            if (blob) setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 60000);
           }, 500);
         };
         return;
@@ -2323,18 +2327,25 @@
 
       // 2. Image Files (JPG, PNG, WebP)
       if (fileType.startsWith('image/') || /\.(jpe?g|png|webp|gif)$/i.test(fileName)) {
+        if (!/^data:image\/(png|jpe?g|webp|gif);base64,/i.test(job.file.data)) {
+          alert('Format fail imej tidak sah untuk percetakan.');
+          return;
+        }
         const win = window.open('', '_blank');
         if (win) {
-          win.document.write(`
-            <!DOCTYPE html>
-            <html>
-              <head><title>Print ${escapeHtml(job.file.name)}</title></head>
-              <body style="margin:0; padding:20px; text-align:center; background:#fff;">
-                <img src="${job.file.data}" style="max-width:100%; height:auto;" onload="window.print();" />
-              </body>
-            </html>
-          `);
-          win.document.close();
+          win.document.title = 'Print ' + (job.file.name || 'document');
+          const img = win.document.createElement('img');
+          img.src = job.file.data;
+          img.style.maxWidth = '100%';
+          img.style.height = 'auto';
+          img.onload = () => {
+            try { win.print(); } catch (e) { }
+          };
+          win.document.body.style.margin = '0';
+          win.document.body.style.padding = '20px';
+          win.document.body.style.textAlign = 'center';
+          win.document.body.style.background = '#fff';
+          win.document.body.appendChild(img);
         }
         return;
       }
@@ -2925,7 +2936,12 @@
 
       const formatCell = (val) => {
         if (val === null || val === undefined) return '""';
-        let str = String(val).replace(/"/g, '""');
+        let str = String(val);
+        // Neutralize spreadsheet formula triggers (=, +, -, @, \t, \r)
+        if (/^[=+\-@\t\r]/.test(str)) {
+          str = "'" + str;
+        }
+        str = str.replace(/"/g, '""');
         return `"${str}"`;
       };
 

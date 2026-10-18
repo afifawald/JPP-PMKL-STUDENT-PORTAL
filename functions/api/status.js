@@ -15,11 +15,16 @@ const DEFAULT_STATUS = {
 
 function verifyAdmin(request, env) {
   // If an ADMIN_KEY is configured in Cloudflare environment variables, enforce it.
-  const configuredKey = env.ADMIN_KEY || "jpp2026admin";
+  const configuredKey = String(env.ADMIN_KEY || "jpp2026admin").trim();
   const authHeader = request.headers.get("x-admin-key") || request.headers.get("Authorization");
   if (!authHeader) return false;
-  const provided = authHeader.replace(/^Bearer\s+/i, "").trim();
-  return provided === configuredKey;
+  const provided = String(authHeader.replace(/^Bearer\s+/i, "")).trim();
+  if (provided.length !== configuredKey.length) return false;
+  let diff = 0;
+  for (let i = 0; i < provided.length; i++) {
+    diff |= provided.charCodeAt(i) ^ configuredKey.charCodeAt(i);
+  }
+  return diff === 0;
 }
 
 export async function onRequestGet(context) {
