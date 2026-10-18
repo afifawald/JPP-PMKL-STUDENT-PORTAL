@@ -4180,4 +4180,49 @@
   padding: 1.25rem;
   margin-bottom: 1.25rem;
   position: relative;
+}
+
+/* ══ BILINGUAL LANGUAGE SWITCHER (BM / EN) ══ */
+.btn-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--surface2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.42rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  outline: none;
+}
+
+.btn-lang-toggle:hover {
+  background: var(--gold-dim);
+  border-color: rgba(245, 200, 66, 0.45);
+  color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(245, 200, 66, 0.15);
+}
+
+.btn-lang-toggle i {
+  color: var(--gold);
+  font-size: 0.88rem;
+}
+
+.btn-lang-toggle .lang-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+@media (max-width: 600px) {
+  .btn-lang-toggle {
+    padding: 0.38rem 0.65rem;
+    font-size: 0.75rem;
+  }
 }

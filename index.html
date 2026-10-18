@@ -38,26 +38,30 @@
     </a>
 
     <div class="nav-links" id="navLinks">
-      <a class="nav-link active" data-section="dashboard">Dashboard</a>
-      <a class="nav-link" data-section="announcements">Announcements</a>
-      <a class="nav-link" data-section="events">Events</a>
-      <a class="nav-link" data-section="academic"><i class="fas fa-book-open" style="color:var(--gold); margin-right:4px;"></i> Academic</a>
-      <a class="nav-link" data-section="members">Members</a>
-      <a class="nav-link" data-section="album">Album</a>
-      <a class="nav-link" data-section="printing">Printing</a>
-      <a class="nav-link" data-section="rent">Rent</a>
-      <a class="nav-link" data-section="contact">Contact</a>
-      <a class="nav-link" data-section="beta"><i class="fas fa-flask" style="color:#c084fc; margin-right:4px;"></i> Beta Testing <span class="badge-beta">LAB</span></a>
+      <a class="nav-link active" data-section="dashboard" data-i18n="nav_dashboard">Papan Pemuka</a>
+      <a class="nav-link" data-section="announcements" data-i18n="nav_announcements">Pengumuman</a>
+      <a class="nav-link" data-section="events" data-i18n="nav_events">Acara</a>
+      <a class="nav-link" data-section="academic" data-i18n="nav_academic"><i class="fas fa-book-open" style="color:var(--gold); margin-right:4px;"></i> Akademik</a>
+      <a class="nav-link" data-section="members" data-i18n="nav_members">Ahli JPP</a>
+      <a class="nav-link" data-section="album" data-i18n="nav_album">Galeri</a>
+      <a class="nav-link" data-section="printing" data-i18n="nav_printing">Pusat Cetakan</a>
+      <a class="nav-link" data-section="rent" data-i18n="nav_rent">Rumah Sewa</a>
+      <a class="nav-link" data-section="contact" data-i18n="nav_contact">Hubungi</a>
+      <a class="nav-link" data-section="beta"><i class="fas fa-flask" style="color:#c084fc; margin-right:4px;"></i> <span data-i18n="nav_beta">Makmal Beta</span> <span class="badge-beta">LAB</span></a>
     </div>
 
     <div class="nav-actions">
-      <button class="btn-icon" id="globalSearchBtn" onclick="openGlobalSearch()" title="Search Portal (Ctrl+K)">
+      <button class="btn-lang-toggle" id="langToggleBtn" onclick="toggleLanguage()" title="Tukar Bahasa (Bahasa Melayu / English)" data-i18n-title="nav_lang_title">
+        <i class="fas fa-globe"></i>
+        <span class="lang-text" id="currentLangText">BM</span>
+      </button>
+      <button class="btn-icon" id="globalSearchBtn" onclick="openGlobalSearch()" title="Search Portal (Ctrl+K)" data-i18n-title="nav_search_title">
         <i class="fas fa-magnifying-glass"></i>
       </button>
       <a href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" class="btn-discord-nav" title="Join Akira Lab Discord">
         <i class="fab fa-discord"></i><span>Discord</span>
       </a>
-      <button class="btn-icon" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
+      <button class="btn-icon" id="themeToggle" title="Toggle theme" data-i18n-title="nav_theme_title"><i class="fas fa-moon"></i></button>
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
   </nav>
@@ -75,26 +79,25 @@
         <div class="hero-grid"></div>
 
         <div class="hero-content">
-          <div class="hero-badge"><i class="fas fa-star"></i> Official Student Portal 2026/2027</div>
-          <h1>Welcome to<br><em>JPP PMKL STUDENT PORTAL</em></h1>
-          <p class="hero-sub">Student Representative Committee — Politeknik METrO Kuala Lumpur. Your central hub for
-            announcements, events, and student life.</p>
+          <div class="hero-badge" data-i18n="hero_badge"><i class="fas fa-star"></i> Portal Rasmi Pelajar 2026/2027</div>
+          <h1 data-i18n="hero_title" data-i18n-html>Selamat Datang ke<br><em>PORTAL PELAJAR JPP PMKL</em></h1>
+          <p class="hero-sub" data-i18n="hero_sub">Jawatankuasa Perwakilan Pelajar — Politeknik METrO Kuala Lumpur. Pusat sehenti bagi hebahan rasmi, aktiviti kampus, dan kebajikan siswa.</p>
           <div class="hero-ctas">
-            <button class="btn-hero btn-hero-primary" onclick="navigate('events')"><i class="fas fa-calendar-alt"></i>
-              Upcoming Events</button>
-            <button class="btn-hero btn-hero-outline" onclick="navigate('announcements')"><i class="fas fa-bell"></i>
-              Announcements</button>
+            <button class="btn-hero btn-hero-primary" onclick="navigate('events')" data-i18n="hero_btn_events"><i class="fas fa-calendar-alt"></i>
+              Program &amp; Acara</button>
+            <button class="btn-hero btn-hero-outline" onclick="navigate('announcements')" data-i18n="hero_btn_announcements"><i class="fas fa-bell"></i>
+              Papan Notis</button>
           </div>
           <div class="quick-access">
-            <a class="qa-chip qa-chip-discord" href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord Hub</a>
-            <a class="qa-chip" onclick="navigate('academic')"><i class="fas fa-book-open"></i> Academic Hub</a>
-            <a class="qa-chip" onclick="navigate('announcements')"><i class="fas fa-megaphone"></i> Announcements</a>
-            <a class="qa-chip" onclick="navigate('events')"><i class="fas fa-calendar"></i> Events</a>
-            <a class="qa-chip" onclick="navigate('members')"><i class="fas fa-users"></i> Members</a>
-            <a class="qa-chip" onclick="navigate('printing')"><i class="fas fa-print"></i> Printing Hub</a>
-            <a class="qa-chip" onclick="navigate('rent')"><i class="fas fa-home"></i> Rent House</a>
-            <a class="qa-chip" onclick="navigate('contact')"><i class="fas fa-envelope"></i> Contact</a>
-            <a class="qa-chip" onclick="navigate('album')"><i class="fas fa-images"></i> Gallery</a>
+            <a class="qa-chip qa-chip-discord" href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" data-i18n="qa_discord"><i class="fab fa-discord"></i> Komuniti Discord</a>
+            <a class="qa-chip" onclick="navigate('academic')" data-i18n="qa_academic"><i class="fas fa-book-open"></i> Hab Akademik</a>
+            <a class="qa-chip" onclick="navigate('announcements')" data-i18n="qa_announcements"><i class="fas fa-megaphone"></i> Pengumuman</a>
+            <a class="qa-chip" onclick="navigate('events')" data-i18n="qa_events"><i class="fas fa-calendar"></i> Acara Siswa</a>
+            <a class="qa-chip" onclick="navigate('members')" data-i18n="qa_members"><i class="fas fa-users"></i> Ahli JPP</a>
+            <a class="qa-chip" onclick="navigate('printing')" data-i18n="qa_printing"><i class="fas fa-print"></i> Pusat Cetakan</a>
+            <a class="qa-chip" onclick="navigate('rent')" data-i18n="qa_rent"><i class="fas fa-home"></i> Rumah Sewa</a>
+            <a class="qa-chip" onclick="navigate('contact')" data-i18n="qa_contact"><i class="fas fa-envelope"></i> Hubungi Kami</a>
+            <a class="qa-chip" onclick="navigate('album')" data-i18n="qa_gallery"><i class="fas fa-images"></i> Galeri Foto</a>
           </div>
         </div>
       </div>
@@ -104,85 +107,85 @@
         <div class="stats-row">
           <div class="stat-item">
             <div class="stat-num" data-count="600">0</div>
-            <div class="stat-label">Students</div>
+            <div class="stat-label" data-i18n="stat_students">Jumlah Pelajar</div>
           </div>
           <div class="stat-item">
             <div class="stat-num" data-count="20">0</div>
-            <div class="stat-label">JPP Members</div>
+            <div class="stat-label" data-i18n="stat_members">Ahli JPP</div>
           </div>
           <div class="stat-item">
             <div class="stat-num" data-count="2">0</div>
-            <div class="stat-label">Events This Month</div>
+            <div class="stat-label" data-i18n="stat_events">Acara Bulan Ini</div>
           </div>
           <div class="stat-item">
             <div class="stat-num" data-count="3">0</div>
-            <div class="stat-label">Rental Listings</div>
+            <div class="stat-label" data-i18n="stat_rentals">Unit Rumah Sewa</div>
           </div>
         </div>
 
         <div style="margin-bottom: 0.75rem;">
-          <div class="sec-label"><i class="fas fa-th"></i> Quick Access</div>
+          <div class="sec-label" data-i18n="dash_sec_quick"><i class="fas fa-th"></i> Quick Access</div>
         </div>
         <div class="dashboard-grid">
           <a class="dash-card" onclick="navigate('announcements')"
             style="--card-color: #f5c842; --card-color-bg: rgba(245,200,66,0.1);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon"><i class="fas fa-bell"></i></div>
-            <h4>Announcements</h4>
-            <p>Important notices and updates from JPP PMKL</p>
+            <h4 data-i18n="dash_card_ann_title">Announcements</h4>
+            <p data-i18n="dash_card_ann_desc">Important notices and updates from JPP PMKL</p>
           </a>
           <a class="dash-card" onclick="navigate('events')"
             style="--card-color: #1a4bff; --card-color-bg: rgba(26,75,255,0.12);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon"><i class="fas fa-calendar-alt"></i></div>
-            <h4>Events</h4>
-            <p>Upcoming programs, activities and competitions</p>
+            <h4 data-i18n="dash_card_events_title">Events</h4>
+            <p data-i18n="dash_card_events_desc">Upcoming programs, activities and competitions</p>
           </a>
           <a class="dash-card" onclick="navigate('members')"
             style="--card-color: #22d3a0; --card-color-bg: rgba(34,211,160,0.1);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon"><i class="fas fa-users"></i></div>
-            <h4>JPP Members</h4>
-            <p>Student representatives and committee roles</p>
+            <h4 data-i18n="dash_card_members_title">JPP Members</h4>
+            <p data-i18n="dash_card_members_desc">Student representatives and committee roles</p>
           </a>
           <a class="dash-card" onclick="navigate('rent')"
             style="--card-color: #ff7eb3; --card-color-bg: rgba(255,126,179,0.1);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon"><i class="fas fa-home"></i></div>
-            <h4>Rent House</h4>
-            <p>Affordable student housing near PMKL</p>
+            <h4 data-i18n="dash_card_rent_title">Rent House</h4>
+            <p data-i18n="dash_card_rent_desc">Affordable student housing near PMKL</p>
           </a>
           <a class="dash-card" onclick="navigate('printing')"
             style="--card-color: #06b6d4; --card-color-bg: rgba(6,182,212,0.12);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
                 class="fas fa-print"></i></div>
-            <h4>Printing Hub</h4>
-            <p>Upload documents, set preferences & collect at counter</p>
+            <h4 data-i18n="dash_card_print_title">Printing Hub</h4>
+            <p data-i18n="dash_card_print_desc">Upload documents, set preferences & collect at counter</p>
           </a>
           <a class="dash-card" onclick="navigate('beta')"
             style="--card-color: #a855f7; --card-color-bg: rgba(168,85,247,0.14); border-color: rgba(168,85,247,0.4);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon" style="background:rgba(168,85,247,0.18);color:#c084fc;"><i
                 class="fas fa-flask"></i></div>
-            <h4 style="display:flex; align-items:center; gap:0.4rem;">Beta Testing Lab <span class="badge-beta">v0.9</span></h4>
-            <p>E-Aduan, Poly GPA Calculator & Sports Gear Loans</p>
+            <h4 style="display:flex; align-items:center; gap:0.4rem;"><span data-i18n="dash_card_beta_title">Beta Testing Lab</span> <span class="badge-beta">v0.9</span></h4>
+            <p data-i18n="dash_card_beta_desc">E-Aduan, Poly GPA Calculator & Sports Gear Loans</p>
           </a>
-          <a class="dash-card" onclick="navigate('beta'); switchBetaPillar(1);"
-            style="--card-color: #ed005a; --card-color-bg: rgba(237,0,90,0.12);">
+          <a class="dash-card" onclick="navigate('academic')"
+            style="--card-color: #f5c842; --card-color-bg: rgba(245,200,66,0.12);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
-            <div class="dash-card-icon" style="background:rgba(237,0,90,0.12);color:#ed005a;"><i
-                class="fas fa-hand-holding-heart"></i></div>
-            <h4>E-Aduan &amp; Kebajikan</h4>
-            <p>Hantar aduan fasiliti & semak barangan hilang (Lost &amp; Found)</p>
+            <div class="dash-card-icon" style="background:rgba(245,200,66,0.12);color:var(--gold);"><i
+                class="fas fa-book-open"></i></div>
+            <h4 data-i18n="dash_card_acad_title">Academic Resources Hub</h4>
+            <p data-i18n="dash_card_acad_desc">Academic calendar, past year papers bank (DIT, DRO, DHM), and GPA calculator</p>
           </a>
-          <a class="dash-card" onclick="navigate('beta'); switchBetaPillar(2);"
+          <a class="dash-card" onclick="navigate('contact')"
             style="--card-color: #06b6d4; --card-color-bg: rgba(6,182,212,0.12);">
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
-                class="fas fa-calculator"></i></div>
-            <h4>Kalkulator GPA / HPNM</h4>
-            <p>Simulasi gred Politeknik Malaysia & takwim peperiksaan</p>
+                class="fas fa-building"></i></div>
+            <h4 data-i18n="dash_card_contact_title">Campus Guide & Contact</h4>
+            <p data-i18n="dash_card_contact_desc">Floor-by-floor room directory, IT labs guide, and emergency contact lines</p>
           </a>
 
         </div>
@@ -205,8 +208,8 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-head-icon"><i class="fas fa-bell"></i></div>
-              <h3>Latest Announcements</h3>
-              <a onclick="navigate('announcements')">View all →</a>
+              <h3 data-i18n="dash_panel_ann_title">Latest Announcements</h3>
+              <a onclick="navigate('announcements')" data-i18n="dash_view_all">View all →</a>
             </div>
             <div class="panel-body" id="dashAnnList">
               <div class="ann-item">
@@ -242,8 +245,8 @@
           <div class="panel">
             <div class="panel-head">
               <div class="panel-head-icon"><i class="fas fa-calendar"></i></div>
-              <h3>Upcoming Events</h3>
-              <a onclick="navigate('events')">View all →</a>
+              <h3 data-i18n="dash_panel_events_title">Upcoming Events</h3>
+              <a onclick="navigate('events')" data-i18n="dash_view_all">View all →</a>
             </div>
             <div class="panel-body" id="dashEventsList">
               <div class="event-item">
@@ -286,11 +289,10 @@
 
     <section class="section" id="announcements">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
-        <div class="sec-label"><i class="fas fa-bell"></i> Notice Board</div>
-        <h2 class="sec-title">Announcements</h2>
-        <p class="sec-sub">Stay updated with the latest news, notices, and important information from JPP PMKL.</p>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label" data-i18n="sec_ann_label"><i class="fas fa-bell"></i> Notice Board</div>
+        <h2 class="sec-title" data-i18n="sec_ann_title">Announcements</h2>
+        <p class="sec-sub" data-i18n="sec_ann_sub">Stay updated with the latest news, notices, and important information from JPP PMKL.</p>
 
         <div class="ann-page-grid">
           <div id="annPageList">
@@ -375,11 +377,10 @@
 
     <section class="section" id="events">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
-        <div class="sec-label"><i class="fas fa-calendar"></i> Programs & Activities</div>
-        <h2 class="sec-title">Upcoming Events</h2>
-        <p class="sec-sub">Join us for exciting events, competitions, and community programs organized by JPP PMKL.</p>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label" data-i18n="sec_events_label"><i class="fas fa-calendar"></i> Programs & Activities</div>
+        <h2 class="sec-title" data-i18n="sec_events_title">Upcoming Events</h2>
+        <p class="sec-sub" data-i18n="sec_events_sub">Join us for exciting events, competitions, and community programs organized by JPP PMKL.</p>
 
         <div class="events-masonry" id="eventsMasonry">
           <div class="event-card-full">
@@ -395,7 +396,7 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> PMKL Campus</div>
               </div>
-              <button class="btn-event" onclick="openEventRsvpModal('evt-1', 'New Student Registration Session I: 2026/2027', '22 Jun 2026')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+              <button class="btn-event" onclick="openEventRsvpModal('evt-1', 'New Student Registration Session I: 2026/2027', '22 Jun 2026')" data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
 
@@ -412,7 +413,7 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> TBD</div>
               </div>
-              <button class="btn-event" onclick="openEventRsvpModal('evt-2', 'SuperStar Esport Championship', 'TBD 2026')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+              <button class="btn-event" onclick="openEventRsvpModal('evt-2', 'SuperStar Esport Championship', 'TBD 2026')" data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
 
@@ -429,7 +430,7 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> TBD</div>
               </div>
-              <button class="btn-event" onclick="openEventRsvpModal('evt-3', 'Volunteering & Entrepreneurship Activities', 'Coming Soon')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+              <button class="btn-event" onclick="openEventRsvpModal('evt-3', 'Volunteering & Entrepreneurship Activities', 'Coming Soon')" data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
         </div>
@@ -441,20 +442,20 @@
          ══════════════════════════════════════════════════════════ -->
     <section class="section" id="academic">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
-        <div class="sec-label"><i class="fas fa-book-open"></i> Portal Akademik</div>
-        <h2 class="sec-title">Pusat Sumber Akademik PMKL</h2>
-        <p class="sec-sub">Takwim akademik rasmi, bank soalan peperiksaan akhir (DIT, DRO, DHM), dan kalkulator sasaran HPNM / GPA Politeknik.</p>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label" data-i18n="acad_sec_label"><i class="fas fa-book-open"></i> Portal Akademik</div>
+        <h2 class="sec-title" data-i18n="acad_main_title">Pusat Sumber Akademik PMKL</h2>
+        <p class="sec-sub" data-i18n="acad_main_sub">Takwim akademik rasmi, bank soalan peperiksaan akhir (DIT, DRO, DHM), dan kalkulator sasaran HPNM / GPA Politeknik.</p>
 
         <!-- Sub Tabs -->
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.75rem;">
-          <button class="btn-hero btn-hero-primary" id="btnTabTakwim" onclick="switchAcademicSub('takwim')">
+          <button class="btn-hero btn-hero-primary" id="btnTabTakwim" onclick="switchAcademicSub('takwim')" data-i18n="acad_tab_takwim">
             <i class="fas fa-calendar-days"></i> Takwim Akademik
           </button>
-          <button class="btn-hero btn-hero-outline" id="btnTabPastYears" onclick="switchAcademicSub('pastyears')">
+          <button class="btn-hero btn-hero-outline" id="btnTabPastYears" onclick="switchAcademicSub('pastyears')" data-i18n="acad_tab_pastyears">
             <i class="fas fa-file-lines"></i> Bank Soalan Peperiksaan
           </button>
-          <button class="btn-hero btn-hero-outline" id="btnTabGpa" onclick="switchAcademicSub('gpa')">
+          <button class="btn-hero btn-hero-outline" id="btnTabGpa" onclick="switchAcademicSub('gpa')" data-i18n="acad_tab_gpa">
             <i class="fas fa-calculator"></i> Kalkulator HPNM &amp; GPA
           </button>
         </div>
@@ -466,7 +467,7 @@
               <span class="status-pill status-live"><i class="fas fa-circle-check"></i> Sesi I: 2026/2027</span>
               <div style="font-size:0.85rem; color:var(--text2);">Takwim rasmi tertakluk kepada pindaan Bahagian Peperiksaan PMKL &amp; JPPKK.</div>
             </div>
-            <button class="btn-hero btn-hero-outline" onclick="downloadTakwimPdf()" style="padding:0.4rem 0.85rem; font-size:0.8rem;">
+            <button class="btn-hero btn-hero-outline" onclick="downloadTakwimPdf()" style="padding:0.4rem 0.85rem; font-size:0.8rem;" data-i18n="acad_btn_download_takwim">
               <i class="fas fa-file-pdf"></i> Muat Turun Takwim (PDF)
             </button>
           </div>
@@ -533,16 +534,16 @@
         <div id="academicPanePastYears" style="display:none;">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
             <div>
-              <h3 style="font-size:1.15rem; color:var(--text); margin-bottom:0.25rem;">Kertas Soalan Peperiksaan Akhir Terdahulu</h3>
-              <p style="font-size:0.82rem; color:var(--text2);">Rujukan soalan peperiksaan semester lepas mengikut jabatan pengajian PMKL.</p>
+              <h3 style="font-size:1.15rem; color:var(--text); margin-bottom:0.25rem;" data-i18n="acad_past_heading">Kertas Soalan Peperiksaan Akhir Terdahulu</h3>
+              <p style="font-size:0.82rem; color:var(--text2);" data-i18n="acad_past_desc">Rujukan soalan peperiksaan semester lepas mengikut jabatan pengajian PMKL.</p>
             </div>
             <!-- Department Filters -->
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-              <button class="tag tag-gold" id="pyFilterAll" style="cursor:pointer;" onclick="filterPastYears('all')">Semua</button>
-              <button class="tag" id="pyFilterDIT" style="cursor:pointer; background:rgba(59,130,246,0.15); color:#60a5fa;" onclick="filterPastYears('DIT')">DIT</button>
-              <button class="tag" id="pyFilterDRO" style="cursor:pointer; background:rgba(168,85,247,0.15); color:#c084fc;" onclick="filterPastYears('DRO')">DRO</button>
-              <button class="tag" id="pyFilterDHM" style="cursor:pointer; background:rgba(16,185,129,0.15); color:#34d399;" onclick="filterPastYears('DHM')">DHM</button>
-              <button class="tag" id="pyFilterUmum" style="cursor:pointer; background:rgba(245,158,11,0.15); color:#fbbf24;" onclick="filterPastYears('UMUM')">Umum</button>
+              <button class="tag tag-gold" id="pyFilterAll" style="cursor:pointer;" onclick="filterPastYears('all')" data-i18n="acad_filter_all">Semua</button>
+              <button class="tag" id="pyFilterDIT" style="cursor:pointer; background:rgba(59,130,246,0.15); color:#60a5fa;" onclick="filterPastYears('DIT')" data-i18n="acad_filter_dit">DIT</button>
+              <button class="tag" id="pyFilterDRO" style="cursor:pointer; background:rgba(168,85,247,0.15); color:#c084fc;" onclick="filterPastYears('DRO')" data-i18n="acad_filter_dro">DRO</button>
+              <button class="tag" id="pyFilterDHM" style="cursor:pointer; background:rgba(16,185,129,0.15); color:#34d399;" onclick="filterPastYears('DHM')" data-i18n="acad_filter_dhm">DHM</button>
+              <button class="tag" id="pyFilterUmum" style="cursor:pointer; background:rgba(245,158,11,0.15); color:#fbbf24;" onclick="filterPastYears('UMUM')" data-i18n="acad_filter_umum">Umum</button>
             </div>
           </div>
 
@@ -731,7 +732,7 @@
                   <div class="sec-label"><i class="fas fa-calculator"></i> Pengiraan GPA Semester</div>
                   <h3 style="margin:0; font-size:1.1rem; color:var(--text);">Senarai Kursus Semester Ini</h3>
                 </div>
-                <button class="btn-hero btn-hero-primary" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="addAcademicCourseRow()">
+                <button class="btn-hero btn-hero-primary" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="addAcademicCourseRow()" data-i18n="acad_btn_add_course">
                   <i class="fas fa-plus"></i> Tambah Kursus
                 </button>
               </div>
@@ -740,10 +741,10 @@
                 <table class="rates-table">
                   <thead>
                     <tr>
-                      <th>Kursus / Modul</th>
-                      <th>Kredit</th>
-                      <th>Gred Diperoleh</th>
-                      <th>Tindakan</th>
+                      <th data-i18n="acad_col_course">Kursus / Modul</th>
+                      <th data-i18n="acad_col_credits">Kredit</th>
+                      <th data-i18n="acad_col_grade">Gred Diperoleh</th>
+                      <th data-i18n="acad_col_action">Tindakan</th>
                     </tr>
                   </thead>
                   <tbody id="academicGpaTbody">
@@ -753,7 +754,7 @@
               </div>
 
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem;">
-                <button class="btn-hero btn-hero-outline" onclick="resetAcademicGpa()" style="padding:0.4rem 0.85rem; font-size:0.8rem;">
+                <button class="btn-hero btn-hero-outline" onclick="resetAcademicGpa()" style="padding:0.4rem 0.85rem; font-size:0.8rem;" data-i18n="acad_btn_reset_gpa">
                   <i class="fas fa-rotate-left"></i> Set Semula
                 </button>
                 <div style="font-size:0.8rem; color:var(--text3);">Gred dikira mengikut standard Politeknik Malaysia</div>
@@ -763,7 +764,7 @@
             <!-- Right: GPA & CGPA Score Card -->
             <div>
               <div class="admin-card" style="text-align:center; padding:2rem 1.5rem; border:2px solid var(--gold); margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), var(--surface));">
-                <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:0.35rem;">
+                <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:0.35rem;" data-i18n="acad_gpa_result_label">
                   Anggaran Purata Nilai Gred (GPA)
                 </div>
                 <div style="font-family:'Space Mono', monospace; font-size:3rem; font-weight:800; color:var(--gold); line-height:1.1; margin-bottom:0.5rem;" id="academicGpaScore">
@@ -778,7 +779,7 @@
               </div>
 
               <div class="admin-card">
-                <div class="sec-label"><i class="fas fa-award"></i> Skala Gred Politeknik</div>
+                <div class="sec-label" data-i18n="acad_gpa_ref_heading"><i class="fas fa-award"></i> Skala Gred Politeknik</div>
                 <h4 style="margin-bottom:0.75rem; font-size:0.95rem; color:var(--text);">Rujukan Titik Mata Gred</h4>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.8rem; color:var(--text2);">
                   <div><strong>A :</strong> 4.00 (Cemerlang)</div>
@@ -800,11 +801,10 @@
 
     <section class="section" id="members">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
-        <div class="sec-label"><i class="fas fa-users"></i> Leadership Team</div>
-        <h2 class="sec-title">JPP Members</h2>
-        <p class="sec-sub">Meet your student representatives for the academic year 2026/2027.</p>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label" data-i18n="members_sec_label"><i class="fas fa-users"></i> Leadership Team</div>
+        <h2 class="sec-title" data-i18n="members_main_title">JPP Members</h2>
+        <p class="sec-sub" data-i18n="members_main_sub">Meet your student representatives for the academic year 2026/2027.</p>
 
         <div class="members-header-card">
           <div
@@ -943,11 +943,10 @@
 
     <section class="section" id="album">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
-        <div class="sec-label"><i class="fas fa-images"></i> Gallery</div>
-        <h2 class="sec-title">Photo Album</h2>
-        <p class="sec-sub">Capturing moments and memories from JPP PMKL events and campus life.</p>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label" data-i18n="album_sec_label"><i class="fas fa-images"></i> Gallery</div>
+        <h2 class="sec-title" data-i18n="album_main_title">Photo Album</h2>
+        <p class="sec-sub" data-i18n="album_main_sub">Capturing moments and memories from JPP PMKL events and campus life.</p>
 
         <div class="album-grid" id="albumGrid">
           <div class="album-item" onclick="openLightbox(0)">
@@ -993,8 +992,7 @@
 
     <section class="section" id="rent">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
 
         <div id="rentNavHeader" style="display:none; margin-bottom: 1.5rem;">
           <button class="qa-chip" onclick="showRentHome()" style="border:none; cursor:pointer;">
@@ -1002,10 +1000,9 @@
           </button>
         </div>
 
-        <div class="sec-label"><i class="fas fa-home"></i> Student Housing</div>
-        <h2 class="sec-title" id="rentMainTitle">Rent House Listings</h2>
-        <p class="sec-sub" id="rentMainSub">Select an apartment complex near the polytechnic to view available student
-          accommodation listings.</p>
+        <div class="sec-label" data-i18n="rent_sec_label"><i class="fas fa-home"></i> Student Housing</div>
+        <h2 class="sec-title" id="rentMainTitle" data-i18n="rent_main_title">Rent House Listings</h2>
+        <p class="sec-sub" id="rentMainSub" data-i18n="rent_main_sub">Select an apartment complex near the polytechnic to view available student accommodation listings.</p>
 
         <div id="rentApartmentGrid" class="rent-grid">
           <div class="rent-card" onclick="selectApartment('Apartment Mahsuri')">
@@ -1065,33 +1062,28 @@
 
         <div id="rentFeaturesSection">
           <div style="margin-bottom: 1rem;">
-            <div class="sec-label"><i class="fas fa-star"></i> Why Use RENT@PMKL?</div>
+            <div class="sec-label" data-i18n="rent_why_heading"><i class="fas fa-star"></i> Why Use RENT@PMKL?</div>
           </div>
           <div class="dashboard-grid">
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-map-marker-alt"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);">Nearby</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;">All listings are close to the
-                polytechnic.
-              </p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_nearby">Nearby</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_nearby_desc">All listings are close to the polytechnic.</p>
             </div>
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-list"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);">Updated Listings</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;">Room & house info kept up to date.
-              </p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_updated">Updated Listings</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_updated_desc">Room & house info kept up to date.</p>
             </div>
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-phone-alt"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);">Direct Contact</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;">Contact the owner directly — no
-                middleman.</p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_contact">Direct Contact</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_contact_desc">Contact the owner directly — no middleman.</p>
             </div>
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-shield-alt"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);">Safe & Easy</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;">Simple interface managed by JPP.
-              </p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_safe">Safe & Easy</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_safe_desc">Simple interface managed by JPP.</p>
             </div>
           </div>
         </div>
@@ -1101,16 +1093,15 @@
 
     <section class="section" id="printing">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
 
         <!-- JPP Printing Hub Hero Banner -->
         <div class="print-hub-hero">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
             <div>
-              <div class="step-tag"><i class="fas fa-print"></i> JPP PRINTING HUB • STUDENT DISPATCH</div>
-              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;">JPP Printing Hub</h2>
-              <p class="sec-sub" style="margin-bottom:0; max-width:700px;">
+              <div class="step-tag" data-i18n="print_sec_label"><i class="fas fa-print"></i> JPP PRINTING HUB • STUDENT DISPATCH</div>
+              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;" data-i18n="print_main_title">JPP Printing Hub</h2>
+              <p class="sec-sub" style="margin-bottom:0; max-width:700px;" data-i18n="print_main_sub">
                 Upload your assignments, configure custom print &amp; finishing specifications, and pay seamlessly via
                 DuitNow QR with instant AI Bot OCR verification or Pay at Counter.
               </p>
@@ -1192,7 +1183,7 @@
             <!-- Step 1: File Upload -->
             <div class="print-card">
               <div class="step-tag"><span class="step-num">1</span> Step 01</div>
-              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;">Upload Your Document</h3>
+              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;" data-i18n="print_step1">Upload Your Document</h3>
               <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1.25rem;">
                 Supported formats: PDF, Word (DOCX), PowerPoint (PPTX), or Images (JPG, PNG). Maximum file size: 15MB.
               </p>
@@ -1224,7 +1215,7 @@
             <!-- Step 2: Preferences -->
             <div class="print-card">
               <div class="step-tag"><span class="step-num">2</span> Step 02</div>
-              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;">Print Specifications &amp; Finishing</h3>
+              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;" data-i18n="print_step2">Print Specifications &amp; Finishing</h3>
               <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1rem;">
                 Select color mode, duplex sides, paper size, and finishing options to match your assignment
                 requirements.
@@ -1528,7 +1519,7 @@
               <!-- Submit Button -->
               <button class="btn-hero btn-hero-primary" id="btnSubmitPrintJob"
                 style="width:100%; justify-content:center; padding:0.95rem; font-size:0.95rem;"
-                onclick="submitPrintJob()">
+                onclick="submitPrintJob()" data-i18n="print_btn_dispatch">
                 <i class="fas fa-print"></i> Dispatch Job to Printer
               </button>
 
@@ -1618,11 +1609,10 @@
 
     <section class="section" id="contact">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to
-          Dashboard</button>
-        <div class="sec-label"><i class="fas fa-envelope"></i> Get In Touch</div>
-        <h2 class="sec-title">Contact Us</h2>
-        <p class="sec-sub">Reach out to JPP PMKL for inquiries, feedback, or collaboration.</p>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label" data-i18n="contact_sec_label"><i class="fas fa-envelope"></i> Get In Touch</div>
+        <h2 class="sec-title" data-i18n="contact_main_title">Contact Us</h2>
+        <p class="sec-sub" data-i18n="contact_main_sub">Reach out to JPP PMKL for inquiries, feedback, or collaboration.</p>
 
         <div class="contact-grid">
           <div>
@@ -1630,7 +1620,7 @@
               <div class="contact-info-card">
                 <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
                 <div class="ci-text">
-                  <h4>Address</h4>
+                  <h4 data-i18n="contact_card_address">Address</h4>
                   <p>Politeknik METrO Kuala Lumpur<br>No. 2-14 Jalan Setiawangsa 10<br>Taman Setiawangsa, 54200 Kuala
                     Lumpur</p>
                 </div>
@@ -1638,21 +1628,21 @@
               <div class="contact-info-card">
                 <div class="ci-icon"><i class="fas fa-phone"></i></div>
                 <div class="ci-text">
-                  <h4>Phone</h4>
+                  <h4 data-i18n="contact_card_phone">Phone</h4>
                   <p>03-4251 8000<br>03-4251 7979<br>Available: Mon–Fri, 8AM–5PM</p>
                 </div>
               </div>
               <div class="contact-info-card">
                 <div class="ci-icon"><i class="fas fa-envelope"></i></div>
                 <div class="ci-text">
-                  <h4>Email</h4>
+                  <h4 data-i18n="contact_card_email">Email</h4>
                   <p>jpppmklofficial@gmail.com</p>
                 </div>
               </div>
               <div class="contact-info-card">
                 <div class="ci-icon"><i class="fab fa-instagram"></i></div>
                 <div class="ci-text">
-                  <h4>Social Media</h4>
+                  <h4 data-i18n="contact_card_social">Social Media</h4>
                   <p>Follow us for updates and announcements on our official social media channels.</p>
                 </div>
               </div>
@@ -1663,7 +1653,7 @@
             <div class="contact-org-card">
               <div class="panel-head">
                 <div class="panel-head-icon"><i class="fas fa-sitemap"></i></div>
-                <h3>JPP PMKL 2026/2027 Organisation Chart</h3>
+                <h3 data-i18n="contact_chart_title">JPP PMKL 2026/2027 Organisation Chart</h3>
               </div>
               <div style="padding:1.25rem;">
                 <img src="carta.jpg" alt="Carta Organisasi JPP PMKL" style="width:100%;border-radius:8px;display:block;"
@@ -1675,19 +1665,19 @@
 
         <!-- Interactive Campus Guide & Floor Directory -->
         <div style="margin-top:2.5rem;" id="campusFloorGuide">
-          <div class="sec-label"><i class="fas fa-building"></i> Navigasi Kampus</div>
-          <h3 style="font-size:1.25rem; color:var(--text); margin-bottom:0.5rem;">Panduan Aras &amp; Fasiliti Kampus PMKL</h3>
-          <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;">
+          <div class="sec-label" data-i18n="guide_sec_label"><i class="fas fa-building"></i> Navigasi Kampus</div>
+          <h3 style="font-size:1.25rem; color:var(--text); margin-bottom:0.5rem;" data-i18n="guide_main_title">Panduan Aras &amp; Fasiliti Kampus PMKL</h3>
+          <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;" data-i18n="guide_main_sub">
             Rujukan lokasi bilik kuliah, makmal komputer, pejabat pentadbiran, dan kemudahan pelajar di bangunan Politeknik METrO Kuala Lumpur.
           </p>
 
           <!-- Floor Selector Tabs -->
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
-            <button class="floor-tab-btn active" id="btnFloorG" onclick="switchCampusFloor('floorG')">Aras Bawah (G)</button>
-            <button class="floor-tab-btn" id="btnFloor1" onclick="switchCampusFloor('floor1')">Aras 1</button>
-            <button class="floor-tab-btn" id="btnFloor2" onclick="switchCampusFloor('floor2')">Aras 2 (JPP &amp; Print Hub)</button>
-            <button class="floor-tab-btn" id="btnFloor3" onclick="switchCampusFloor('floor3')">Aras 3 (Surau &amp; Makmal)</button>
-            <button class="floor-tab-btn" id="btnFloor4" onclick="switchCampusFloor('floor4')">Aras 4 (Pentadbiran)</button>
+            <button class="floor-tab-btn active" id="btnFloorG" onclick="switchCampusFloor('floorG')" data-i18n="guide_floor_g">Aras Bawah (G)</button>
+            <button class="floor-tab-btn" id="btnFloor1" onclick="switchCampusFloor('floor1')" data-i18n="guide_floor_1">Aras 1</button>
+            <button class="floor-tab-btn" id="btnFloor2" onclick="switchCampusFloor('floor2')" data-i18n="guide_floor_2">Aras 2 (JPP &amp; Print Hub)</button>
+            <button class="floor-tab-btn" id="btnFloor3" onclick="switchCampusFloor('floor3')" data-i18n="guide_floor_3">Aras 3 (Surau &amp; Makmal)</button>
+            <button class="floor-tab-btn" id="btnFloor4" onclick="switchCampusFloor('floor4')" data-i18n="guide_floor_4">Aras 4 (Pentadbiran)</button>
           </div>
 
           <!-- Floor Cards -->
@@ -1768,21 +1758,19 @@
          ══════════════════════════════════════════════════════════ -->
     <section class="section" id="beta">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')">
-          <i class="fas fa-arrow-left"></i> Back to Dashboard
-        </button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
 
         <!-- Beta Hero Banner -->
         <div class="beta-hero">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
             <div>
-              <div class="beta-tag-pill">
+              <div class="beta-tag-pill" data-i18n="beta_sec_label">
                 <i class="fas fa-flask"></i> JPP BETA TESTING LAB • v0.9-BETA
               </div>
-              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;">
+              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;" data-i18n="beta_main_title">
                 Experimental Student Services
               </h2>
-              <p class="sec-sub" style="margin-bottom:0; max-width:760px;">
+              <p class="sec-sub" style="margin-bottom:0; max-width:760px;" data-i18n="beta_main_sub">
                 Explore, test, and provide feedback on upcoming features for Politeknik METrO Kuala Lumpur. 
                 Experience real-time E-Aduan ticket tracking, community Lost &amp; Found, the official Poly GPA/CGPA target engine, and sports gear borrowing.
               </p>
@@ -1801,7 +1789,7 @@
             <div class="pillar-tab-icon"><i class="fas fa-hand-holding-heart"></i></div>
             <div>
               <span class="pillar-tab-num">Pillar 01</span>
-              <div class="pillar-tab-title">Student Welfare &amp; Voice</div>
+              <div class="pillar-tab-title" data-i18n="beta_pillar_1">Student Welfare &amp; Voice</div>
               <div class="pillar-tab-sub">E-Aduan &amp; Lost &amp; Found Hub</div>
             </div>
           </div>
@@ -1810,7 +1798,7 @@
             <div class="pillar-tab-icon"><i class="fas fa-graduation-cap"></i></div>
             <div>
               <span class="pillar-tab-num">Pillar 02</span>
-              <div class="pillar-tab-title">Academic &amp; Poly Tools</div>
+              <div class="pillar-tab-title" data-i18n="beta_pillar_2">Academic &amp; Poly Tools</div>
               <div class="pillar-tab-sub">GPA/CGPA Calculator &amp; Deadlines</div>
             </div>
           </div>
@@ -1819,7 +1807,7 @@
             <div class="pillar-tab-icon"><i class="fas fa-boxes-packing"></i></div>
             <div>
               <span class="pillar-tab-num">Pillar 03</span>
-              <div class="pillar-tab-title">Services &amp; Campus Life</div>
+              <div class="pillar-tab-title" data-i18n="beta_pillar_3">Services &amp; Campus Life</div>
               <div class="pillar-tab-sub">Equipment Loan &amp; Merch Store</div>
             </div>
           </div>
@@ -2138,7 +2126,7 @@
                     <div class="size-chip" onclick="selectMerchSize(this, 'jacket', 'XL')">XL</div>
                     <div class="size-chip" onclick="selectMerchSize(this, 'jacket', '2XL')">2XL</div>
                   </div>
-                  <button class="btn-primary" onclick="openMerchOrderModal('JPP PMKL Official Varsity Jacket', 75.00)" style="width:100%; justify-content:center; margin-top:0.85rem;">
+                  <button class="btn-primary" onclick="openMerchOrderModal('JPP PMKL Official Varsity Jacket', 75.00)" style="width:100%; justify-content:center; margin-top:0.85rem;" data-i18n="merch_btn_order">
                     <i class="fas fa-cart-shopping"></i> Pra-Tempah Sekarang
                   </button>
                 </div>
@@ -2163,7 +2151,7 @@
                     <div class="size-chip active" style="width:auto; padding:0 0.85rem;">Navy Gold</div>
                     <div class="size-chip" style="width:auto; padding:0 0.85rem;">Black Gold</div>
                   </div>
-                  <button class="btn-primary" onclick="openMerchOrderModal('Lanyard Premium PMKL + Matte Holder', 15.00)" style="width:100%; justify-content:center; margin-top:0.85rem;">
+                  <button class="btn-primary" onclick="openMerchOrderModal('Lanyard Premium PMKL + Matte Holder', 15.00)" style="width:100%; justify-content:center; margin-top:0.85rem;" data-i18n="merch_btn_order">
                     <i class="fas fa-cart-shopping"></i> Pra-Tempah Sekarang
                   </button>
                 </div>
@@ -2211,7 +2199,7 @@
         </div>
       </div>
       <div class="modal-actions">
-        <button class="btn-modal-close" onclick="closeRentModal()">Close</button>
+        <button class="btn-modal-close" onclick="closeRentModal()" data-i18n="btn_close">Close</button>
         <button class="btn-modal-primary" id="modalCopyBtn"><i class="fas fa-copy"></i> Copy Contact Details</button>
       </div>
     </div>
@@ -2279,7 +2267,7 @@
       </div>
 
       <div class="modal-actions" style="flex-wrap:wrap; gap:0.5rem;">
-        <button class="btn-modal-close" onclick="closePrintTicketModal()">Close &amp; Save</button>
+        <button class="btn-modal-close" onclick="closePrintTicketModal()" data-i18n="btn_close">Close &amp; Save</button>
         <button class="btn-modal-primary" id="btnDirectPrintNow" onclick="directPrintFromTicket()"
           style="background:var(--gold); color:#000; font-weight:700;">
           <i class="fas fa-print"></i> Print Directly Now
@@ -2331,7 +2319,7 @@
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeBorrowModal()">Batal</button>
+            <button type="button" class="btn-modal-close" onclick="closeBorrowModal()" data-i18n="btn_cancel">Batal</button>
             <button type="submit" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
               <i class="fas fa-check-circle"></i> Sahkan &amp; Jana Pas Pinjaman
             </button>
@@ -2391,7 +2379,7 @@
       </div>
 
       <div class="modal-actions">
-        <button class="btn-modal-close" onclick="closeLoanPassModal()">Tutup &amp; Simpan</button>
+        <button class="btn-modal-close" onclick="closeLoanPassModal()" data-i18n="btn_close">Tutup &amp; Simpan</button>
         <button class="btn-modal-primary" onclick="showToast('Pas Pinjaman telah disahkan!'); closeLoanPassModal();" style="background:var(--gold); color:#000; font-weight:700;">
           <i class="fas fa-check"></i> Selesai
         </button>
@@ -2459,7 +2447,7 @@
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeReportLostFoundModal()">Batal</button>
+            <button type="button" class="btn-modal-close" onclick="closeReportLostFoundModal()" data-i18n="btn_cancel">Batal</button>
             <button type="submit" class="btn-modal-primary" style="background:#ed005a; color:#fff; font-weight:700;">
               <i class="fas fa-bullhorn"></i> Siarkan ke Noticeboard
             </button>
@@ -2518,7 +2506,7 @@
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeMerchOrderModal()">Batal</button>
+            <button type="button" class="btn-modal-close" onclick="closeMerchOrderModal()" data-i18n="btn_cancel">Batal</button>
             <button type="submit" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
               <i class="fas fa-cart-check"></i> Hantar Pra-Tempahan
             </button>
@@ -2590,8 +2578,8 @@
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeEventRsvpModal()">Batal</button>
-            <button type="submit" id="btnSubmitRsvp" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
+            <button type="button" class="btn-modal-close" onclick="closeEventRsvpModal()" data-i18n="btn_cancel">Batal</button>
+            <button type="submit" id="btnSubmitRsvp" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;" data-i18n="btn_confirm">
               <i class="fas fa-check-circle"></i> Sahkan Pendaftaran
             </button>
           </div>
@@ -2653,7 +2641,7 @@
         </p>
 
         <div class="modal-actions" style="padding:0;">
-          <button type="button" class="btn-modal-close" onclick="closeRsvpPassModal()">Tutup</button>
+          <button type="button" class="btn-modal-close" onclick="closeRsvpPassModal()" data-i18n="btn_close">Tutup</button>
           <button type="button" class="btn-modal-primary" id="btnShareRsvpWhatsApp" onclick="shareRsvpWhatsApp()" style="background:#25D366; color:#fff; font-weight:700;">
             <i class="fab fa-whatsapp"></i> Simpan ke WhatsApp
           </button>
@@ -2717,7 +2705,7 @@
         </div>
 
         <div class="modal-actions" style="padding:0;">
-          <button type="button" class="btn-modal-close" onclick="closeMerchPassModal()">Tutup</button>
+          <button type="button" class="btn-modal-close" onclick="closeMerchPassModal()" data-i18n="btn_close">Tutup</button>
           <button type="button" class="btn-modal-primary" id="btnShareMerchWhatsApp" onclick="shareMerchWhatsApp()" style="background:#25D366; color:#fff; font-weight:700;">
             <i class="fab fa-whatsapp"></i> Simpan ke WhatsApp
           </button>
@@ -2731,7 +2719,7 @@
     <div class="spotlight-box">
       <div class="spotlight-header">
         <i class="fas fa-magnifying-glass"></i>
-        <input type="text" id="globalSearchInput" class="spotlight-input" placeholder="Cari apa-apa sahaja di portal PMKL... (cth: Futsal, Print, DIT, Bilik, Sewa)" oninput="handleGlobalSearchInput(event)">
+        <input type="text" id="globalSearchInput" class="spotlight-input" placeholder="Cari apa-apa sahaja di portal PMKL... (cth: Futsal, Print, DIT, Bilik, Sewa)" data-i18n-placeholder="search_placeholder" oninput="handleGlobalSearchInput(event)">
         <span class="spotlight-kbd">ESC</span>
       </div>
       <div class="spotlight-results" id="globalSearchResults">
@@ -2767,8 +2755,7 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h3>JPP PMKL Student Portal</h3>
-        <p>Student Representative Committee — Politeknik METrO Kuala Lumpur. Empowering student leadership and community
-          engagement.</p>
+        <p data-i18n="footer_desc">Student Representative Committee — Politeknik METrO Kuala Lumpur. Empowering student leadership and community engagement.</p>
         <div class="social-row">
           <a class="social-btn social-discord" href="https://discord.gg/THhJZjg3PT" target="_blank"
             rel="noopener noreferrer" aria-label="Akira Lab Discord Community"><i class="fab fa-discord"></i></a>
@@ -2781,22 +2768,22 @@
         </div>
       </div>
       <div class="footer-col">
-        <h4>Portal</h4>
-        <a onclick="navigate('dashboard')">Dashboard</a>
-        <a onclick="navigate('announcements')">Announcements</a>
-        <a onclick="navigate('events')">Events</a>
-        <a onclick="navigate('members')">Members</a>
+        <h4 data-i18n="footer_portal">Portal</h4>
+        <a onclick="navigate('dashboard')" data-i18n="nav_dashboard">Dashboard</a>
+        <a onclick="navigate('announcements')" data-i18n="nav_announcements">Announcements</a>
+        <a onclick="navigate('events')" data-i18n="nav_events">Events</a>
+        <a onclick="navigate('members')" data-i18n="nav_members">Members</a>
       </div>
       <div class="footer-col">
-        <h4>Resources</h4>
-        <a onclick="navigate('printing')">Printing Hub</a>
-        <a onclick="navigate('album')">Photo Album</a>
-        <a onclick="navigate('rent')">Rent House</a>
-        <a onclick="navigate('contact')">Contact Us</a>
-        <a onclick="navigate('academic')">Academic Hub</a>
+        <h4 data-i18n="footer_resources">Resources</h4>
+        <a onclick="navigate('printing')" data-i18n="nav_printing">Printing Hub</a>
+        <a onclick="navigate('album')" data-i18n="nav_album">Photo Album</a>
+        <a onclick="navigate('rent')" data-i18n="nav_rent">Rent House</a>
+        <a onclick="navigate('contact')" data-i18n="nav_contact">Contact Us</a>
+        <a onclick="navigate('academic')" data-i18n="nav_academic">Academic Hub</a>
       </div>
       <div class="footer-col">
-        <h4>Contact</h4>
+        <h4 data-i18n="footer_contact">Contact</h4>
         <a href="mailto:jpppmklofficial@gmail.com">jpppmklofficial@gmail.com</a>
         <a href="tel:+60342518000">03-4251 8000</a>
         <a>Jalan Setiawangsa 10</a>
@@ -2804,8 +2791,8 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© 2026 JPP PMKL Student Portal. All rights reserved.</span>
-      <span>Made with ❤️ for PMKL Students</span>
+      <span data-i18n="footer_rights">© 2026 JPP PMKL Student Portal. All rights reserved.</span>
+      <span data-i18n="footer_made_with">Made with ❤️ for PMKL Students</span>
     </div>
   </footer>
 
@@ -2840,6 +2827,7 @@
       </div>
     </div>
   </div>
+  <script src="js/i18n.js"></script>
   <script src="js/app.js?v=2.3"></script>
 </body>
 

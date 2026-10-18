@@ -113,10 +113,19 @@ function escapeHtml(str) {
       const h = String(now.getHours()).padStart(2, '0');
       const m = String(now.getMinutes()).padStart(2, '0');
       const s = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('dashClock').textContent = `${h}:${m}:${s}`;
-      const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-      document.getElementById('dashDay').textContent = days[now.getDay()];
-      document.getElementById('dashDateStr').textContent = now.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const clockEl = document.getElementById('dashClock');
+      if (clockEl) clockEl.textContent = `${h}:${m}:${s}`;
+      
+      const isMs = typeof getCurrentLanguage === 'function' ? getCurrentLanguage() === 'ms' : false;
+      const daysEn = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+      const daysMs = ['AHAD', 'ISNIN', 'SELASA', 'RABU', 'KHAMIS', 'JUMAAT', 'SABTU'];
+      const dayEl = document.getElementById('dashDay');
+      if (dayEl) dayEl.textContent = isMs ? daysMs[now.getDay()] : daysEn[now.getDay()];
+      
+      const dateEl = document.getElementById('dashDateStr');
+      if (dateEl) {
+        dateEl.textContent = now.toLocaleDateString(isMs ? 'ms-MY' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      }
     }
     updateClock();
     setInterval(updateClock, 1000);
@@ -129,10 +138,21 @@ function escapeHtml(str) {
       const today = now.getDate();
       const firstDay = new Date(year, month, 1).getDay();
       const daysInMonth = new Date(year, month + 1, 0).getDate();
-      const wd = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      document.getElementById('calMonthYear').textContent = `${monthNames[month]} ${year}`;
+      
+      const isMs = typeof getCurrentLanguage === 'function' ? getCurrentLanguage() === 'ms' : false;
+      const wdEn = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+      const wdMs = ['Ah', 'Is', 'Se', 'Ra', 'Kh', 'Ju', 'Sa'];
+      const wd = isMs ? wdMs : wdEn;
+
+      const monthNamesEn = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+      const monthNamesMs = ['Januari', 'Februari', 'Mac', 'April', 'Mei', 'Jun', 'Julai', 'Ogos', 'September', 'Oktober', 'November', 'Disember'];
+      const monthNames = isMs ? monthNamesMs : monthNamesEn;
+
+      const titleEl = document.getElementById('calMonthYear');
+      if (titleEl) titleEl.textContent = `${monthNames[month]} ${year}`;
+      
       const grid = document.getElementById('calGrid');
+      if (!grid) return;
       grid.innerHTML = '';
       wd.forEach(d => {
         const el = document.createElement('div');
@@ -153,6 +173,14 @@ function escapeHtml(str) {
       }
     }
     buildCalendar();
+
+    // Hook into i18n change
+    if (typeof onLanguageChange === 'function') {
+      onLanguageChange(() => {
+        updateClock();
+        buildCalendar();
+      });
+    }
 
     // Re-run calendar at midnight so "today" stays accurate if page is left open
     (function scheduleMidnightCalendarRefresh() {
@@ -2812,7 +2840,7 @@ function renderAcademicGpaTable() {
         </td>
         <td style="width:110px;">
           <select class="form-control-beta" onchange="updateAcademicCourseCredits(${idx}, this.value)" style="padding:0.4rem 0.5rem; font-size:0.82rem; width:100%;">
-            ${[1, 2, 3, 4, 5, 6].map(cr => `<option value="${cr}" ${cr === c.credits ? 'selected' : ''}>${cr} Kredit</option>`).join('')}
+            ${[1, 2, 3, 4, 5, 6].map(cr => `<option value="${cr}" ${cr === c.credits ? 'selected' : ''}>${cr} ${(typeof getCurrentLanguage === 'function' && getCurrentLanguage() === 'en') ? 'Credits' : 'Kredit'}</option>`).join('')}
           </select>
         </td>
         <td style="width:140px;">
@@ -3098,4 +3126,10 @@ function selectGlobalSearchResult(section) {
 // Auto-initialize Academic GPA Table on Load
 document.addEventListener('DOMContentLoaded', () => {
   renderAcademicGpaTable();
-});
+});
+
+if (typeof onLanguageChange === 'function') {
+  onLanguageChange(() => {
+    renderAcademicGpaTable();
+  });
+}
