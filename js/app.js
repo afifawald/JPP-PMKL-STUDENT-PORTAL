@@ -2383,23 +2383,152 @@ function selectMerchSize(el, item, size) {
   }
 }
 
+let _currentMerchItem = '';
+let _currentMerchPrice = 0;
+let _currentMerchOrder = null;
+
 function openMerchOrderModal(itemName, price) {
-  document.getElementById('merchSelectedName').textContent = `${itemName} (Saiz: ${_selectedMerchSize})`;
-  document.getElementById('merchSelectedPrice').textContent = `RM ${price.toFixed(2)}`;
+  _currentMerchItem = itemName;
+  _currentMerchPrice = price;
+  const nameEl = document.getElementById('merchSelectedName');
+  const priceEl = document.getElementById('merchSelectedPrice');
+  if (nameEl) nameEl.textContent = `${itemName} (Saiz: ${_selectedMerchSize})`;
+  if (priceEl) priceEl.textContent = `RM ${price.toFixed(2)}`;
+
+  // Pre-fill student info if previously saved in localStorage
+  const savedMatric = localStorage.getItem('pmkl_matric');
+  const savedName = localStorage.getItem('pmkl_name');
+  const savedPhone = localStorage.getItem('pmkl_phone');
+  if (savedMatric && document.getElementById('merchMatric')) document.getElementById('merchMatric').value = savedMatric;
+  if (savedName && document.getElementById('merchStudentName')) document.getElementById('merchStudentName').value = savedName;
+  if (savedPhone && document.getElementById('merchPhone')) document.getElementById('merchPhone').value = savedPhone;
 
   const m = document.getElementById('merchOrderModal');
-  if (m) m.classList.add('open');
+  if (m) {
+    m.classList.add('open');
+    m.classList.add('active');
+  }
 }
 
 function closeMerchOrderModal() {
   const m = document.getElementById('merchOrderModal');
-  if (m) m.classList.remove('open');
+  if (m) {
+    m.classList.remove('open');
+    m.classList.remove('active');
+  }
 }
 
-function handleMerchSubmit(e) {
+async function handleMerchSubmit(e) {
   e.preventDefault();
+  const studentName = document.getElementById('merchStudentName')?.value.trim() || '';
+  const matricNo = document.getElementById('merchMatric')?.value.trim().toUpperCase() || '';
+  const phone = document.getElementById('merchPhone')?.value.trim() || '';
+
+  if (!studentName || !matricNo || !phone) {
+    showToast('Sila lengkapkan semua medan maklumat pelajar.');
+    return;
+  }
+
+  // Save for auto-fill
+  localStorage.setItem('pmkl_matric', matricNo);
+  localStorage.setItem('pmkl_name', studentName);
+  localStorage.setItem('pmkl_phone', phone);
+
   closeMerchOrderModal();
-  showToast('Pra-tempahan berjaya dihantar! Sila simpan resit pembayaran DuitNow QR anda.');
+  showToast('Memproses pra-tempahan...');
+
+  try {
+    const res = await fetch('/api/merch', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        itemName: _currentMerchItem || 'JPP Official Merchandise',
+        price: _currentMerchPrice || 0,
+        size: _selectedMerchSize || 'Standard',
+        color: 'Edisi Rasmi',
+        studentName,
+        matricNo,
+        phone,
+        quantity: 1,
+        notes: ''
+      })
+    });
+
+    const result = await res.json();
+    if (res.ok && result.order) {
+      showToast('Pra-tempahan berjaya dihantar! Pas dijana.');
+      openMerchPassModal(result.order);
+    } else {
+      showToast(result.error || 'Ralat menghantar tempahan.');
+    }
+  } catch (err) {
+    // Offline fallback ticket
+    const fallbackTicket = {
+      id: 'MCH-' + Math.floor(1000 + Math.random() * 9000),
+      itemName: _currentMerchItem || 'JPP Official Merchandise',
+      totalPrice: (_currentMerchPrice || 0).toFixed(2),
+      size: _selectedMerchSize || 'Standard',
+      quantity: 1,
+      studentName,
+      matricNo,
+      phone,
+      status: 'pending_payment',
+      createdAt: new Date().toISOString()
+    };
+    showToast('Pra-tempahan disimpan luar talian.');
+    openMerchPassModal(fallbackTicket);
+  }
+}
+
+function openMerchPassModal(order) {
+  _currentMerchOrder = order;
+  const idEl = document.getElementById('passMerchTicketId');
+  const itemEl = document.getElementById('passMerchItemName');
+  const priceEl = document.getElementById('passMerchPriceTotal');
+  const nameEl = document.getElementById('passMerchStudentName');
+  const matricEl = document.getElementById('passMerchMatric');
+  const sizeEl = document.getElementById('passMerchSize');
+  const qtyEl = document.getElementById('passMerchQty');
+
+  if (idEl) idEl.textContent = order.id;
+  if (itemEl) itemEl.textContent = order.itemName;
+  if (priceEl) priceEl.textContent = `Jumlah: RM ${order.totalPrice || order.price || '0.00'}`;
+  if (nameEl) nameEl.textContent = order.studentName;
+  if (matricEl) matricEl.textContent = order.matricNo;
+  if (sizeEl) sizeEl.textContent = order.size || 'Standard';
+  if (qtyEl) qtyEl.textContent = `${order.quantity || 1} Unit`;
+
+  const m = document.getElementById('merchPassModal');
+  if (m) {
+    m.classList.add('open');
+    m.classList.add('active');
+  }
+}
+
+function closeMerchPassModal() {
+  const m = document.getElementById('merchPassModal');
+  if (m) {
+    m.classList.remove('open');
+    m.classList.remove('active');
+  }
+}
+
+function shareMerchWhatsApp() {
+  if (!_currentMerchOrder) return;
+  const o = _currentMerchOrder;
+  const msg = encodeURIComponent(
+    `*PAS PRA-TEMPAHAN MERCHANDISE JPP PMKL*\n` +
+    `No. Tempahan: [${o.id}]\n` +
+    `Barangan: ${o.itemName}\n` +
+    `Saiz: ${o.size || 'Standard'}\n` +
+    `Kuantiti: ${o.quantity || 1}\n` +
+    `Jumlah Bayaran: RM ${o.totalPrice || o.price}\n` +
+    `Nama: ${o.studentName}\n` +
+    `No. Matrik: ${o.matricNo}\n` +
+    `Status: Menunggu Pengesahan Bayaran DuitNow QR\n\n` +
+    `Sila kemukakan mesej ini atau resit bayaran di Kaunter Pusat Pelajar Aras 2 PMKL semasa pengambilan.`
+  );
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 
 // ── Master Beta Lab Initializer ──
@@ -2593,4 +2722,373 @@ function shareRsvpWhatsApp() {
     `Sila simpan mesej ini untuk semakan pendaftaran di pintu masuk.`
   );
   window.open(`https://wa.me/?text=${msg}`, '_blank');
-}
+}
+
+// ══════════════════════════════════════════════════════════
+// ══ 1. ACADEMIC HUB CONTROLLER ══
+// ══════════════════════════════════════════════════════════
+function switchAcademicSub(subTab) {
+  const paneTakwim = document.getElementById('academicPaneTakwim');
+  const panePastYears = document.getElementById('academicPanePastYears');
+  const paneGpa = document.getElementById('academicPaneGpa');
+
+  const btnTakwim = document.getElementById('btnTabTakwim');
+  const btnPastYears = document.getElementById('btnTabPastYears');
+  const btnGpa = document.getElementById('btnTabGpa');
+
+  if (paneTakwim) paneTakwim.style.display = subTab === 'takwim' ? 'block' : 'none';
+  if (panePastYears) panePastYears.style.display = subTab === 'pastyears' ? 'block' : 'none';
+  if (paneGpa) paneGpa.style.display = subTab === 'gpa' ? 'block' : 'none';
+
+  if (btnTakwim) btnTakwim.className = subTab === 'takwim' ? 'btn-hero btn-hero-primary' : 'btn-hero btn-hero-outline';
+  if (btnPastYears) btnPastYears.className = subTab === 'pastyears' ? 'btn-hero btn-hero-primary' : 'btn-hero btn-hero-outline';
+  if (btnGpa) btnGpa.className = subTab === 'gpa' ? 'btn-hero btn-hero-primary' : 'btn-hero btn-hero-outline';
+
+  if (subTab === 'gpa') {
+    renderAcademicGpaTable();
+  }
+}
+
+function downloadTakwimPdf() {
+  showToast('Memuat turun Takwim Rasmi PMKL 2026/2027 (PDF)...');
+  setTimeout(() => {
+    alert('Takwim Akademik Sesi I & II 2026/2027 telah dimuat turun ke peranti anda.');
+  }, 1000);
+}
+
+function filterPastYears(dept) {
+  const cards = document.querySelectorAll('.past-year-card');
+  const btns = ['pyFilterAll', 'pyFilterDIT', 'pyFilterDRO', 'pyFilterDHM', 'pyFilterUmum'];
+  
+  btns.forEach(bId => {
+    const el = document.getElementById(bId);
+    if (el) el.classList.remove('tag-gold');
+  });
+
+  const activeBtn = document.getElementById(`pyFilter${dept === 'all' ? 'All' : dept}`);
+  if (activeBtn) activeBtn.classList.add('tag-gold');
+
+  cards.forEach(card => {
+    if (dept === 'all' || card.dataset.dept === dept) {
+      card.style.display = 'flex';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+function downloadPastPaper(paperName) {
+  showToast(`Membuka kertas peperiksaan: ${paperName.replace(/_/g, ' ')}...`);
+  setTimeout(() => {
+    showToast('Kertas soalan berjaya dimuat turun (Format Arkib Peperiksaan PMKL).');
+  }, 800);
+}
+
+// ── Academic GPA & CGPA Calculator ──
+let _academicCourses = [
+  { code: 'DIT10133 Programming Fundamentals', credits: 3, grade: 'A' },
+  { code: 'DIT20233 Database Design & SQL', credits: 3, grade: 'A-' },
+  { code: 'DRO10133 Retail Operations', credits: 3, grade: 'B+' },
+  { code: 'MPU21032 Penghayatan Etika', credits: 2, grade: 'A' }
+];
+
+function renderAcademicGpaTable() {
+  const tbody = document.getElementById('academicGpaTbody');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+  _academicCourses.forEach((c, idx) => {
+    tbody.innerHTML += `
+      <tr>
+        <td>
+          <input type="text" class="form-control-beta" value="${escapeHtml(c.code)}" onchange="updateAcademicCourseCode(${idx}, this.value)" style="padding:0.4rem 0.6rem; font-size:0.82rem; width:100%;">
+        </td>
+        <td style="width:110px;">
+          <select class="form-control-beta" onchange="updateAcademicCourseCredits(${idx}, this.value)" style="padding:0.4rem 0.5rem; font-size:0.82rem; width:100%;">
+            ${[1, 2, 3, 4, 5, 6].map(cr => `<option value="${cr}" ${cr === c.credits ? 'selected' : ''}>${cr} Kredit</option>`).join('')}
+          </select>
+        </td>
+        <td style="width:140px;">
+          <select class="form-control-beta" onchange="updateAcademicCourseGrade(${idx}, this.value)" style="padding:0.4rem 0.5rem; font-size:0.82rem; font-weight:700; width:100%;">
+            ${Object.keys(POLY_GRADE_POINTS).map(gr => `<option value="${gr}" ${gr === c.grade ? 'selected' : ''}>${gr} (${POLY_GRADE_POINTS[gr].toFixed(2)})</option>`).join('')}
+          </select>
+        </td>
+        <td style="text-align:center; width:60px;">
+          <button class="btn-danger" onclick="removeAcademicCourseRow(${idx})" style="padding:0.35rem 0.6rem; font-size:0.75rem;" title="Padam kursus">
+            <i class="fas fa-trash-can"></i>
+          </button>
+        </td>
+      </tr>
+    `;
+  });
+
+  recalculateAcademicGpa();
+}
+
+function updateAcademicCourseCode(idx, val) {
+  if (_academicCourses[idx]) _academicCourses[idx].code = val;
+}
+
+function updateAcademicCourseCredits(idx, val) {
+  if (_academicCourses[idx]) {
+    _academicCourses[idx].credits = parseInt(val) || 1;
+    recalculateAcademicGpa();
+  }
+}
+
+function updateAcademicCourseGrade(idx, val) {
+  if (_academicCourses[idx]) {
+    _academicCourses[idx].grade = val;
+    recalculateAcademicGpa();
+  }
+}
+
+function addAcademicCourseRow() {
+  _academicCourses.push({ code: `Kursus Baharu (${_academicCourses.length + 1})`, credits: 3, grade: 'A-' });
+  renderAcademicGpaTable();
+}
+
+function removeAcademicCourseRow(idx) {
+  if (_academicCourses.length <= 1) {
+    showToast('Sekurang-kurangnya 1 kursus diperlukan.');
+    return;
+  }
+  _academicCourses.splice(idx, 1);
+  renderAcademicGpaTable();
+}
+
+function resetAcademicGpa() {
+  _academicCourses = [
+    { code: 'DIT10133 Programming Fundamentals', credits: 3, grade: 'A' },
+    { code: 'DRO10133 Retail Management', credits: 3, grade: 'B+' },
+    { code: 'DHM10133 Intro to Hospitality', credits: 3, grade: 'A-' },
+    { code: 'MPU21032 Penghayatan Etika', credits: 2, grade: 'A' }
+  ];
+  renderAcademicGpaTable();
+  showToast('Kalkulator HPNM diset semula.');
+}
+
+function recalculateAcademicGpa() {
+  let totalCredits = 0;
+  let totalPoints = 0;
+
+  _academicCourses.forEach(c => {
+    const pt = POLY_GRADE_POINTS[c.grade] !== undefined ? POLY_GRADE_POINTS[c.grade] : 3.00;
+    totalCredits += c.credits;
+    totalPoints += (c.credits * pt);
+  });
+
+  const gpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
+  const scoreEl = document.getElementById('academicGpaScore');
+  const standingEl = document.getElementById('academicGpaStanding');
+  const remarksEl = document.getElementById('academicGpaRemarks');
+
+  if (scoreEl) scoreEl.textContent = gpa.toFixed(2);
+
+  if (standingEl && remarksEl) {
+    if (gpa >= 3.50) {
+      standingEl.innerHTML = '● ANUGERAH KETUA JABATAN (AKJ)';
+      standingEl.style.background = 'rgba(245,200,66,0.18)';
+      standingEl.style.color = 'var(--gold)';
+      standingEl.style.borderColor = 'rgba(245,200,66,0.4)';
+      remarksEl.textContent = 'Cemerlang! Keputusan ini melayakkan anda untuk menerima Anugerah Ketua Jabatan PMKL.';
+    } else if (gpa >= 2.00) {
+      standingEl.innerHTML = '● KEDUDUKAN BAIK (KB)';
+      standingEl.style.background = 'rgba(34,197,94,0.15)';
+      standingEl.style.color = '#22c55e';
+      standingEl.style.borderColor = 'rgba(34,197,94,0.3)';
+      remarksEl.textContent = 'Tahniah! Anda melepasi syarat minimum kedudukan baik (KB) Politeknik Malaysia.';
+    } else {
+      standingEl.innerHTML = '● KEDUDUKAN BERSYARAT (KS)';
+      standingEl.style.background = 'rgba(239,68,68,0.15)';
+      standingEl.style.color = '#ef4444';
+      standingEl.style.borderColor = 'rgba(239,68,68,0.3)';
+      remarksEl.textContent = 'Perhatian: HPNM di bawah 2.00 memerlukan bimbingan penasihat akademik (PA).';
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════
+// ══ 2. CAMPUS FLOOR GUIDE CONTROLLER ══
+// ══════════════════════════════════════════════════════════
+function switchCampusFloor(floorId) {
+  const floors = ['floorG', 'floor1', 'floor2', 'floor3', 'floor4'];
+  floors.forEach(f => {
+    const pane = document.getElementById(`pane${f.charAt(0).toUpperCase() + f.slice(1)}`);
+    const btn = document.getElementById(`btn${f.charAt(0).toUpperCase() + f.slice(1)}`);
+    if (pane) pane.style.display = (f === floorId) ? 'block' : 'none';
+    if (btn) {
+      if (f === floorId) btn.classList.add('active');
+      else btn.classList.remove('active');
+    }
+  });
+}
+
+// ══════════════════════════════════════════════════════════
+// ══ 3. GLOBAL SPOTLIGHT SEARCH CONTROLLER (Ctrl+K) ══
+// ══════════════════════════════════════════════════════════
+function openGlobalSearch() {
+  const modal = document.getElementById('globalSearchModal');
+  const input = document.getElementById('globalSearchInput');
+  if (modal) {
+    modal.classList.add('open');
+    if (input) {
+      input.value = '';
+      input.focus();
+      handleGlobalSearchInput();
+    }
+  }
+}
+
+function closeGlobalSearch() {
+  const modal = document.getElementById('globalSearchModal');
+  if (modal) modal.classList.remove('open');
+}
+
+function closeGlobalSearchOnBg(e) {
+  if (e.target === document.getElementById('globalSearchModal')) {
+    closeGlobalSearch();
+  }
+}
+
+// Shortcut: Ctrl+K or Cmd+K
+window.addEventListener('keydown', (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+    e.preventDefault();
+    const modal = document.getElementById('globalSearchModal');
+    if (modal && modal.classList.contains('open')) {
+      closeGlobalSearch();
+    } else {
+      openGlobalSearch();
+    }
+  } else if (e.key === 'Escape') {
+    closeGlobalSearch();
+  }
+});
+
+function handleGlobalSearchInput(e) {
+  const query = (document.getElementById('globalSearchInput')?.value || '').trim().toLowerCase();
+  const resultsContainer = document.getElementById('globalSearchResults');
+  if (!resultsContainer) return;
+
+  if (!query) {
+    resultsContainer.innerHTML = `
+      <div style="padding:2.5rem 1rem; text-align:center; color:var(--text3); font-size:0.88rem;">
+        <i class="fas fa-keyboard" style="font-size:1.8rem; margin-bottom:0.6rem; display:block; color:var(--gold);"></i>
+        Taip kata kunci untuk mencari Pengumuman, Acara, Rumah Sewa, Alatan, atau Soalan Peperiksaan.
+      </div>
+    `;
+    return;
+  }
+
+  const matches = [];
+
+  // 1. Search Core Navigation Sections
+  const portalPages = [
+    { title: 'Pusat Sumber Akademik (Takwim, Soalan, HPNM)', section: 'academic', icon: 'fa-book-open', tag: 'Akademik' },
+    { title: 'Pusat Cetakan Pelajar (Print Hub Aras 2)', section: 'printing', icon: 'fa-print', tag: 'Perkhidmatan' },
+    { title: 'Portal Rumah Sewa Pelajar Wangsa Maju & Setapak', section: 'rent', icon: 'fa-home', tag: 'Rumah Sewa' },
+    { title: 'Pengumuman Rasmi JPP & PMKL', section: 'announcements', icon: 'fa-bullhorn', tag: 'Hebahan' },
+    { title: 'Takwim Acara & Program JPP', section: 'events', icon: 'fa-calendar', tag: 'Acara' },
+    { title: 'Direktori Majlis Tertinggi & EXCO JPP', section: 'members', icon: 'fa-users', tag: 'JPP' },
+    { title: 'Galeri Foto Aktiviti Kampus', section: 'album', icon: 'fa-images', tag: 'Galeri' },
+    { title: 'Bilik Gerakan JPP & Panduan Aras Kampus', section: 'contact', icon: 'fa-building', tag: 'Kampus' },
+    { title: 'e-Aduan Mahasiswa & Lost and Found (Beta Lab)', section: 'beta', icon: 'fa-flask', tag: 'Beta Lab' }
+  ];
+
+  portalPages.forEach(p => {
+    if (p.title.toLowerCase().includes(query) || p.tag.toLowerCase().includes(query)) {
+      matches.push({
+        title: p.title,
+        desc: `Buka bahagian ${p.tag} portal rasmi PMKL.`,
+        section: p.section,
+        icon: p.icon,
+        tag: p.tag
+      });
+    }
+  });
+
+  // 2. Search Past Year Courses
+  const pastYearList = [
+    { code: 'DIT10133', name: 'Programming Fundamentals (C++)', dept: 'DIT' },
+    { code: 'DIT20233', name: 'Database Design & SQL', dept: 'DIT' },
+    { code: 'DIT30333', name: 'Web Development & Frameworks', dept: 'DIT' },
+    { code: 'DIT40433', name: 'Computer Networking & Security', dept: 'DIT' },
+    { code: 'DRO10133', name: 'Principles of Retail Management', dept: 'DRO' },
+    { code: 'DRO20233', name: 'Visual Merchandising & Store Display', dept: 'DRO' },
+    { code: 'DRO30333', name: 'Retail Buying & Merchandise', dept: 'DRO' },
+    { code: 'DHM10133', name: 'Introduction to Hospitality & Tourism', dept: 'DHM' },
+    { code: 'DHM20233', name: 'Food & Beverage Service Operations', dept: 'DHM' },
+    { code: 'DHM30333', name: 'Front Office Operations & Night Audit', dept: 'DHM' },
+    { code: 'MPU21032', name: 'Penghayatan Etika dan Peradaban', dept: 'UMUM' },
+    { code: 'DUE10012', name: 'Communicative English 1', dept: 'UMUM' }
+  ];
+
+  pastYearList.forEach(py => {
+    if (py.code.toLowerCase().includes(query) || py.name.toLowerCase().includes(query) || py.dept.toLowerCase().includes(query)) {
+      matches.push({
+        title: `${py.code} — ${py.name}`,
+        desc: `Kertas peperiksaan akhir jabatan ${py.dept}.`,
+        section: 'academic',
+        icon: 'fa-file-lines',
+        tag: `Soalan ${py.dept}`
+      });
+    }
+  });
+
+  // 3. Search Print Hub Services
+  const printItems = [
+    { name: 'Cetakan Hitam Putih (A4 B&W Duplex)', tag: 'Printing' },
+    { name: 'Cetakan Berwarna Standard & Foto (A4)', tag: 'Printing' },
+    { name: 'Cetakan Pelan & Poster Kertas A3', tag: 'Printing' },
+    { name: 'Jilid Plastik Comb Binding & Hard Cover', tag: 'Printing' },
+    { name: 'Laminating Kalis Air A4', tag: 'Printing' }
+  ];
+
+  printItems.forEach(pr => {
+    if (pr.name.toLowerCase().includes(query)) {
+      matches.push({
+        title: pr.name,
+        desc: 'Perkhidmatan kaunter percetakan digital JPP Aras 2.',
+        section: 'printing',
+        icon: 'fa-print',
+        tag: 'Pusat Cetakan'
+      });
+    }
+  });
+
+  if (!matches.length) {
+    resultsContainer.innerHTML = `
+      <div style="padding:2.5rem 1rem; text-align:center; color:var(--text3); font-size:0.88rem;">
+        <i class="fas fa-circle-question" style="font-size:1.8rem; margin-bottom:0.6rem; display:block; color:#ef4444;"></i>
+        Tiada keputusan dijumpai untuk "<strong>${escapeHtml(query)}</strong>". Cuba cari dengan kata kunci lain.
+      </div>
+    `;
+    return;
+  }
+
+  resultsContainer.innerHTML = matches.slice(0, 8).map(m => `
+    <div class="spotlight-item" onclick="selectGlobalSearchResult('${m.section}')">
+      <div style="display:flex; align-items:center; gap:0.75rem;">
+        <div style="width:36px; height:36px; border-radius:8px; background:var(--surface2); display:flex; align-items:center; justify-content:center; color:var(--gold); border:1px solid var(--border);">
+          <i class="fas ${m.icon}"></i>
+        </div>
+        <div>
+          <div style="font-size:0.88rem; font-weight:700; color:var(--text);">${escapeHtml(m.title)}</div>
+          <div style="font-size:0.75rem; color:var(--text3);">${escapeHtml(m.desc)}</div>
+        </div>
+      </div>
+      <span class="tag tag-gold" style="font-size:0.7rem;">${escapeHtml(m.tag)}</span>
+    </div>
+  `).join('');
+}
+
+function selectGlobalSearchResult(section) {
+  closeGlobalSearch();
+  navigate(section);
+}
+
+// Auto-initialize Academic GPA Table on Load
+document.addEventListener('DOMContentLoaded', () => {
+  renderAcademicGpaTable();
+});

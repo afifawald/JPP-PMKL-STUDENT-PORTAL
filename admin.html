@@ -516,6 +516,9 @@
       <button class="admin-tab" onclick="switchTab('tabRsvps')">
         <i class="fas fa-ticket"></i> Event RSVPs
       </button>
+      <button class="admin-tab" onclick="switchTab('tabMerch')">
+        <i class="fas fa-bag-shopping"></i> Merch Orders
+      </button>
     </div>
 
     <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
@@ -1193,6 +1196,74 @@
       </div>
     </div>
 
+    <!-- ══ TAB 9: MERCHANDISE PRE-ORDERS ══ -->
+    <div class="tab-content" id="tabMerch">
+      <div class="status-banner" style="margin-bottom:1.5rem;">
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <div class="status-pill status-live" style="background:rgba(245,200,66,0.18); color:var(--gold); border-color:rgba(245,200,66,0.35);">
+            <i class="fas fa-bag-shopping"></i> <span id="adminMerchPillText">MERCH STORE</span>
+          </div>
+          <div style="font-size:0.85rem; color:var(--text2);" id="adminMerchCountBadge">
+            0 Pesanan Pra-Tempahan
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn-hero btn-hero-outline" onclick="loadAdminMerch(true)">
+            <i class="fas fa-rotate"></i> Refresh
+          </button>
+          <button class="btn-hero btn-hero-outline" onclick="exportMerchCsv()" style="background:rgba(34,197,94,0.12); color:#22c55e; border-color:rgba(34,197,94,0.3);">
+            <i class="fas fa-file-excel"></i> Export Merch CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+          <div>
+            <div class="sec-label"><i class="fas fa-shirt"></i> JPP Official Merchandise</div>
+            <h3 style="font-size:1.1rem; color:var(--text); margin:0;">Senarai Tempahan Varsity Jacket &amp; Lanyard JPP</h3>
+          </div>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <label style="font-size:0.8rem; color:var(--text2); font-weight:700;">Tapis Status:</label>
+            <select id="adminMerchFilterStatus" class="form-ctrl" style="width:auto; padding:0.4rem 0.8rem; font-size:0.82rem;" onchange="renderAdminMerchTable()">
+              <option value="all">Semua Status</option>
+              <option value="pending_payment">Menunggu Bayaran</option>
+              <option value="paid_verified">Bayaran Disahkan</option>
+              <option value="preparing">Sedang Diproses / Tempah</option>
+              <option value="ready_pickup">Sedia Diambil</option>
+              <option value="completed">Selesai</option>
+              <option value="cancelled">Dibatalkan</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="rates-table" id="adminMerchTable">
+            <thead>
+              <tr>
+                <th>No. Pesanan</th>
+                <th>Produk &amp; Variasi</th>
+                <th>Nama Pelajar</th>
+                <th>No. Matrik</th>
+                <th>Kuantiti &amp; Jumlah</th>
+                <th>No. Telefon</th>
+                <th>Status</th>
+                <th>Tarikh Pesanan</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="adminMerchTbody">
+              <tr>
+                <td colspan="9" style="text-align:center; color:var(--text3); padding:2rem;">
+                  <i class="fas fa-spinner fa-spin" style="margin-right:0.5rem;"></i> Memuatkan senarai tempahan cenderahati...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- MODAL: UPDATE ADUAN ACTION -->
@@ -1270,6 +1341,43 @@
       </div>
     </div>
   </div>
+
+  <!-- MODAL: UPDATE MERCH STATUS -->
+  <div class="modal-overlay" id="merchStatusModal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i class="fas fa-tag"></i></div>
+        <div class="modal-top-text">
+          <h3 style="margin:0; font-size:1.15rem; color:var(--text);">Kemaskini Status Pesanan</h3>
+          <p id="merchStatusModalTicket" style="margin:0.25rem 0 0; font-size:0.8rem; color:var(--text2);">ID: MCH-XXXX</p>
+        </div>
+        <button class="modal-top-close" onclick="closeMerchStatusModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-content-body" style="padding-top:1.25rem;">
+        <input type="hidden" id="merchStatusOrderId">
+        <div style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Status Tempahan:</label>
+          <select id="merchStatusSelect" class="form-ctrl" style="width:100%;">
+            <option value="pending_payment">Menunggu Bayaran (Pending Payment)</option>
+            <option value="paid_verified">Bayaran Disahkan (Paid &amp; Verified)</option>
+            <option value="preparing">Sedang Diproses / Tempah (In Production)</option>
+            <option value="ready_pickup">Sedia Diambil di Bilik JPP (Ready for Pickup)</option>
+            <option value="completed">Selesai Diambil (Completed)</option>
+            <option value="cancelled">Dibatalkan (Cancelled)</option>
+          </select>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <label style="font-size:0.8rem; font-weight:700; color:var(--text2); display:block; margin-bottom:0.4rem; text-transform:uppercase;">Catatan Admin (Pilihan):</label>
+          <input type="text" id="merchStatusNotes" class="form-ctrl" style="width:100%;" placeholder="cth: Resit DuitNow disahkan / Boleh ambil di Bilik JPP L2">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-modal-close" onclick="closeMerchStatusModal()">Batal</button>
+        <button class="btn-modal-primary" onclick="saveMerchStatus()" style="background:var(--gold); color:#000; font-weight:700;">
+          <i class="fas fa-save"></i> Simpan Status
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- TOAST NOTIFICATION -->
@@ -1359,6 +1467,7 @@
       loadPrintQueue();
       loadAdminBetaData();
       loadAdminRsvps(false);
+      loadAdminMerch(false);
       if (!window._printQueueTimer) {
         window._printQueueTimer = setInterval(() => {
           const tab = document.getElementById('tabPrinting');
@@ -1449,6 +1558,8 @@
 
       if (tabId === 'tabRsvps') {
         loadAdminRsvps(false);
+      } else if (tabId === 'tabMerch') {
+        loadAdminMerch(false);
       }
     }
 
@@ -3036,6 +3147,188 @@
       ]);
       const dateStr = new Date().toISOString().slice(0, 10);
       exportToCsv(`JPP_Event_RSVP_${filterVal}_${dateStr}.csv`, headers, rows);
+    }
+
+    // ── MERCH PRE-ORDERS LOGIC ──
+    let adminMerchOrders = [];
+
+    async function loadAdminMerch(showToastOnDone = false) {
+      try {
+        const res = await fetch(`${API_BASE}/merch?t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Failed to load merch orders');
+        const data = await res.json();
+        adminMerchOrders = Array.isArray(data) ? data : [];
+
+        // Update badge
+        const badge = document.getElementById('adminMerchCountBadge');
+        if (badge) badge.textContent = `${adminMerchOrders.length} Pesanan Pra-Tempahan`;
+
+        renderAdminMerchTable();
+        if (showToastOnDone) showToast('Senarai pesanan cenderahati dikemaskini.');
+      } catch (err) {
+        const tbody = document.getElementById('adminMerchTbody');
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#ef4444; padding:2rem;">Gagal memuatkan senarai tempahan cenderahati: ${escapeHtml(err.message)}</td></tr>`;
+        }
+      }
+    }
+
+    function renderAdminMerchTable() {
+      const tbody = document.getElementById('adminMerchTbody');
+      if (!tbody) return;
+
+      const filterVal = document.getElementById('adminMerchFilterStatus')?.value || 'all';
+      const filtered = filterVal === 'all' ? adminMerchOrders : adminMerchOrders.filter(o => o.status === filterVal);
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--text3); padding:2rem;"><i class="fas fa-bag-shopping" style="font-size:1.5rem; display:block; margin-bottom:0.5rem;"></i>Tiada pesanan cenderahati dijumpai.</td></tr>`;
+        return;
+      }
+
+      const statusMap = {
+        'pending_payment': { label: 'Menunggu Bayaran', cls: 'tag tag-gold' },
+        'paid_verified': { label: 'Bayaran Disahkan', cls: 'tag tag-blue' },
+        'preparing': { label: 'Sedang Diproses', cls: 'tag', style: 'background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3);' },
+        'ready_pickup': { label: 'Sedia Diambil', cls: 'tag tag-green' },
+        'completed': { label: 'Selesai', cls: 'tag tag-green' },
+        'cancelled': { label: 'Dibatalkan', cls: 'tag tag-danger' }
+      };
+
+      tbody.innerHTML = filtered.map(o => {
+        const sInfo = statusMap[o.status] || { label: o.status, cls: 'tag tag-blue' };
+        const cleanPhone = (o.phone || '').replace(/\D/g, '').replace(/^60/, '').replace(/^0/, '');
+        const waLink = cleanPhone ? `https://wa.me/60${cleanPhone}` : '#';
+        const customStyle = sInfo.style ? ` style="${sInfo.style}"` : '';
+
+        return `
+        <tr>
+          <td><strong class="queue-ticket-id" style="font-size:0.8rem;">${escapeHtml(o.id)}</strong></td>
+          <td style="max-width:200px;">
+            <div style="font-weight:600; color:var(--text);">${escapeHtml(o.itemName || '-')}</div>
+            <div style="font-size:0.75rem; color:var(--text3);">Saiz: <strong>${escapeHtml(o.size || 'Standard')}</strong> | Warna: <strong>${escapeHtml(o.color || 'Standard')}</strong></div>
+          </td>
+          <td><strong>${escapeHtml(o.studentName || '-')}</strong></td>
+          <td><span style="font-family:'Space Mono', monospace; font-size:0.8rem;">${escapeHtml(o.matricNo || '-')}</span></td>
+          <td>
+            <div style="font-weight:700; color:var(--gold);">RM ${escapeHtml(o.totalPrice || '0.00')}</div>
+            <div style="font-size:0.72rem; color:var(--text3);">${escapeHtml(o.quantity || 1)} unit @ RM ${escapeHtml(o.unitPrice || '0.00')}</div>
+          </td>
+          <td>
+            ${cleanPhone ? `<a href="${waLink}" target="_blank" style="color:var(--gold); text-decoration:none; font-weight:600; font-size:0.82rem;"><i class="fab fa-whatsapp"></i> ${escapeHtml(o.phone)}</a>` : '<span style="color:var(--text3);">-</span>'}
+          </td>
+          <td>
+            <span class="${sInfo.cls}"${customStyle} style="font-size:0.72rem; font-weight:700; white-space:nowrap;">
+              ${escapeHtml(sInfo.label)}
+            </span>
+            ${o.adminNotes ? `<div style="font-size:0.7rem; color:var(--text3); margin-top:0.25rem;">${escapeHtml(o.adminNotes)}</div>` : ''}
+          </td>
+          <td style="font-size:0.75rem; color:var(--text3); white-space:nowrap;">
+            ${escapeHtml((o.createdAt || '').slice(0, 10) || '-')}
+          </td>
+          <td>
+            <div style="display:flex; gap:0.35rem; align-items:center;">
+              <button class="btn-hero btn-hero-outline" style="padding:0.3rem 0.6rem; font-size:0.75rem;" onclick="openMerchStatusModal('${escapeHtml(o.id)}')">
+                <i class="fas fa-pen"></i> Status
+              </button>
+              <button class="btn-danger" style="padding:0.3rem 0.55rem; font-size:0.72rem;" onclick="deleteAdminMerch('${escapeHtml(o.id)}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        `;
+      }).join('');
+    }
+
+    function openMerchStatusModal(orderId) {
+      const order = adminMerchOrders.find(o => o.id === orderId);
+      if (!order) return;
+      document.getElementById('merchStatusOrderId').value = order.id;
+      document.getElementById('merchStatusModalTicket').textContent = `ID: ${order.id} — ${order.studentName || ''}`;
+      document.getElementById('merchStatusSelect').value = order.status || 'pending_payment';
+      document.getElementById('merchStatusNotes').value = order.adminNotes || '';
+      const m = document.getElementById('merchStatusModal');
+      if (m) m.classList.add('open');
+    }
+
+    function closeMerchStatusModal() {
+      const m = document.getElementById('merchStatusModal');
+      if (m) m.classList.remove('open');
+    }
+
+    async function saveMerchStatus() {
+      const orderId = document.getElementById('merchStatusOrderId').value;
+      const status = document.getElementById('merchStatusSelect').value;
+      const notes = document.getElementById('merchStatusNotes').value.trim();
+
+      if (!orderId || !status) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/merch`, {
+          method: 'PATCH',
+          headers: getHeaders(),
+          body: JSON.stringify({ orderId, status, notes })
+        });
+        if (!res.ok) throw new Error('Gagal mengemaskini status');
+        showToast(`Status tempahan [${orderId}] berjaya dikemaskini.`);
+        closeMerchStatusModal();
+        loadAdminMerch(false);
+      } catch (err) {
+        showToast('Ralat kemaskini: ' + err.message);
+      }
+    }
+
+    async function deleteAdminMerch(orderId) {
+      if (!confirm(`Adakah anda pasti untuk memadam rekod pesanan [${orderId}]?`)) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/merch?id=${encodeURIComponent(orderId)}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Gagal memadam pesanan');
+        showToast(`Pesanan [${orderId}] berjaya dipadam.`);
+        loadAdminMerch(false);
+      } catch (err) {
+        showToast('Ralat memadam pesanan: ' + err.message);
+      }
+    }
+
+    function exportMerchCsv() {
+      if (!adminMerchOrders || !adminMerchOrders.length) {
+        showToast('Tiada rekod pesanan cenderahati untuk dieksport.');
+        return;
+      }
+      const filterVal = document.getElementById('adminMerchFilterStatus')?.value || 'all';
+      const list = filterVal === 'all' ? adminMerchOrders : adminMerchOrders.filter(o => o.status === filterVal);
+
+      const headers = [
+        'No. Pesanan', 'Nama Produk', 'Saiz', 'Warna', 'Kuantiti',
+        'Harga Seunit (RM)', 'Jumlah Harga (RM)', 'Nama Pelajar',
+        'No. Matrik', 'No. Telefon', 'Catatan Pelajar', 'Status',
+        'Catatan Admin', 'Tarikh Pesanan'
+      ];
+      const rows = list.map(o => [
+        o.id || '',
+        o.itemName || '',
+        o.size || '',
+        o.color || '',
+        o.quantity || 1,
+        o.unitPrice || '0.00',
+        o.totalPrice || '0.00',
+        o.studentName || '',
+        o.matricNo || '',
+        o.phone || '',
+        o.notes || '',
+        o.status || '',
+        o.adminNotes || '',
+        o.createdAt || ''
+      ]);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      exportToCsv(`JPP_Merch_Orders_${filterVal}_${dateStr}.csv`, headers, rows);
     }
 
     // Data will load automatically inside unlockDashboard() once verified

@@ -41,6 +41,7 @@
       <a class="nav-link active" data-section="dashboard">Dashboard</a>
       <a class="nav-link" data-section="announcements">Announcements</a>
       <a class="nav-link" data-section="events">Events</a>
+      <a class="nav-link" data-section="academic"><i class="fas fa-book-open" style="color:var(--gold); margin-right:4px;"></i> Academic</a>
       <a class="nav-link" data-section="members">Members</a>
       <a class="nav-link" data-section="album">Album</a>
       <a class="nav-link" data-section="printing">Printing</a>
@@ -50,6 +51,9 @@
     </div>
 
     <div class="nav-actions">
+      <button class="btn-icon" id="globalSearchBtn" onclick="openGlobalSearch()" title="Search Portal (Ctrl+K)">
+        <i class="fas fa-magnifying-glass"></i>
+      </button>
       <a href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" class="btn-discord-nav" title="Join Akira Lab Discord">
         <i class="fab fa-discord"></i><span>Discord</span>
       </a>
@@ -83,6 +87,7 @@
           </div>
           <div class="quick-access">
             <a class="qa-chip qa-chip-discord" href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord Hub</a>
+            <a class="qa-chip" onclick="navigate('academic')"><i class="fas fa-book-open"></i> Academic Hub</a>
             <a class="qa-chip" onclick="navigate('announcements')"><i class="fas fa-megaphone"></i> Announcements</a>
             <a class="qa-chip" onclick="navigate('events')"><i class="fas fa-calendar"></i> Events</a>
             <a class="qa-chip" onclick="navigate('members')"><i class="fas fa-users"></i> Members</a>
@@ -428,6 +433,368 @@
             </div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         ══ SECTION: ACADEMIC RESOURCES HUB ══
+         ══════════════════════════════════════════════════════════ -->
+    <section class="section" id="academic">
+      <div class="sec-wrap" style="padding-top: 2.5rem;">
+        <button class="btn-back" onclick="navigate('dashboard')"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <div class="sec-label"><i class="fas fa-book-open"></i> Portal Akademik</div>
+        <h2 class="sec-title">Pusat Sumber Akademik PMKL</h2>
+        <p class="sec-sub">Takwim akademik rasmi, bank soalan peperiksaan akhir (DIT, DRO, DHM), dan kalkulator sasaran HPNM / GPA Politeknik.</p>
+
+        <!-- Sub Tabs -->
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.75rem;">
+          <button class="btn-hero btn-hero-primary" id="btnTabTakwim" onclick="switchAcademicSub('takwim')">
+            <i class="fas fa-calendar-days"></i> Takwim Akademik
+          </button>
+          <button class="btn-hero btn-hero-outline" id="btnTabPastYears" onclick="switchAcademicSub('pastyears')">
+            <i class="fas fa-file-lines"></i> Bank Soalan Peperiksaan
+          </button>
+          <button class="btn-hero btn-hero-outline" id="btnTabGpa" onclick="switchAcademicSub('gpa')">
+            <i class="fas fa-calculator"></i> Kalkulator HPNM &amp; GPA
+          </button>
+        </div>
+
+        <!-- 1. PANE: TAKWIM AKADEMIK -->
+        <div id="academicPaneTakwim">
+          <div class="status-banner" style="margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), rgba(59,130,246,0.06)); border-color:rgba(245,200,66,0.3);">
+            <div style="display:flex; align-items:center; gap:0.85rem; flex-wrap:wrap;">
+              <span class="status-pill status-live"><i class="fas fa-circle-check"></i> Sesi I: 2026/2027</span>
+              <div style="font-size:0.85rem; color:var(--text2);">Takwim rasmi tertakluk kepada pindaan Bahagian Peperiksaan PMKL &amp; JPPKK.</div>
+            </div>
+            <button class="btn-hero btn-hero-outline" onclick="downloadTakwimPdf()" style="padding:0.4rem 0.85rem; font-size:0.8rem;">
+              <i class="fas fa-file-pdf"></i> Muat Turun Takwim (PDF)
+            </button>
+          </div>
+
+          <div class="takwim-timeline">
+            <div class="takwim-card current">
+              <span class="takwim-badge" style="background:rgba(245,200,66,0.2); color:var(--gold); border:1px solid rgba(245,200,66,0.4);">
+                ● Sedang Berjalan
+              </span>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Pendaftaran Pelajar Baharu &amp; MSK</h4>
+              <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
+                Minggu Suaikenal (MSK) dan pendaftaran pelajar baharu diploma ambilan Sesi I: 2026/2027.
+              </p>
+              <div style="font-size:0.8rem; color:var(--gold); font-weight:700;"><i class="fas fa-calendar-alt"></i> 22 Jun 2026 – 26 Jun 2026</div>
+            </div>
+
+            <div class="takwim-card">
+              <span class="takwim-badge" style="background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.3);">
+                Fasa Kuliah
+              </span>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Perkuliahan Bermula (Minggu 1 - 7)</h4>
+              <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
+                Sesi kuliah, amali makmal, dan tugasan berterusan bagi semua kursus jabatan.
+              </p>
+              <div style="font-size:0.8rem; color:var(--text); font-weight:600;"><i class="fas fa-calendar-alt"></i> 29 Jun 2026 – 14 Ogos 2026</div>
+            </div>
+
+            <div class="takwim-card">
+              <span class="takwim-badge" style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3);">
+                Cuti Rehat
+              </span>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Cuti Pertengahan Semester I</h4>
+              <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
+                Cuti pertengahan semester selama 1 minggu untuk rehat &amp; ulangkaji pelajar.
+              </p>
+              <div style="font-size:0.8rem; color:var(--text); font-weight:600;"><i class="fas fa-calendar-alt"></i> 17 Ogos 2026 – 23 Ogos 2026</div>
+            </div>
+
+            <div class="takwim-card">
+              <span class="takwim-badge" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);">
+                Minggu Peperiksaan
+              </span>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Peperiksaan Akhir Sesi I</h4>
+              <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
+                Peperiksaan bertulis akhir semester bagi program DIT, DRO, dan DHM.
+              </p>
+              <div style="font-size:0.8rem; color:#f87171; font-weight:700;"><i class="fas fa-calendar-alt"></i> 12 Okt 2026 – 25 Okt 2026</div>
+            </div>
+
+            <div class="takwim-card">
+              <span class="takwim-badge" style="background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3);">
+                Keputusan Rasmi
+              </span>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Pengumuman Keputusan (SPMP)</h4>
+              <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
+                Semakan keputusan gred HPNM / PNGK pelajar secara dalam talian melalui portal SPMP.
+              </p>
+              <div style="font-size:0.8rem; color:#34d399; font-weight:700;"><i class="fas fa-calendar-alt"></i> 16 Nov 2026</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. PANE: BANK SOALAN PEPERIKSAAN (PAST YEARS) -->
+        <div id="academicPanePastYears" style="display:none;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+            <div>
+              <h3 style="font-size:1.15rem; color:var(--text); margin-bottom:0.25rem;">Kertas Soalan Peperiksaan Akhir Terdahulu</h3>
+              <p style="font-size:0.82rem; color:var(--text2);">Rujukan soalan peperiksaan semester lepas mengikut jabatan pengajian PMKL.</p>
+            </div>
+            <!-- Department Filters -->
+            <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+              <button class="tag tag-gold" id="pyFilterAll" style="cursor:pointer;" onclick="filterPastYears('all')">Semua</button>
+              <button class="tag" id="pyFilterDIT" style="cursor:pointer; background:rgba(59,130,246,0.15); color:#60a5fa;" onclick="filterPastYears('DIT')">DIT</button>
+              <button class="tag" id="pyFilterDRO" style="cursor:pointer; background:rgba(168,85,247,0.15); color:#c084fc;" onclick="filterPastYears('DRO')">DRO</button>
+              <button class="tag" id="pyFilterDHM" style="cursor:pointer; background:rgba(16,185,129,0.15); color:#34d399;" onclick="filterPastYears('DHM')">DHM</button>
+              <button class="tag" id="pyFilterUmum" style="cursor:pointer; background:rgba(245,158,11,0.15); color:#fbbf24;" onclick="filterPastYears('UMUM')">Umum</button>
+            </div>
+          </div>
+
+          <div class="past-year-grid" id="pastYearGrid">
+            <!-- DIT Courses -->
+            <div class="past-year-card" data-dept="DIT">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dit">DIT</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT10133 Programming Fundamentals</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">C++ Syntax, Control Structures, Arrays, and Function Implementation.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT10133_Programming_Fundamentals')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DIT">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dit">DIT</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT20233 Database Design &amp; SQL</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Relational Schemas, ERD Modeling, Normalization 1NF–3NF &amp; SQL Queries.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT20233_Database_Design')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DIT">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dit">DIT</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT30333 Web Development &amp; Frameworks</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">HTML5, CSS Grid, Client-Side JavaScript, REST APIs and Backend Routing.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT30333_Web_Development')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DIT">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dit">DIT</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT40433 Computer Networking &amp; Security</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">OSI Reference Layer, IPv4/IPv6 Subnetting, Routing Protocols &amp; Firewalls.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT40433_Networking_Security')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <!-- DRO Courses -->
+            <div class="past-year-card" data-dept="DRO">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dro">DRO</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO10133 Principles of Retail Management</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Retail Ecosystems, Customer Journey, Store Layouts &amp; POS Operations.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DRO10133_Retail_Management')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DRO">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dro">DRO</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO20233 Visual Merchandising &amp; Display</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Planogram Design, Color Harmonies, Window Displays &amp; In-Store Promotion.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DRO20233_Visual_Merchandising')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DRO">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dro">DRO</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO30333 Retail Buying &amp; Merchandise Management</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Inventory Turnover, Markup/Markdown Strategies, and Supplier Negotiations.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DRO30333_Retail_Buying')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <!-- DHM Courses -->
+            <div class="past-year-card" data-dept="DHM">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dhm">DHM</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM10133 Introduction to Hospitality &amp; Tourism</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Industry Classification, Guest Services, Hospitality Ethics &amp; Event Management.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DHM10133_Hospitality_Tourism')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DHM">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dhm">DHM</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM20233 Food &amp; Beverage Service Operations</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Banquet Planning, Menu Engineering, Food Hygiene, and Silver Service.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DHM20233_Food_Beverage')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="DHM">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-dhm">DHM</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM30333 Front Office Operations &amp; Night Audit</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Property Management Systems (PMS), Check-in/Check-out, and Room Tariff Yields.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DHM30333_Front_Office')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <!-- UMUM Courses -->
+            <div class="past-year-card" data-dept="UMUM">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-umum">UMUM</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">MPU21032 Penghayatan Etika dan Peradaban</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Etika Sosial, Perlembagaan Persekutuan, Perpaduan Kaum &amp; Tanggungjawab Sosial.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('MPU21032_Etika_Peradaban')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+
+            <div class="past-year-card" data-dept="UMUM">
+              <div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                  <span class="dept-tag dept-tag-umum">UMUM</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                </div>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DUE10012 Communicative English 1</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Professional Correspondence, Technical Reporting, Oral Presentations.</p>
+              </div>
+              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DUE10012_Communicative_English')">
+                <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. PANE: KALKULATOR HPNM & GPA -->
+        <div id="academicPaneGpa" style="display:none;">
+          <div class="admin-grid-2">
+            <!-- Left: Course Grade Entry -->
+            <div class="admin-card">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <div>
+                  <div class="sec-label"><i class="fas fa-calculator"></i> Pengiraan GPA Semester</div>
+                  <h3 style="margin:0; font-size:1.1rem; color:var(--text);">Senarai Kursus Semester Ini</h3>
+                </div>
+                <button class="btn-hero btn-hero-primary" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="addAcademicCourseRow()">
+                  <i class="fas fa-plus"></i> Tambah Kursus
+                </button>
+              </div>
+
+              <div style="overflow-x:auto;">
+                <table class="rates-table">
+                  <thead>
+                    <tr>
+                      <th>Kursus / Modul</th>
+                      <th>Kredit</th>
+                      <th>Gred Diperoleh</th>
+                      <th>Tindakan</th>
+                    </tr>
+                  </thead>
+                  <tbody id="academicGpaTbody">
+                    <!-- Dynamic Rows populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem;">
+                <button class="btn-hero btn-hero-outline" onclick="resetAcademicGpa()" style="padding:0.4rem 0.85rem; font-size:0.8rem;">
+                  <i class="fas fa-rotate-left"></i> Set Semula
+                </button>
+                <div style="font-size:0.8rem; color:var(--text3);">Gred dikira mengikut standard Politeknik Malaysia</div>
+              </div>
+            </div>
+
+            <!-- Right: GPA & CGPA Score Card -->
+            <div>
+              <div class="admin-card" style="text-align:center; padding:2rem 1.5rem; border:2px solid var(--gold); margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), var(--surface));">
+                <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:0.35rem;">
+                  Anggaran Purata Nilai Gred (GPA)
+                </div>
+                <div style="font-family:'Space Mono', monospace; font-size:3rem; font-weight:800; color:var(--gold); line-height:1.1; margin-bottom:0.5rem;" id="academicGpaScore">
+                  3.50
+                </div>
+                <div id="academicGpaStanding" style="display:inline-block; font-size:0.8rem; font-weight:700; padding:0.3rem 0.85rem; border-radius:999px; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); margin-bottom:0.75rem;">
+                  ● KEDUDUKAN BAIK (KB)
+                </div>
+                <p style="font-size:0.8rem; color:var(--text2); margin:0;" id="academicGpaRemarks">
+                  Tahniah! Anda berada dalam landasan Anugerah Ketua Jabatan (HPNM &ge; 3.50).
+                </p>
+              </div>
+
+              <div class="admin-card">
+                <div class="sec-label"><i class="fas fa-award"></i> Skala Gred Politeknik</div>
+                <h4 style="margin-bottom:0.75rem; font-size:0.95rem; color:var(--text);">Rujukan Titik Mata Gred</h4>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.8rem; color:var(--text2);">
+                  <div><strong>A :</strong> 4.00 (Cemerlang)</div>
+                  <div><strong>A- :</strong> 3.67 (Kepujian Tinggi)</div>
+                  <div><strong>B+ :</strong> 3.33 (Kepujian)</div>
+                  <div><strong>B :</strong> 3.00 (Baik)</div>
+                  <div><strong>B- :</strong> 2.67 (Memuaskan)</div>
+                  <div><strong>C+ :</strong> 2.33 (Lulus Baik)</div>
+                  <div><strong>C :</strong> 2.00 (Lulus / Min KB)</div>
+                  <div><strong>F :</strong> 0.00 (Gagal)</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -1302,6 +1669,94 @@
                 <img src="carta.jpg" alt="Carta Organisasi JPP PMKL" style="width:100%;border-radius:8px;display:block;"
                   onerror="this.style.display='none';this.parentNode.innerHTML='<div style=\'padding:3rem;text-align:center;color:var(--text3);font-size:0.85rem;\'><i class=\'fas fa-sitemap\' style=\'font-size:2rem;margin-bottom:0.75rem;display:block;\'></i>Carta Organisasi<br>Coming Soon</div>'">
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Campus Guide & Floor Directory -->
+        <div style="margin-top:2.5rem;" id="campusFloorGuide">
+          <div class="sec-label"><i class="fas fa-building"></i> Navigasi Kampus</div>
+          <h3 style="font-size:1.25rem; color:var(--text); margin-bottom:0.5rem;">Panduan Aras &amp; Fasiliti Kampus PMKL</h3>
+          <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;">
+            Rujukan lokasi bilik kuliah, makmal komputer, pejabat pentadbiran, dan kemudahan pelajar di bangunan Politeknik METrO Kuala Lumpur.
+          </p>
+
+          <!-- Floor Selector Tabs -->
+          <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
+            <button class="floor-tab-btn active" id="btnFloorG" onclick="switchCampusFloor('floorG')">Aras Bawah (G)</button>
+            <button class="floor-tab-btn" id="btnFloor1" onclick="switchCampusFloor('floor1')">Aras 1</button>
+            <button class="floor-tab-btn" id="btnFloor2" onclick="switchCampusFloor('floor2')">Aras 2 (JPP &amp; Print Hub)</button>
+            <button class="floor-tab-btn" id="btnFloor3" onclick="switchCampusFloor('floor3')">Aras 3 (Surau &amp; Makmal)</button>
+            <button class="floor-tab-btn" id="btnFloor4" onclick="switchCampusFloor('floor4')">Aras 4 (Pentadbiran)</button>
+          </div>
+
+          <!-- Floor Cards -->
+          <div class="floor-plan-card" id="paneFloorG">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-door-open"></i> Aras Bawah (Ground Floor)</h4>
+              <span class="tag tag-blue" style="font-size:0.7rem;">Pintu Masuk Utama</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Kawasan pintu masuk utama kampus, kawalan keselamatan, dan akses parkir.</p>
+            <div>
+              <span class="room-chip"><i class="fas fa-shield-halved" style="color:#ef4444;"></i> Pos Kawalan Keselamatan (24 Jam)</span>
+              <span class="room-chip"><i class="fas fa-square-parking" style="color:#60a5fa;"></i> Ruang Letak Motosikal &amp; Kereta Pelajar</span>
+              <span class="room-chip"><i class="fas fa-bell-concierge" style="color:var(--gold);"></i> Lobi Utama &amp; Kaunter Pertanyaan Pelawat</span>
+            </div>
+          </div>
+
+          <div class="floor-plan-card" id="paneFloor1" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-utensils"></i> Aras 1 — Kafeteria &amp; Dewan</h4>
+              <span class="tag tag-gold" style="font-size:0.7rem;">Zon Komuniti Pelajar</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Zon makanan, aktiviti riadah mahasiswa, dan perhimpunan rasmi.</p>
+            <div>
+              <span class="room-chip"><i class="fas fa-burger" style="color:#f59e0b;"></i> Kafeteria PMKL (Sarapan &amp; Makan Tengah Hari)</span>
+              <span class="room-chip"><i class="fas fa-landmark" style="color:#3b82f6;"></i> Dewan Serbaguna / Dewan Kuliah Utama</span>
+              <span class="room-chip"><i class="fas fa-table-tennis-paddle-ball" style="color:#10b981;"></i> Sudut Riadah Pelajar (Ping Pong &amp; Rekreasi)</span>
+            </div>
+          </div>
+
+          <div class="floor-plan-card" id="paneFloor2" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-users-gear"></i> Aras 2 — Pusat Pelajar JPP &amp; HEP</h4>
+              <span class="tag tag-gold" style="font-size:0.7rem;">Hab Kebajikan &amp; Cetakan</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pusat perkhidmatan pelajar, pengurusan kebajikan, kaunseling, dan pusat cetakan dokumen.</p>
+            <div>
+              <span class="room-chip"><i class="fas fa-print" style="color:var(--gold);"></i> Pusat Cetakan Digital JPP (Print Hub)</span>
+              <span class="room-chip"><i class="fas fa-people-roof" style="color:#a855f7;"></i> Bilik Gerakan Rasmi Jawatankuasa Perwakilan Pelajar</span>
+              <span class="room-chip"><i class="fas fa-user-tie" style="color:#3b82f6;"></i> Pejabat Hal Ehwal Pelajar (HEP)</span>
+              <span class="room-chip"><i class="fas fa-heart" style="color:#ec4899;"></i> Bilik Khidmat Bimbingan &amp; Kaunseling</span>
+            </div>
+          </div>
+
+          <div class="floor-plan-card" id="paneFloor3" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-laptop-code"></i> Aras 3 — Perpustakaan, Surau &amp; Makmal Komputer</h4>
+              <span class="tag tag-blue" style="font-size:0.7rem;">Zon Pembelajaran &amp; Ibadah</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pusat rujukan akademik, makmal pengaturcaraan DIT, serta kemudahan surau.</p>
+            <div>
+              <span class="room-chip"><i class="fas fa-book" style="color:#3b82f6;"></i> Perpustakaan PMKL &amp; Sudut Ulangkaji Senyap</span>
+              <span class="room-chip"><i class="fas fa-mosque" style="color:#10b981;"></i> Surau Utama Lelaki &amp; Surau Wanita (Solat Jumaat di Masjid Berdekatan)</span>
+              <span class="room-chip"><i class="fas fa-desktop" style="color:#6366f1;"></i> Makmal Komputer 1 (DIT Web Dev Lab)</span>
+              <span class="room-chip"><i class="fas fa-network-wired" style="color:#8b5cf6;"></i> Makmal Komputer 2 (Networking &amp; Cyber Lab)</span>
+              <span class="room-chip"><i class="fas fa-database" style="color:#ec4899;"></i> Makmal Komputer 3 (Database &amp; Project Lab)</span>
+            </div>
+          </div>
+
+          <div class="floor-plan-card" id="paneFloor4" style="display:none;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-briefcase"></i> Aras 4 — Pengurusan &amp; Pentadbiran Utama</h4>
+              <span class="tag tag-gold" style="font-size:0.7rem;">Pejabat Eksekutif PMKL</span>
+            </div>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pengurusan tertinggi, kewangan, peperiksaan, dan bilik mesyuarat pengurusan.</p>
+            <div>
+              <span class="room-chip"><i class="fas fa-user-gear" style="color:var(--gold);"></i> Pejabat Pengarah &amp; Timbalan Pengarah</span>
+              <span class="room-chip"><i class="fas fa-file-invoice" style="color:#10b981;"></i> Unit Pentadbiran &amp; Kewangan</span>
+              <span class="room-chip"><i class="fas fa-graduation-cap" style="color:#3b82f6;"></i> Unit Peperiksaan &amp; Pensijilan PMKL</span>
+              <span class="room-chip"><i class="fas fa-handshake" style="color:#f59e0b;"></i> Bilik Mesyuarat Eksekutif (Bilik Wawasan)</span>
             </div>
           </div>
         </div>
@@ -2207,6 +2662,91 @@
     </div>
   </div>
 
+  <!-- ── MODAL: MERCHANDISE CONFIRMATION PASS ── -->
+  <div class="modal-overlay" id="merchPassModal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;">
+          <i class="fas fa-bag-shopping"></i>
+        </div>
+        <div class="modal-top-text">
+          <h3>Pas Pra-Tempahan Rasmi JPP</h3>
+          <p>Simpan tiket ini untuk pengesahan &amp; tuntutan barangan</p>
+        </div>
+        <button class="modal-top-close" onclick="closeMerchPassModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body" style="text-align:center; padding-top:1.25rem;">
+        <div class="merch-pass-box">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:0.75rem; margin-bottom:0.85rem;">
+            <div>
+              <span style="font-size:0.7rem; color:var(--text3); text-transform:uppercase; display:block;">No. Tempahan</span>
+              <span class="rsvp-ticket-code" id="passMerchTicketId" style="color:#ed005a;">MCH-XXXX</span>
+            </div>
+            <span class="ticket-status-pill" id="passMerchStatusPill" style="background:rgba(245,200,66,0.15); color:var(--gold); border-color:rgba(245,200,66,0.3); font-size:0.75rem;">
+              ● Menunggu Bayaran
+            </span>
+          </div>
+
+          <h4 id="passMerchItemName" style="font-size:1.05rem; color:var(--text); margin-bottom:0.5rem; text-align:left;">-</h4>
+          <div style="text-align:left; font-size:0.85rem; color:var(--gold); font-weight:700; margin-bottom:0.85rem;" id="passMerchPriceTotal">RM 0.00</div>
+
+          <div class="rsvp-pass-grid">
+            <div>
+              <dt>Nama Pembeli</dt>
+              <dd id="passMerchStudentName">-</dd>
+            </div>
+            <div>
+              <dt>No. Matrik</dt>
+              <dd id="passMerchMatric">-</dd>
+            </div>
+            <div>
+              <dt>Saiz / Pilihan</dt>
+              <dd id="passMerchSize">-</dd>
+            </div>
+            <div>
+              <dt>Kuantiti</dt>
+              <dd id="passMerchQty">1 Helai</dd>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:rgba(237,0,90,0.06); border:1px solid rgba(237,0,90,0.25); border-radius:12px; padding:0.85rem; margin-bottom:1.25rem; font-size:0.8rem; color:var(--text2); text-align:left;">
+          <div style="font-weight:700; color:#ed005a; margin-bottom:0.25rem;"><i class="fas fa-qrcode"></i> Bayaran Melalui DuitNow QR JPP:</div>
+          Sila imbas DuitNow QR di Kaunter Pusat Pelajar Aras 2 PMKL atau sertakan bukti bayaran semasa mengambil barangan.
+        </div>
+
+        <div class="modal-actions" style="padding:0;">
+          <button type="button" class="btn-modal-close" onclick="closeMerchPassModal()">Tutup</button>
+          <button type="button" class="btn-modal-primary" id="btnShareMerchWhatsApp" onclick="shareMerchWhatsApp()" style="background:#25D366; color:#fff; font-weight:700;">
+            <i class="fab fa-whatsapp"></i> Simpan ke WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MODAL: GLOBAL SPOTLIGHT SEARCH (Ctrl+K) ── -->
+  <div class="spotlight-overlay" id="globalSearchModal" onclick="closeGlobalSearchOnBg(event)">
+    <div class="spotlight-box">
+      <div class="spotlight-header">
+        <i class="fas fa-magnifying-glass"></i>
+        <input type="text" id="globalSearchInput" class="spotlight-input" placeholder="Cari apa-apa sahaja di portal PMKL... (cth: Futsal, Print, DIT, Bilik, Sewa)" oninput="handleGlobalSearchInput(event)">
+        <span class="spotlight-kbd">ESC</span>
+      </div>
+      <div class="spotlight-results" id="globalSearchResults">
+        <div style="padding:2.5rem 1rem; text-align:center; color:var(--text3); font-size:0.88rem;">
+          <i class="fas fa-keyboard" style="font-size:1.8rem; margin-bottom:0.6rem; display:block; color:var(--gold);"></i>
+          Taip kata kunci untuk mencari Pengumuman, Acara, Rumah Sewa, Alatan, atau Soalan Peperiksaan.
+        </div>
+      </div>
+      <div class="spotlight-footer">
+        <span><i class="fas fa-arrows-up-down"></i> Navigasi anak panah</span>
+        <span>JPP PMKL Quick Search Hub</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Photo Lightbox -->
   <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxOnBg(event)">
     <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
@@ -2253,7 +2793,7 @@
         <a onclick="navigate('album')">Photo Album</a>
         <a onclick="navigate('rent')">Rent House</a>
         <a onclick="navigate('contact')">Contact Us</a>
-        <a onclick="showToast('Academic Resources coming soon!')">Academic</a>
+        <a onclick="navigate('academic')">Academic Hub</a>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
