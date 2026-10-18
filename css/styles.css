@@ -3862,4 +3862,91 @@
   color: #000000;
   border-color: var(--gold);
   font-weight: 800;
+}
+
+/* ══ DISCORD INTEGRATION STYLING ══ */
+.btn-discord-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #5865F2;
+  color: #ffffff !important;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(88, 101, 242, 0.35);
+}
+
+.btn-discord-nav:hover {
+  background: #4752c4;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(88, 101, 242, 0.5);
+}
+
+.social-discord:hover {
+  background: #5865F2 !important;
+  color: #ffffff !important;
+  border-color: #5865F2 !important;
+}
+
+.qa-chip-discord {
+  background: rgba(88, 101, 242, 0.12) !important;
+  border-color: rgba(88, 101, 242, 0.35) !important;
+  color: #8591f8 !important;
+}
+
+.qa-chip-discord:hover {
+  background: #5865F2 !important;
+  color: #ffffff !important;
+}
+
+/* ══ EVENT RSVP & PASS STYLING ══ */
+.rsvp-pass-box {
+  background: var(--surface2);
+  border: 1px dashed rgba(245, 200, 66, 0.5);
+  border-radius: 14px;
+  padding: 1.25rem;
+  margin-bottom: 1.25rem;
+  position: relative;
+}
+
+.rsvp-pass-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+
+.rsvp-ticket-code {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+
+.rsvp-pass-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.rsvp-pass-grid dt {
+  color: var(--text3);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  margin-bottom: 0.15rem;
+}
+
+.rsvp-pass-grid dd {
+  margin: 0;
+  color: var(--text);
+  font-weight: 600;
 }

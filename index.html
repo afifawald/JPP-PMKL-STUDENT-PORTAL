@@ -50,6 +50,9 @@
     </div>
 
     <div class="nav-actions">
+      <a href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" class="btn-discord-nav" title="Join Akira Lab Discord">
+        <i class="fab fa-discord"></i><span>Discord</span>
+      </a>
       <button class="btn-icon" id="themeToggle" title="Toggle theme"><i class="fas fa-moon"></i></button>
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
@@ -79,6 +82,7 @@
               Announcements</button>
           </div>
           <div class="quick-access">
+            <a class="qa-chip qa-chip-discord" href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i> Discord Hub</a>
             <a class="qa-chip" onclick="navigate('announcements')"><i class="fas fa-megaphone"></i> Announcements</a>
             <a class="qa-chip" onclick="navigate('events')"><i class="fas fa-calendar"></i> Events</a>
             <a class="qa-chip" onclick="navigate('members')"><i class="fas fa-users"></i> Members</a>
@@ -386,7 +390,7 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> PMKL Campus</div>
               </div>
-              <button class="btn-event" onclick="showToast('Event registration coming soon!')">Learn More</button>
+              <button class="btn-event" onclick="openEventRsvpModal('evt-1', 'New Student Registration Session I: 2026/2027', '22 Jun 2026')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
 
@@ -403,7 +407,7 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> TBD</div>
               </div>
-              <button class="btn-event" onclick="showToast('Stay tuned for registration!')">Learn More</button>
+              <button class="btn-event" onclick="openEventRsvpModal('evt-2', 'SuperStar Esport Championship', 'TBD 2026')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
 
@@ -420,7 +424,7 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> TBD</div>
               </div>
-              <button class="btn-event" onclick="showToast('More details soon!')">Learn More</button>
+              <button class="btn-event" onclick="openEventRsvpModal('evt-3', 'Volunteering & Entrepreneurship Activities', 'Coming Soon')"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
         </div>
@@ -2069,6 +2073,140 @@
     </div>
   </div>
 
+  <!-- Event RSVP Registration Modal -->
+  <div class="modal-overlay" id="eventRsvpModal">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);">
+          <i class="fas fa-calendar-check"></i>
+        </div>
+        <div class="modal-top-text">
+          <h3 id="rsvpModalEventTitle">Pendaftaran Acara PMKL</h3>
+          <p id="rsvpModalEventDate">Sesi 2026/2027</p>
+        </div>
+        <button class="modal-top-close" onclick="closeEventRsvpModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body">
+        <form id="eventRsvpForm" onsubmit="handleEventRsvpSubmit(event)">
+          <input type="hidden" id="rsvpEventId">
+          <input type="hidden" id="rsvpEventTitle">
+
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+              Nama Penuh Pelajar <span style="color:#ef4444;">*</span>
+            </label>
+            <input type="text" id="rsvpStudentName" class="form-ctrl" placeholder="cth: Muhammad Danial bin Azlan" required style="width:100%;">
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
+            <div>
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+                No. Matrik <span style="color:#ef4444;">*</span>
+              </label>
+              <input type="text" id="rsvpMatricNo" class="form-ctrl" placeholder="cth: 14DUP24F1001" required style="width:100%; text-transform:uppercase;">
+            </div>
+            <div>
+              <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+                Program / Jabatan <span style="color:#ef4444;">*</span>
+              </label>
+              <select id="rsvpProgram" class="form-ctrl" required style="width:100%;">
+                <option value="DIT">DIT (Teknologi Maklumat)</option>
+                <option value="DUP">DUP (Pengurusan Pelancongan)</option>
+                <option value="DIB">DIB (Insurans & Perbankan)</option>
+                <option value="DHM">DHM (Pengurusan Hospitaliti)</option>
+                <option value="OTHER">Lain-lain / Alumni</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+              No. Telefon / WhatsApp <span style="color:#ef4444;">*</span>
+            </label>
+            <input type="tel" id="rsvpPhone" class="form-ctrl" placeholder="cth: 012-3456789" required style="width:100%;">
+          </div>
+
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+              Catatan Tambahan (Pilihan)
+            </label>
+            <input type="text" id="rsvpNotes" class="form-ctrl" placeholder="cth: Diet vegetarian / Ahli pasukan esport" style="width:100%;">
+          </div>
+
+          <div class="modal-actions" style="padding:0;">
+            <button type="button" class="btn-modal-close" onclick="closeEventRsvpModal()">Batal</button>
+            <button type="submit" id="btnSubmitRsvp" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
+              <i class="fas fa-check-circle"></i> Sahkan Pendaftaran
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Event RSVP Pass & Confirmation Modal -->
+  <div class="modal-overlay" id="rsvpPassModal">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-top">
+        <div class="modal-top-icon" style="background:rgba(34,197,94,0.15); color:#22c55e;">
+          <i class="fas fa-ticket"></i>
+        </div>
+        <div class="modal-top-text">
+          <h3>Pas Kehadiran Acara JPP</h3>
+          <p>Simpan pas ini untuk pendaftaran masuk</p>
+        </div>
+        <button class="modal-top-close" onclick="closeRsvpPassModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="modal-content-body" style="text-align:center; padding-top:1.25rem;">
+        <div class="rsvp-pass-box">
+          <div class="rsvp-pass-header">
+            <div>
+              <span style="font-size:0.7rem; color:var(--text3); text-transform:uppercase; display:block;">No. Tiket Rasmi</span>
+              <span class="rsvp-ticket-code" id="passTicketId">RSVP-XXXX</span>
+            </div>
+            <span class="ticket-status-pill" style="background:rgba(34,197,94,0.15); color:#22c55e; border-color:rgba(34,197,94,0.3); font-size:0.75rem;">
+              ● Disahkan
+            </span>
+          </div>
+
+          <h4 id="passEventTitle" style="font-size:1.05rem; color:var(--text); margin-bottom:1rem; text-align:left;">-</h4>
+
+          <div class="rsvp-pass-grid">
+            <div>
+              <dt>Nama Pelajar</dt>
+              <dd id="passStudentName">-</dd>
+            </div>
+            <div>
+              <dt>No. Matrik</dt>
+              <dd id="passMatric">-</dd>
+            </div>
+            <div>
+              <dt>Program</dt>
+              <dd id="passProgram">-</dd>
+            </div>
+            <div>
+              <dt>Tarikh Daftar</dt>
+              <dd id="passDate">-</dd>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size:0.8rem; color:var(--text3); margin-bottom:1.25rem;">
+          <i class="fas fa-circle-info"></i> Tangkap layar (screenshot) pas ini untuk ditunjukkan kepada urusetia JPP semasa pendaftaran acara.
+        </p>
+
+        <div class="modal-actions" style="padding:0;">
+          <button type="button" class="btn-modal-close" onclick="closeRsvpPassModal()">Tutup</button>
+          <button type="button" class="btn-modal-primary" id="btnShareRsvpWhatsApp" onclick="shareRsvpWhatsApp()" style="background:#25D366; color:#fff; font-weight:700;">
+            <i class="fab fa-whatsapp"></i> Simpan ke WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Photo Lightbox -->
   <div class="lightbox-overlay" id="lightboxOverlay" onclick="closeLightboxOnBg(event)">
     <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
@@ -2092,6 +2230,8 @@
         <p>Student Representative Committee — Politeknik METrO Kuala Lumpur. Empowering student leadership and community
           engagement.</p>
         <div class="social-row">
+          <a class="social-btn social-discord" href="https://discord.gg/THhJZjg3PT" target="_blank"
+            rel="noopener noreferrer" aria-label="Akira Lab Discord Community"><i class="fab fa-discord"></i></a>
           <a class="social-btn" href="https://www.instagram.com/jpp.pmklofficial" target="_blank"
             rel="noopener noreferrer" aria-label="JPP PMKL on Instagram"><i class="fab fa-instagram"></i></a>
           <a class="social-btn" href="https://www.tiktok.com/@jpp.pmklofficial" target="_blank"

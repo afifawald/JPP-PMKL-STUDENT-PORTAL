@@ -513,6 +513,9 @@
       <button class="admin-tab" onclick="switchTab('tabBetaLab')">
         <i class="fas fa-flask"></i> Beta Lab (3 Pillars)
       </button>
+      <button class="admin-tab" onclick="switchTab('tabRsvps')">
+        <i class="fas fa-ticket"></i> Event RSVPs
+      </button>
     </div>
 
     <!-- ══ TAB 1: PORTAL STATUS & TICKER ══ -->
@@ -879,6 +882,9 @@
           <button class="btn-hero btn-hero-outline" onclick="loadPrintQueue(true)">
             <i class="fas fa-rotate"></i> Refresh Queue
           </button>
+          <button class="btn-hero btn-hero-outline" onclick="exportPrintQueueCsv()" style="background:rgba(34,197,94,0.12); color:#22c55e; border-color:rgba(34,197,94,0.3);">
+            <i class="fas fa-file-excel"></i> Export CSV
+          </button>
         </div>
       </div>
 
@@ -1061,6 +1067,9 @@
                 onclick="filterAdminAduan('in_progress')">Tindakan</button>
               <button class="tag tag-green" style="cursor:pointer;"
                 onclick="filterAdminAduan('resolved')">Selesai</button>
+              <button class="tag" style="cursor:pointer; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3);" onclick="exportAduanCsv()">
+                <i class="fas fa-file-excel"></i> Export CSV
+              </button>
             </div>
           </div>
 
@@ -1085,9 +1094,15 @@
       <!-- 3. Equipment Loans Pane -->
       <div id="adminBetaPaneEquip" style="display:none;">
         <div class="admin-card">
-          <div class="sec-label"><i class="fas fa-boxes-packing"></i> Inventori &amp; Log Peminjaman</div>
-          <h3 style="margin-bottom:1.25rem; font-size:1.1rem; color:var(--text);">Buku Log Pinjaman Alatan Sukan &amp;
-            Acara JPP</h3>
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+            <div>
+              <div class="sec-label"><i class="fas fa-boxes-packing"></i> Inventori &amp; Log Peminjaman</div>
+              <h3 style="font-size:1.1rem; color:var(--text); margin:0;">Buku Log Pinjaman Alatan Sukan &amp; Acara JPP</h3>
+            </div>
+            <button class="btn-hero btn-hero-outline" onclick="exportLoansCsv()" style="padding:0.4rem 0.85rem; font-size:0.8rem; background:rgba(34,197,94,0.12); color:#22c55e; border-color:rgba(34,197,94,0.3);">
+              <i class="fas fa-file-excel"></i> Export Loans CSV
+            </button>
+          </div>
 
           <div style="overflow-x:auto; margin-bottom:1.5rem;">
             <table class="rates-table">
@@ -1114,6 +1129,68 @@
         </div>
       </div>
 
+    </div>
+
+    <!-- ══ TAB 8: EVENT RSVPS & ATTENDEES ══ -->
+    <div class="tab-content" id="tabRsvps">
+      <div class="status-banner" style="margin-bottom:1.5rem;">
+        <div style="display:flex; align-items:center; gap:1rem; flex-wrap:wrap;">
+          <div class="status-pill status-live" style="background:rgba(245,200,66,0.18); color:var(--gold); border-color:rgba(245,200,66,0.35);">
+            <i class="fas fa-ticket"></i> <span id="adminRsvpsPillText">EVENT RSVPS</span>
+          </div>
+          <div style="font-size:0.85rem; color:var(--text2);" id="adminRsvpsCountBadge">
+            0 Pendaftaran Acara
+          </div>
+        </div>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+          <button class="btn-hero btn-hero-outline" onclick="loadAdminRsvps(true)">
+            <i class="fas fa-rotate"></i> Refresh
+          </button>
+          <button class="btn-hero btn-hero-outline" onclick="exportRsvpsCsv()" style="background:rgba(34,197,94,0.12); color:#22c55e; border-color:rgba(34,197,94,0.3);">
+            <i class="fas fa-file-excel"></i> Export Attendees CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="admin-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+          <div>
+            <div class="sec-label"><i class="fas fa-users-viewfinder"></i> Roster Kehadiran</div>
+            <h3 style="font-size:1.1rem; color:var(--text); margin:0;">Senarai Pelajar Mendaftar Acara JPP</h3>
+          </div>
+          <div style="display:flex; gap:0.5rem; align-items:center;">
+            <label style="font-size:0.8rem; color:var(--text2); font-weight:700;">Tapis Acara:</label>
+            <select id="adminRsvpFilterEvent" class="form-ctrl" style="width:auto; padding:0.4rem 0.8rem; font-size:0.82rem;" onchange="renderAdminRsvpsTable()">
+              <option value="all">Semua Acara</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="rates-table" id="adminRsvpsTable">
+            <thead>
+              <tr>
+                <th>No. Tiket</th>
+                <th>Acara</th>
+                <th>Nama Pelajar</th>
+                <th>No. Matrik</th>
+                <th>Program</th>
+                <th>No. Telefon</th>
+                <th>Catatan</th>
+                <th>Tarikh Daftar</th>
+                <th>Tindakan</th>
+              </tr>
+            </thead>
+            <tbody id="adminRsvpsTbody">
+              <tr>
+                <td colspan="9" style="text-align:center; color:var(--text3); padding:2rem;">
+                  <i class="fas fa-spinner fa-spin" style="margin-right:0.5rem;"></i> Memuatkan senarai pendaftaran...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -1281,6 +1358,7 @@
       loadPrintingSettings();
       loadPrintQueue();
       loadAdminBetaData();
+      loadAdminRsvps(false);
       if (!window._printQueueTimer) {
         window._printQueueTimer = setInterval(() => {
           const tab = document.getElementById('tabPrinting');
@@ -1360,9 +1438,18 @@
       document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-      event.currentTarget.classList.add('active');
+      if (window.event && window.event.currentTarget && window.event.currentTarget.classList.contains('admin-tab')) {
+        window.event.currentTarget.classList.add('active');
+      } else {
+        const btn = document.querySelector(`.admin-tab[onclick*="${tabId}"]`);
+        if (btn) btn.classList.add('active');
+      }
       const target = document.getElementById(tabId);
       if (target) target.classList.add('active');
+
+      if (tabId === 'tabRsvps') {
+        loadAdminRsvps(false);
+      }
     }
 
     // ── TOAST ──
@@ -2716,6 +2803,239 @@
       } catch (err) {
         showToast('Ralat sambungan: ' + err.message);
       }
+    }
+
+    // ════ CSV EXPORT & EVENT RSVPS SYSTEM ════
+    function exportToCsv(filename, headers, rows) {
+      if (!rows || !rows.length) {
+        showToast('Tiada rekod untuk dieksport.');
+        return;
+      }
+
+      const formatCell = (val) => {
+        if (val === null || val === undefined) return '""';
+        let str = String(val).replace(/"/g, '""');
+        return `"${str}"`;
+      };
+
+      const csvLines = [];
+      csvLines.push(headers.map(formatCell).join(','));
+
+      rows.forEach(row => {
+        csvLines.push(row.map(formatCell).join(','));
+      });
+
+      const csvContent = '\uFEFF' + csvLines.join('\r\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename.endsWith('.csv') ? filename : (filename + '.csv');
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      showToast('Fail CSV berjaya dimuat turun: ' + a.download);
+    }
+
+    function exportPrintQueueCsv() {
+      if (!cachedPrintJobs || !cachedPrintJobs.length) {
+        showToast('Tiada rekod pesanan cetakan.');
+        return;
+      }
+      const headers = [
+        'ID Tiket', 'Nama Pelajar', 'No. Matrik', 'No. Telefon', 
+        'Nama Fail', 'Bil. Muka Surat', 'Salinan', 'Mod Warna', 
+        'Saiz Kertas', 'Kemasan / Jilid', 'Jumlah Bayaran (RM)', 'Status', 'Tarikh Hantar'
+      ];
+      const rows = cachedPrintJobs.map(j => [
+        j.id || '',
+        j.student?.name || '',
+        j.student?.matric || '',
+        j.student?.phone || '',
+        j.file?.name || '',
+        j.calc?.pages || 0,
+        j.calc?.copies || 1,
+        j.calc?.colorMode || '',
+        j.calc?.paperSize || 'A4',
+        j.calc?.binding || 'none',
+        j.totalPrice || j.price || '0.00',
+        j.status || '',
+        j.submittedAt || ''
+      ]);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      exportToCsv(`JPP_Print_Queue_${dateStr}.csv`, headers, rows);
+    }
+
+    function exportAduanCsv() {
+      if (!adminBetaData || !adminBetaData.aduan || !adminBetaData.aduan.length) {
+        showToast('Tiada rekod aduan untuk dieksport.');
+        return;
+      }
+      const headers = [
+        'ID Aduan', 'Kategori', 'Tajuk Aduan', 'Lokasi', 'Penerangan',
+        'Status', 'Tanpa Nama (Anon)', 'Nama Pelajar', 'No. Matrik', 'No. Telefon',
+        'Tindakan JPP', 'Tarikh Aduan'
+      ];
+      const rows = adminBetaData.aduan.map(a => [
+        a.id || '',
+        a.categoryLabel || a.category || '',
+        a.title || '',
+        a.location || '',
+        a.desc || '',
+        a.status || '',
+        a.isAnonymous ? 'YA' : 'TIDAK',
+        a.studentName || '-',
+        a.matric || '-',
+        a.phone || '-',
+        a.actionNotes || '-',
+        a.createdAt || ''
+      ]);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      exportToCsv(`JPP_Aduan_Pelajar_${dateStr}.csv`, headers, rows);
+    }
+
+    function exportLoansCsv() {
+      if (!adminBetaData || !adminBetaData.loans || !adminBetaData.loans.length) {
+        showToast('Tiada rekod peminjaman alatan untuk dieksport.');
+        return;
+      }
+      const headers = [
+        'ID Pinjaman', 'Nama Alatan', 'Peminjam', 'No. Matrik', 'No. Telefon',
+        'Masa Pinjam', 'Jangkaan Pulang', 'Status'
+      ];
+      const rows = adminBetaData.loans.map(l => [
+        l.loanId || '',
+        l.equipmentName || '',
+        l.studentName || '',
+        l.matric || '',
+        l.phone || '',
+        l.borrowDateFormatted || l.borrowedAt || '',
+        l.expectedReturn || '',
+        l.status || ''
+      ]);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      exportToCsv(`JPP_Buku_Log_Pinjaman_${dateStr}.csv`, headers, rows);
+    }
+
+    // ── EVENT RSVPS LOGIC ──
+    let adminRsvps = [];
+
+    async function loadAdminRsvps(showToastOnDone = false) {
+      try {
+        const res = await fetch(`${API_BASE}/event-rsvp?t=${Date.now()}`, {
+          cache: 'no-store',
+          headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Failed to load RSVPs');
+        const data = await res.json();
+        adminRsvps = Array.isArray(data) ? data : [];
+
+        // Update badge
+        const badge = document.getElementById('adminRsvpsCountBadge');
+        if (badge) badge.textContent = `${adminRsvps.length} Pendaftaran Acara`;
+
+        // Update event filter options
+        const filterEl = document.getElementById('adminRsvpFilterEvent');
+        if (filterEl) {
+          const eventsSet = new Map();
+          adminRsvps.forEach(r => {
+            if (r.eventId && r.eventTitle) eventsSet.set(r.eventId, r.eventTitle);
+          });
+          const curr = filterEl.value;
+          filterEl.innerHTML = '<option value="all">Semua Acara</option>';
+          eventsSet.forEach((title, id) => {
+            filterEl.innerHTML += `<option value="${escapeHtml(id)}">${escapeHtml(title)}</option>`;
+          });
+          filterEl.value = curr || 'all';
+        }
+
+        renderAdminRsvpsTable();
+        if (showToastOnDone) showToast('Senarai pendaftaran acara dikemaskini.');
+      } catch (err) {
+        const tbody = document.getElementById('adminRsvpsTbody');
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:#ef4444; padding:2rem;">Gagal memuatkan senarai pendaftaran: ${escapeHtml(err.message)}</td></tr>`;
+        }
+      }
+    }
+
+    function renderAdminRsvpsTable() {
+      const tbody = document.getElementById('adminRsvpsTbody');
+      if (!tbody) return;
+
+      const filterVal = document.getElementById('adminRsvpFilterEvent')?.value || 'all';
+      const filtered = filterVal === 'all' ? adminRsvps : adminRsvps.filter(r => r.eventId === filterVal);
+
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; color:var(--text3); padding:2rem;"><i class="fas fa-ticket-simple" style="font-size:1.5rem; display:block; margin-bottom:0.5rem;"></i>Tiada pendaftaran acara dijumpai.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(r => `
+        <tr>
+          <td><strong class="queue-ticket-id" style="font-size:0.8rem;">${escapeHtml(r.id)}</strong></td>
+          <td style="max-width:200px;">
+            <div style="font-weight:600; color:var(--text);">${escapeHtml(r.eventTitle || '-')}</div>
+            <div style="font-size:0.72rem; color:var(--text3);">${escapeHtml(r.eventId || '')}</div>
+          </td>
+          <td><strong>${escapeHtml(r.studentName || '-')}</strong></td>
+          <td><span style="font-family:'Space Mono', monospace; font-size:0.8rem;">${escapeHtml(r.matricNo || '-')}</span></td>
+          <td><span class="tag tag-blue" style="font-size:0.7rem;">${escapeHtml(r.program || '-')}</span></td>
+          <td>
+            <a href="https://wa.me/60${(r.phone || '').replace(/\D/g,'').replace(/^60/,'').replace(/^0/,'')}" target="_blank" style="color:var(--gold); text-decoration:none; font-weight:600;">
+              <i class="fab fa-whatsapp"></i> ${escapeHtml(r.phone || '-')}
+            </a>
+          </td>
+          <td style="max-width:180px; font-size:0.75rem; color:var(--text2);">${escapeHtml(r.notes || '-')}</td>
+          <td style="font-size:0.75rem; color:var(--text3);">${escapeHtml((r.registeredAt || '').slice(0, 10) || '-')}</td>
+          <td>
+            <button class="btn-danger" style="padding:0.3rem 0.6rem; font-size:0.72rem;" onclick="deleteAdminRsvp('${escapeHtml(r.id)}')">
+              <i class="fas fa-trash"></i> Padam
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function deleteAdminRsvp(rsvpId) {
+      if (!confirm(`Adakah anda pasti untuk memadam pendaftaran [${rsvpId}]?`)) return;
+
+      try {
+        const res = await fetch(`${API_BASE}/event-rsvp?id=${encodeURIComponent(rsvpId)}`, {
+          method: 'DELETE',
+          headers: getHeaders()
+        });
+        if (!res.ok) throw new Error('Failed to delete RSVP');
+        showToast(`Pendaftaran ${rsvpId} dipadam.`);
+        loadAdminRsvps(false);
+      } catch (err) {
+        showToast('Ralat memadam pendaftaran: ' + err.message);
+      }
+    }
+
+    function exportRsvpsCsv() {
+      if (!adminRsvps || !adminRsvps.length) {
+        showToast('Tiada senarai pendaftaran acara untuk dieksport.');
+        return;
+      }
+      const filterVal = document.getElementById('adminRsvpFilterEvent')?.value || 'all';
+      const list = filterVal === 'all' ? adminRsvps : adminRsvps.filter(r => r.eventId === filterVal);
+
+      const headers = ['No. Tiket', 'ID Acara', 'Tajuk Acara', 'Nama Pelajar', 'No. Matrik', 'Program', 'No. Telefon', 'Catatan', 'Tarikh Daftar'];
+      const rows = list.map(r => [
+        r.id || '',
+        r.eventId || '',
+        r.eventTitle || '',
+        r.studentName || '',
+        r.matricNo || '',
+        r.program || '',
+        r.phone || '',
+        r.notes || '',
+        r.registeredAt || ''
+      ]);
+      const dateStr = new Date().toISOString().slice(0, 10);
+      exportToCsv(`JPP_Event_RSVP_${filterVal}_${dateStr}.csv`, headers, rows);
     }
 
     // Data will load automatically inside unlockDashboard() once verified

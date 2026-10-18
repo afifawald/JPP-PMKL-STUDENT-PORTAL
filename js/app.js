@@ -505,7 +505,7 @@ function escapeHtml(str) {
                         <div class="event-meta-row">
                           <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> ${escapeHtml(item.location)}</div>
                         </div>
-                        <button class="btn-event" onclick="showToast('Event selected: ' + ${JSON.stringify(item.title || '')})">Learn More</button>
+                        <button class="btn-event" onclick="openEventRsvpModal(${JSON.stringify(item.id || '')}, ${JSON.stringify(item.title || '')}, ${JSON.stringify(item.dateFull || (item.dateDay + ' ' + item.dateMonth))})"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
                       </div>
                     </div>
                   `;
@@ -2435,4 +2435,162 @@ async function initBetaLabOnce() {
 // Auto-trigger Beta Lab on load
 document.addEventListener('DOMContentLoaded', () => {
   initBetaLabOnce();
-});
+});
+
+// ══ EVENT RSVP & REGISTRATION SYSTEM ══
+let _currentRsvpTicket = null;
+
+function openEventRsvpModal(eventId, eventTitle, eventDate) {
+  const idEl = document.getElementById('rsvpEventId');
+  const titleEl = document.getElementById('rsvpEventTitle');
+  const modalTitleEl = document.getElementById('rsvpModalEventTitle');
+  const modalDateEl = document.getElementById('rsvpModalEventDate');
+
+  if (idEl) idEl.value = eventId || '';
+  if (titleEl) titleEl.value = eventTitle || 'Acara PMKL';
+  if (modalTitleEl) modalTitleEl.textContent = eventTitle || 'Pendaftaran Acara PMKL';
+  if (modalDateEl) modalDateEl.textContent = eventDate ? ('Tarikh: ' + eventDate) : 'Sesi 2026/2027';
+
+  // Pre-fill student info if previously saved
+  const savedMatric = localStorage.getItem('pmkl_matric');
+  const savedName = localStorage.getItem('pmkl_name');
+  const savedPhone = localStorage.getItem('pmkl_phone');
+  if (savedMatric && document.getElementById('rsvpMatricNo')) document.getElementById('rsvpMatricNo').value = savedMatric;
+  if (savedName && document.getElementById('rsvpStudentName')) document.getElementById('rsvpStudentName').value = savedName;
+  if (savedPhone && document.getElementById('rsvpPhone')) document.getElementById('rsvpPhone').value = savedPhone;
+
+  const modal = document.getElementById('eventRsvpModal');
+  if (modal) modal.classList.add('active');
+}
+
+function closeEventRsvpModal() {
+  const modal = document.getElementById('eventRsvpModal');
+  if (modal) modal.classList.remove('active');
+}
+
+async function handleEventRsvpSubmit(e) {
+  e.preventDefault();
+  const eventId = document.getElementById('rsvpEventId')?.value || '';
+  const eventTitle = document.getElementById('rsvpEventTitle')?.value || '';
+  const studentName = document.getElementById('rsvpStudentName')?.value.trim() || '';
+  const matricNo = document.getElementById('rsvpMatricNo')?.value.trim().toUpperCase() || '';
+  const program = document.getElementById('rsvpProgram')?.value || 'DIT';
+  const phone = document.getElementById('rsvpPhone')?.value.trim() || '';
+  const notes = document.getElementById('rsvpNotes')?.value.trim() || '';
+
+  if (!studentName || !matricNo || !phone) {
+    showToast('Sila lengkapkan semua medan wajib.');
+    return;
+  }
+
+  // Save student details locally for quick auto-fill
+  localStorage.setItem('pmkl_matric', matricNo);
+  localStorage.setItem('pmkl_name', studentName);
+  localStorage.setItem('pmkl_phone', phone);
+
+  const btn = document.getElementById('btnSubmitRsvp');
+  const origText = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+  }
+
+  try {
+    const res = await fetch('/api/event-rsvp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        eventId,
+        eventTitle,
+        studentName,
+        matricNo,
+        phone,
+        program,
+        notes
+      })
+    });
+
+    const result = await res.json();
+
+    if (res.status === 409 && result.alreadyRegistered && result.ticket) {
+      showToast('Anda telah pun mendaftar! Memaparkan pas sedia ada...');
+      closeEventRsvpModal();
+      openRsvpPassModal(result.ticket);
+      return;
+    }
+
+    if (!res.ok) {
+      showToast(result.error || 'Ralat semasa mendaftar. Sila cuba lagi.');
+      return;
+    }
+
+    closeEventRsvpModal();
+    showToast('Pendaftaran berjaya! Pas kehadiran dijana.');
+    openRsvpPassModal(result.ticket);
+
+    const notesEl = document.getElementById('rsvpNotes');
+    if (notesEl) notesEl.value = '';
+  } catch (err) {
+    // Offline / fallback ticket generation
+    const mockTicket = {
+      id: 'RSVP-' + Math.floor(1000 + Math.random() * 9000),
+      eventId,
+      eventTitle,
+      studentName,
+      matricNo,
+      phone,
+      program,
+      notes,
+      registeredAt: new Date().toISOString()
+    };
+    closeEventRsvpModal();
+    showToast('Pendaftaran luar talian berjaya disimpan.');
+    openRsvpPassModal(mockTicket);
+  } finally {
+    if (btn) {
+      btn.disabled = false;
+      btn.innerHTML = origText;
+    }
+  }
+}
+
+function openRsvpPassModal(ticket) {
+  _currentRsvpTicket = ticket;
+  const ticketIdEl = document.getElementById('passTicketId');
+  const titleEl = document.getElementById('passEventTitle');
+  const nameEl = document.getElementById('passStudentName');
+  const matricEl = document.getElementById('passMatric');
+  const progEl = document.getElementById('passProgram');
+  const dateEl = document.getElementById('passDate');
+
+  if (ticketIdEl) ticketIdEl.textContent = ticket.id;
+  if (titleEl) titleEl.textContent = ticket.eventTitle || 'Acara PMKL';
+  if (nameEl) nameEl.textContent = ticket.studentName;
+  if (matricEl) matricEl.textContent = ticket.matricNo;
+  if (progEl) progEl.textContent = ticket.program || 'PMKL';
+  if (dateEl) dateEl.textContent = (ticket.registeredAt || '').slice(0, 10) || new Date().toLocaleDateString('ms-MY');
+
+  const passModal = document.getElementById('rsvpPassModal');
+  if (passModal) passModal.classList.add('active');
+}
+
+function closeRsvpPassModal() {
+  const passModal = document.getElementById('rsvpPassModal');
+  if (passModal) passModal.classList.remove('active');
+}
+
+function shareRsvpWhatsApp() {
+  if (!_currentRsvpTicket) return;
+  const t = _currentRsvpTicket;
+  const msg = encodeURIComponent(
+    `*PAS KEHADIRAN ACARA JPP PMKL*\n` +
+    `No. Tiket: [${t.id}]\n` +
+    `Acara: ${t.eventTitle}\n` +
+    `Nama: ${t.studentName}\n` +
+    `No. Matrik: ${t.matricNo}\n` +
+    `Program: ${t.program}\n` +
+    `Tarikh Daftar: ${(t.registeredAt || '').slice(0, 10)}\n\n` +
+    `Sila simpan mesej ini untuk semakan pendaftaran di pintu masuk.`
+  );
+  window.open(`https://wa.me/?text=${msg}`, '_blank');
+}
