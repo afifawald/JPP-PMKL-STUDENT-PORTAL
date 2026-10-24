@@ -701,7 +701,7 @@
             </div>
           </div>
 
-          <button class="btn-hero btn-hero-primary" onclick="createEvent()">
+          <button class="btn-hero btn-hero-primary" id="btnCreateEvent" onclick="createEvent()">
             <i class="fas fa-plus"></i> Add Event to Portal
           </button>
         </div>
@@ -1800,15 +1800,37 @@
     }
 
     async function createEvent() {
+      const btn = document.getElementById('btnCreateEvent');
       const title = document.getElementById('evtTitle').value.trim();
       const dateDay = document.getElementById('evtDay').value.trim();
       const dateMonth = document.getElementById('evtMonth').value.trim();
       const time = document.getElementById('evtTime').value.trim();
       const location = document.getElementById('evtLoc').value.trim();
-      const icon = document.getElementById('evtIcon').value.trim();
+      const icon = document.getElementById('evtIcon').value.trim() || '📅';
       const colorGrad = document.getElementById('evtGrad').value;
 
-      if (!title) return alert('Please enter an event title!');
+      if (!title) {
+        alert('Please enter an event title / Nama Acara!');
+        document.getElementById('evtTitle').focus();
+        return;
+      }
+
+      if (!adminKey) {
+        const entered = prompt('Admin passkey missing. Please enter your Admin Key (default: jpp2026admin):', 'jpp2026admin');
+        if (entered && entered.trim()) {
+          adminKey = entered.trim();
+          sessionStorage.setItem('jpp_admin_key', adminKey);
+          localStorage.setItem('jpp_admin_key', adminKey);
+          updateKeyDisplay();
+        } else {
+          return alert('Admin key is required to add events.');
+        }
+      }
+
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Adding to Portal...';
+      }
 
       try {
         const res = await fetch(`${API_BASE}/events`, {
@@ -1816,16 +1838,28 @@
           headers: getHeaders(),
           body: JSON.stringify({ title, dateDay, dateMonth, time, location, icon, colorGrad })
         });
+
+        if (res.status === 401) {
+          throw new Error('Unauthorized (Invalid Admin Key). Please check your key.');
+        }
+
         const data = await res.json();
         if (data.error) throw new Error(data.error);
 
-        showToast('Event added to portal!');
+        showToast('Event successfully added to portal!');
         document.getElementById('evtTitle').value = '';
         document.getElementById('evtDay').value = '';
         document.getElementById('evtMonth').value = '';
+        document.getElementById('evtTime').value = '';
+        document.getElementById('evtLoc').value = '';
         loadEvents();
       } catch (err) {
         alert('Failed to add event: ' + err.message);
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-plus"></i> Add Event to Portal';
+        }
       }
     }
 
