@@ -41,27 +41,33 @@
       <a class="nav-link active" data-section="dashboard" data-i18n="nav_dashboard">Papan Pemuka</a>
       <a class="nav-link" data-section="announcements" data-i18n="nav_announcements">Pengumuman</a>
       <a class="nav-link" data-section="events" data-i18n="nav_events">Acara</a>
-      <a class="nav-link" data-section="academic" data-i18n="nav_academic"><i class="fas fa-book-open" style="color:var(--gold); margin-right:4px;"></i> Akademik</a>
+      <a class="nav-link" data-section="academic" data-i18n="nav_academic"><i class="fas fa-book-open"
+          style="color:var(--gold); margin-right:4px;"></i> Akademik</a>
       <a class="nav-link" data-section="members" data-i18n="nav_members">Ahli JPP</a>
       <a class="nav-link" data-section="album" data-i18n="nav_album">Galeri</a>
       <a class="nav-link" data-section="printing" data-i18n="nav_printing">Pusat Cetakan</a>
       <a class="nav-link" data-section="rent" data-i18n="nav_rent">Rumah Sewa</a>
       <a class="nav-link" data-section="contact" data-i18n="nav_contact">Hubungi</a>
-      <a class="nav-link" data-section="beta"><i class="fas fa-flask" style="color:#c084fc; margin-right:4px;"></i> <span data-i18n="nav_beta">Makmal Beta</span> <span class="badge-beta">LAB</span></a>
+      <a class="nav-link" data-section="beta"><i class="fas fa-flask" style="color:#c084fc; margin-right:4px;"></i>
+        <span data-i18n="nav_beta">Makmal Beta</span> <span class="badge-beta">LAB</span></a>
     </div>
 
     <div class="nav-actions">
-      <button class="btn-lang-toggle" id="langToggleBtn" onclick="toggleLanguage()" title="Tukar Bahasa (Bahasa Melayu / English)" data-i18n-title="nav_lang_title">
+      <button class="btn-lang-toggle" id="langToggleBtn" onclick="toggleLanguage()"
+        title="Tukar Bahasa (Bahasa Melayu / English)" data-i18n-title="nav_lang_title">
         <i class="fas fa-globe"></i>
         <span class="lang-text" id="currentLangText">BM</span>
       </button>
-      <button class="btn-icon" id="globalSearchBtn" onclick="openGlobalSearch()" title="Search Portal (Ctrl+K)" data-i18n-title="nav_search_title">
+      <button class="btn-icon" id="globalSearchBtn" onclick="openGlobalSearch()" title="Search Portal (Ctrl+K)"
+        data-i18n-title="nav_search_title">
         <i class="fas fa-magnifying-glass"></i>
       </button>
-      <a href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" class="btn-discord-nav" title="Join Akira Lab Discord">
+      <a href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" class="btn-discord-nav"
+        title="Join Akira Lab Discord">
         <i class="fab fa-discord"></i><span>Discord</span>
       </a>
-      <button class="btn-icon" id="themeToggle" title="Toggle theme" data-i18n-title="nav_theme_title"><i class="fas fa-moon"></i></button>
+      <button class="btn-icon" id="themeToggle" title="Toggle theme" data-i18n-title="nav_theme_title"><i
+          class="fas fa-moon"></i></button>
       <button class="nav-hamburger" id="navHamburger" aria-label="Menu"><i class="fas fa-bars"></i></button>
     </div>
   </nav>
@@ -79,25 +85,37 @@
         <div class="hero-grid"></div>
 
         <div class="hero-content">
-          <div class="hero-badge" data-i18n="hero_badge"><i class="fas fa-star"></i> Portal Rasmi Pelajar 2026/2027</div>
+          <div class="hero-badge" data-i18n="hero_badge"><i class="fas fa-star"></i> Portal Rasmi Pelajar 2026/2027
+          </div>
           <h1 data-i18n="hero_title" data-i18n-html>Selamat Datang ke<br><em>PORTAL PELAJAR JPP PMKL</em></h1>
-          <p class="hero-sub" data-i18n="hero_sub">Jawatankuasa Perwakilan Pelajar — Politeknik METrO Kuala Lumpur. Pusat sehenti bagi hebahan rasmi, aktiviti kampus, dan kebajikan siswa.</p>
+          <p class="hero-sub" data-i18n="hero_sub">Jawatankuasa Perwakilan Pelajar — Politeknik METrO Kuala Lumpur.
+            Pusat sehenti bagi hebahan rasmi, aktiviti kampus, dan kebajikan siswa.</p>
           <div class="hero-ctas">
-            <button class="btn-hero btn-hero-primary" onclick="navigate('events')" data-i18n="hero_btn_events"><i class="fas fa-calendar-alt"></i>
+            <button class="btn-hero btn-hero-primary" onclick="navigate('events')" data-i18n="hero_btn_events"><i
+                class="fas fa-calendar-alt"></i>
               Program &amp; Acara</button>
-            <button class="btn-hero btn-hero-outline" onclick="navigate('announcements')" data-i18n="hero_btn_announcements"><i class="fas fa-bell"></i>
+            <button class="btn-hero btn-hero-outline" onclick="navigate('announcements')"
+              data-i18n="hero_btn_announcements"><i class="fas fa-bell"></i>
               Papan Notis</button>
           </div>
           <div class="quick-access">
-            <a class="qa-chip qa-chip-discord" href="https://discord.gg/THhJZjg3PT" target="_blank" rel="noopener noreferrer" data-i18n="qa_discord"><i class="fab fa-discord"></i> Komuniti Discord</a>
-            <a class="qa-chip" onclick="navigate('academic')" data-i18n="qa_academic"><i class="fas fa-book-open"></i> Hab Akademik</a>
-            <a class="qa-chip" onclick="navigate('announcements')" data-i18n="qa_announcements"><i class="fas fa-megaphone"></i> Pengumuman</a>
-            <a class="qa-chip" onclick="navigate('events')" data-i18n="qa_events"><i class="fas fa-calendar"></i> Acara Siswa</a>
-            <a class="qa-chip" onclick="navigate('members')" data-i18n="qa_members"><i class="fas fa-users"></i> Ahli JPP</a>
-            <a class="qa-chip" onclick="navigate('printing')" data-i18n="qa_printing"><i class="fas fa-print"></i> Pusat Cetakan</a>
+            <a class="qa-chip qa-chip-discord" href="https://discord.gg/THhJZjg3PT" target="_blank"
+              rel="noopener noreferrer" data-i18n="qa_discord"><i class="fab fa-discord"></i> Komuniti Discord</a>
+            <a class="qa-chip" onclick="navigate('academic')" data-i18n="qa_academic"><i class="fas fa-book-open"></i>
+              Hab Akademik</a>
+            <a class="qa-chip" onclick="navigate('announcements')" data-i18n="qa_announcements"><i
+                class="fas fa-megaphone"></i> Pengumuman</a>
+            <a class="qa-chip" onclick="navigate('events')" data-i18n="qa_events"><i class="fas fa-calendar"></i> Acara
+              Siswa</a>
+            <a class="qa-chip" onclick="navigate('members')" data-i18n="qa_members"><i class="fas fa-users"></i> Ahli
+              JPP</a>
+            <a class="qa-chip" onclick="navigate('printing')" data-i18n="qa_printing"><i class="fas fa-print"></i> Pusat
+              Cetakan</a>
             <a class="qa-chip" onclick="navigate('rent')" data-i18n="qa_rent"><i class="fas fa-home"></i> Rumah Sewa</a>
-            <a class="qa-chip" onclick="navigate('contact')" data-i18n="qa_contact"><i class="fas fa-envelope"></i> Hubungi Kami</a>
-            <a class="qa-chip" onclick="navigate('album')" data-i18n="qa_gallery"><i class="fas fa-images"></i> Galeri Foto</a>
+            <a class="qa-chip" onclick="navigate('contact')" data-i18n="qa_contact"><i class="fas fa-envelope"></i>
+              Hubungi Kami</a>
+            <a class="qa-chip" onclick="navigate('album')" data-i18n="qa_gallery"><i class="fas fa-images"></i> Galeri
+              Foto</a>
           </div>
         </div>
       </div>
@@ -168,7 +186,8 @@
             <div class="dash-card-arrow"><i class="fas fa-arrow-right"></i></div>
             <div class="dash-card-icon" style="background:rgba(168,85,247,0.18);color:#c084fc;"><i
                 class="fas fa-flask"></i></div>
-            <h4 style="display:flex; align-items:center; gap:0.4rem;"><span data-i18n="dash_card_beta_title">Beta Testing Lab</span> <span class="badge-beta">v0.9</span></h4>
+            <h4 style="display:flex; align-items:center; gap:0.4rem;"><span data-i18n="dash_card_beta_title">Beta
+                Testing Lab</span> <span class="badge-beta">v0.9</span></h4>
             <p data-i18n="dash_card_beta_desc">E-Aduan, Poly GPA Calculator & Sports Gear Loans</p>
           </a>
           <a class="dash-card" onclick="navigate('academic')"
@@ -177,7 +196,8 @@
             <div class="dash-card-icon" style="background:rgba(245,200,66,0.12);color:var(--gold);"><i
                 class="fas fa-book-open"></i></div>
             <h4 data-i18n="dash_card_acad_title">Academic Resources Hub</h4>
-            <p data-i18n="dash_card_acad_desc">Academic calendar, past year papers bank (DIT, DRO, DHM), and GPA calculator</p>
+            <p data-i18n="dash_card_acad_desc">Academic calendar, past year papers bank (DIT, DRO, DHM), and GPA
+              calculator</p>
           </a>
           <a class="dash-card" onclick="navigate('contact')"
             style="--card-color: #06b6d4; --card-color-bg: rgba(6,182,212,0.12);">
@@ -185,7 +205,8 @@
             <div class="dash-card-icon" style="background:rgba(6,182,212,0.12);color:#06b6d4;"><i
                 class="fas fa-building"></i></div>
             <h4 data-i18n="dash_card_contact_title">Campus Guide & Contact</h4>
-            <p data-i18n="dash_card_contact_desc">Floor-by-floor room directory, IT labs guide, and emergency contact lines</p>
+            <p data-i18n="dash_card_contact_desc">Floor-by-floor room directory, IT labs guide, and emergency contact
+              lines</p>
           </a>
 
         </div>
@@ -289,10 +310,12 @@
 
     <section class="section" id="announcements">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
         <div class="sec-label" data-i18n="sec_ann_label"><i class="fas fa-bell"></i> Notice Board</div>
         <h2 class="sec-title" data-i18n="sec_ann_title">Announcements</h2>
-        <p class="sec-sub" data-i18n="sec_ann_sub">Stay updated with the latest news, notices, and important information from JPP PMKL.</p>
+        <p class="sec-sub" data-i18n="sec_ann_sub">Stay updated with the latest news, notices, and important information
+          from JPP PMKL.</p>
 
         <div class="ann-page-grid">
           <div id="annPageList">
@@ -377,10 +400,12 @@
 
     <section class="section" id="events">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
         <div class="sec-label" data-i18n="sec_events_label"><i class="fas fa-calendar"></i> Programs & Activities</div>
         <h2 class="sec-title" data-i18n="sec_events_title">Upcoming Events</h2>
-        <p class="sec-sub" data-i18n="sec_events_sub">Join us for exciting events, competitions, and community programs organized by JPP PMKL.</p>
+        <p class="sec-sub" data-i18n="sec_events_sub">Join us for exciting events, competitions, and community programs
+          organized by JPP PMKL.</p>
 
         <div class="events-masonry" id="eventsMasonry">
           <div class="event-card-full">
@@ -396,7 +421,9 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> PMKL Campus</div>
               </div>
-              <button class="btn-event" onclick="openEventRsvpModal('evt-1', 'New Student Registration Session I: 2026/2027', '22 Jun 2026')" data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+              <button class="btn-event"
+                onclick="openEventRsvpModal('evt-1', 'New Student Registration Session I: 2026/2027', '22 Jun 2026')"
+                data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
 
@@ -413,7 +440,9 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> TBD</div>
               </div>
-              <button class="btn-event" onclick="openEventRsvpModal('evt-2', 'SuperStar Esport Championship', 'TBD 2026')" data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+              <button class="btn-event"
+                onclick="openEventRsvpModal('evt-2', 'SuperStar Esport Championship', 'TBD 2026')"
+                data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
 
@@ -430,7 +459,9 @@
               <div class="event-meta-row">
                 <div class="event-meta-item"><i class="fas fa-map-marker-alt"></i> TBD</div>
               </div>
-              <button class="btn-event" onclick="openEventRsvpModal('evt-3', 'Volunteering & Entrepreneurship Activities', 'Coming Soon')" data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
+              <button class="btn-event"
+                onclick="openEventRsvpModal('evt-3', 'Volunteering & Entrepreneurship Activities', 'Coming Soon')"
+                data-i18n="btn_event_rsvp"><i class="fas fa-ticket"></i> Daftar / RSVP</button>
             </div>
           </div>
         </div>
@@ -442,108 +473,140 @@
          ══════════════════════════════════════════════════════════ -->
     <section class="section" id="academic">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
         <div class="sec-label" data-i18n="acad_sec_label"><i class="fas fa-book-open"></i> Portal Akademik</div>
         <h2 class="sec-title" data-i18n="acad_main_title">Pusat Sumber Akademik PMKL</h2>
-        <p class="sec-sub" data-i18n="acad_main_sub">Takwim akademik rasmi, bank soalan peperiksaan akhir (DIT, DRO, DHM), dan kalkulator sasaran HPNM / GPA Politeknik.</p>
+        <p class="sec-sub" data-i18n="acad_main_sub">Takwim akademik rasmi, bank soalan peperiksaan akhir (DIT, DRO,
+          DHM), dan kalkulator sasaran HPNM / GPA Politeknik.</p>
 
         <!-- Sub Tabs -->
         <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1.75rem;">
-          <button class="btn-hero btn-hero-primary" id="btnTabTakwim" onclick="switchAcademicSub('takwim')" data-i18n="acad_tab_takwim">
+          <button class="btn-hero btn-hero-primary" id="btnTabTakwim" onclick="switchAcademicSub('takwim')"
+            data-i18n="acad_tab_takwim">
             <i class="fas fa-calendar-days"></i> Takwim Akademik
           </button>
-          <button class="btn-hero btn-hero-outline" id="btnTabPastYears" onclick="switchAcademicSub('pastyears')" data-i18n="acad_tab_pastyears">
+          <button class="btn-hero btn-hero-outline" id="btnTabPastYears" onclick="switchAcademicSub('pastyears')"
+            data-i18n="acad_tab_pastyears">
             <i class="fas fa-file-lines"></i> Bank Soalan Peperiksaan
           </button>
-          <button class="btn-hero btn-hero-outline" id="btnTabGpa" onclick="switchAcademicSub('gpa')" data-i18n="acad_tab_gpa">
+          <button class="btn-hero btn-hero-outline" id="btnTabGpa" onclick="switchAcademicSub('gpa')"
+            data-i18n="acad_tab_gpa">
             <i class="fas fa-calculator"></i> Kalkulator HPNM &amp; GPA
           </button>
         </div>
 
         <!-- 1. PANE: TAKWIM AKADEMIK -->
         <div id="academicPaneTakwim">
-          <div class="status-banner" style="margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), rgba(59,130,246,0.06)); border-color:rgba(245,200,66,0.3);">
+          <div class="status-banner"
+            style="margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), rgba(59,130,246,0.06)); border-color:rgba(245,200,66,0.3);">
             <div style="display:flex; align-items:center; gap:0.85rem; flex-wrap:wrap;">
               <span class="status-pill status-live"><i class="fas fa-circle-check"></i> Sesi I: 2026/2027</span>
-              <div style="font-size:0.85rem; color:var(--text2);">Takwim rasmi tertakluk kepada pindaan Bahagian Peperiksaan PMKL &amp; JPPKK.</div>
+              <div style="font-size:0.85rem; color:var(--text2);">Takwim rasmi tertakluk kepada pindaan Bahagian
+                Peperiksaan PMKL &amp; JPPKK.</div>
             </div>
-            <button class="btn-hero btn-hero-outline" onclick="downloadTakwimPdf()" style="padding:0.4rem 0.85rem; font-size:0.8rem;" data-i18n="acad_btn_download_takwim">
+            <button class="btn-hero btn-hero-outline" onclick="downloadTakwimPdf()"
+              style="padding:0.4rem 0.85rem; font-size:0.8rem;" data-i18n="acad_btn_download_takwim">
               <i class="fas fa-file-pdf"></i> Muat Turun Takwim (PDF)
             </button>
           </div>
 
           <div class="takwim-timeline">
             <div class="takwim-card current">
-              <span class="takwim-badge" style="background:rgba(245,200,66,0.2); color:var(--gold); border:1px solid rgba(245,200,66,0.4);">
+              <span class="takwim-badge"
+                style="background:rgba(245,200,66,0.2); color:var(--gold); border:1px solid rgba(245,200,66,0.4);">
                 ● Sedang Berjalan
               </span>
-              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Pendaftaran Pelajar Baharu &amp; MSK</h4>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Pendaftaran Pelajar Baharu &amp;
+                MSK</h4>
               <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
                 Minggu Suaikenal (MSK) dan pendaftaran pelajar baharu diploma ambilan Sesi I: 2026/2027.
               </p>
-              <div style="font-size:0.8rem; color:var(--gold); font-weight:700;"><i class="fas fa-calendar-alt"></i> 22 Jun 2026 – 26 Jun 2026</div>
+              <div style="font-size:0.8rem; color:var(--gold); font-weight:700;"><i class="fas fa-calendar-alt"></i> 22
+                Jun 2026 – 26 Jun 2026</div>
             </div>
 
             <div class="takwim-card">
-              <span class="takwim-badge" style="background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.3);">
+              <span class="takwim-badge"
+                style="background:rgba(59,130,246,0.15); color:#60a5fa; border:1px solid rgba(59,130,246,0.3);">
                 Fasa Kuliah
               </span>
-              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Perkuliahan Bermula (Minggu 1 - 7)</h4>
+              <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Perkuliahan Bermula (Minggu 1 - 7)
+              </h4>
               <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
                 Sesi kuliah, amali makmal, dan tugasan berterusan bagi semua kursus jabatan.
               </p>
-              <div style="font-size:0.8rem; color:var(--text); font-weight:600;"><i class="fas fa-calendar-alt"></i> 29 Jun 2026 – 14 Ogos 2026</div>
+              <div style="font-size:0.8rem; color:var(--text); font-weight:600;"><i class="fas fa-calendar-alt"></i> 29
+                Jun 2026 – 14 Ogos 2026</div>
             </div>
 
             <div class="takwim-card">
-              <span class="takwim-badge" style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3);">
+              <span class="takwim-badge"
+                style="background:rgba(168,85,247,0.15); color:#c084fc; border:1px solid rgba(168,85,247,0.3);">
                 Cuti Rehat
               </span>
               <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Cuti Pertengahan Semester I</h4>
               <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
                 Cuti pertengahan semester selama 1 minggu untuk rehat &amp; ulangkaji pelajar.
               </p>
-              <div style="font-size:0.8rem; color:var(--text); font-weight:600;"><i class="fas fa-calendar-alt"></i> 17 Ogos 2026 – 23 Ogos 2026</div>
+              <div style="font-size:0.8rem; color:var(--text); font-weight:600;"><i class="fas fa-calendar-alt"></i> 17
+                Ogos 2026 – 23 Ogos 2026</div>
             </div>
 
             <div class="takwim-card">
-              <span class="takwim-badge" style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);">
+              <span class="takwim-badge"
+                style="background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3);">
                 Minggu Peperiksaan
               </span>
               <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Peperiksaan Akhir Sesi I</h4>
               <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
                 Peperiksaan bertulis akhir semester bagi program DIT, DRO, dan DHM.
               </p>
-              <div style="font-size:0.8rem; color:#f87171; font-weight:700;"><i class="fas fa-calendar-alt"></i> 12 Okt 2026 – 25 Okt 2026</div>
+              <div style="font-size:0.8rem; color:#f87171; font-weight:700;"><i class="fas fa-calendar-alt"></i> 12 Okt
+                2026 – 25 Okt 2026</div>
             </div>
 
             <div class="takwim-card">
-              <span class="takwim-badge" style="background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3);">
+              <span class="takwim-badge"
+                style="background:rgba(16,185,129,0.15); color:#34d399; border:1px solid rgba(16,185,129,0.3);">
                 Keputusan Rasmi
               </span>
               <h4 style="font-size:1.05rem; margin-bottom:0.4rem; color:var(--text);">Pengumuman Keputusan (SPMP)</h4>
               <p style="font-size:0.82rem; color:var(--text2); margin-bottom:0.75rem;">
                 Semakan keputusan gred HPNM / PNGK pelajar secara dalam talian melalui portal SPMP.
               </p>
-              <div style="font-size:0.8rem; color:#34d399; font-weight:700;"><i class="fas fa-calendar-alt"></i> 16 Nov 2026</div>
+              <div style="font-size:0.8rem; color:#34d399; font-weight:700;"><i class="fas fa-calendar-alt"></i> 16 Nov
+                2026</div>
             </div>
           </div>
         </div>
 
         <!-- 2. PANE: BANK SOALAN PEPERIKSAAN (PAST YEARS) -->
         <div id="academicPanePastYears" style="display:none;">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
             <div>
-              <h3 style="font-size:1.15rem; color:var(--text); margin-bottom:0.25rem;" data-i18n="acad_past_heading">Kertas Soalan Peperiksaan Akhir Terdahulu</h3>
-              <p style="font-size:0.82rem; color:var(--text2);" data-i18n="acad_past_desc">Rujukan soalan peperiksaan semester lepas mengikut jabatan pengajian PMKL.</p>
+              <h3 style="font-size:1.15rem; color:var(--text); margin-bottom:0.25rem;" data-i18n="acad_past_heading">
+                Kertas Soalan Peperiksaan Akhir Terdahulu</h3>
+              <p style="font-size:0.82rem; color:var(--text2);" data-i18n="acad_past_desc">Rujukan soalan peperiksaan
+                semester lepas mengikut jabatan pengajian PMKL.</p>
             </div>
             <!-- Department Filters -->
             <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-              <button class="tag tag-gold" id="pyFilterAll" style="cursor:pointer;" onclick="filterPastYears('all')" data-i18n="acad_filter_all">Semua</button>
-              <button class="tag" id="pyFilterDIT" style="cursor:pointer; background:rgba(59,130,246,0.15); color:#60a5fa;" onclick="filterPastYears('DIT')" data-i18n="acad_filter_dit">DIT</button>
-              <button class="tag" id="pyFilterDRO" style="cursor:pointer; background:rgba(168,85,247,0.15); color:#c084fc;" onclick="filterPastYears('DRO')" data-i18n="acad_filter_dro">DRO</button>
-              <button class="tag" id="pyFilterDHM" style="cursor:pointer; background:rgba(16,185,129,0.15); color:#34d399;" onclick="filterPastYears('DHM')" data-i18n="acad_filter_dhm">DHM</button>
-              <button class="tag" id="pyFilterUmum" style="cursor:pointer; background:rgba(245,158,11,0.15); color:#fbbf24;" onclick="filterPastYears('UMUM')" data-i18n="acad_filter_umum">Umum</button>
+              <button class="tag tag-gold" id="pyFilterAll" style="cursor:pointer;" onclick="filterPastYears('all')"
+                data-i18n="acad_filter_all">Semua</button>
+              <button class="tag" id="pyFilterDIT"
+                style="cursor:pointer; background:rgba(59,130,246,0.15); color:#60a5fa;"
+                onclick="filterPastYears('DIT')" data-i18n="acad_filter_dit">DIT</button>
+              <button class="tag" id="pyFilterDRO"
+                style="cursor:pointer; background:rgba(168,85,247,0.15); color:#c084fc;"
+                onclick="filterPastYears('DRO')" data-i18n="acad_filter_dro">DRO</button>
+              <button class="tag" id="pyFilterDHM"
+                style="cursor:pointer; background:rgba(16,185,129,0.15); color:#34d399;"
+                onclick="filterPastYears('DHM')" data-i18n="acad_filter_dhm">DHM</button>
+              <button class="tag" id="pyFilterUmum"
+                style="cursor:pointer; background:rgba(245,158,11,0.15); color:#fbbf24;"
+                onclick="filterPastYears('UMUM')" data-i18n="acad_filter_umum">Umum</button>
             </div>
           </div>
 
@@ -553,12 +616,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dit">DIT</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT10133 Programming Fundamentals</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">C++ Syntax, Control Structures, Arrays, and Function Implementation.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT10133 Programming
+                  Fundamentals</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">C++ Syntax, Control Structures,
+                  Arrays, and Function Implementation.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT10133_Programming_Fundamentals')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DIT10133_Programming_Fundamentals')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -567,12 +635,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dit">DIT</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2024/2025</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT20233 Database Design &amp; SQL</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Relational Schemas, ERD Modeling, Normalization 1NF–3NF &amp; SQL Queries.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT20233 Database Design &amp;
+                  SQL</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Relational Schemas, ERD Modeling,
+                  Normalization 1NF–3NF &amp; SQL Queries.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT20233_Database_Design')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DIT20233_Database_Design')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -581,12 +654,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dit">DIT</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT30333 Web Development &amp; Frameworks</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">HTML5, CSS Grid, Client-Side JavaScript, REST APIs and Backend Routing.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT30333 Web Development &amp;
+                  Frameworks</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">HTML5, CSS Grid, Client-Side
+                  JavaScript, REST APIs and Backend Routing.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT30333_Web_Development')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DIT30333_Web_Development')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -595,12 +673,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dit">DIT</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT40433 Computer Networking &amp; Security</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">OSI Reference Layer, IPv4/IPv6 Subnetting, Routing Protocols &amp; Firewalls.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DIT40433 Computer Networking
+                  &amp; Security</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">OSI Reference Layer, IPv4/IPv6
+                  Subnetting, Routing Protocols &amp; Firewalls.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DIT40433_Networking_Security')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DIT40433_Networking_Security')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -610,12 +693,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dro">DRO</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2024/2025</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO10133 Principles of Retail Management</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Retail Ecosystems, Customer Journey, Store Layouts &amp; POS Operations.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO10133 Principles of Retail
+                  Management</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Retail Ecosystems, Customer
+                  Journey, Store Layouts &amp; POS Operations.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DRO10133_Retail_Management')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DRO10133_Retail_Management')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -624,12 +712,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dro">DRO</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO20233 Visual Merchandising &amp; Display</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Planogram Design, Color Harmonies, Window Displays &amp; In-Store Promotion.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO20233 Visual Merchandising
+                  &amp; Display</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Planogram Design, Color Harmonies,
+                  Window Displays &amp; In-Store Promotion.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DRO20233_Visual_Merchandising')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DRO20233_Visual_Merchandising')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -638,12 +731,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dro">DRO</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO30333 Retail Buying &amp; Merchandise Management</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Inventory Turnover, Markup/Markdown Strategies, and Supplier Negotiations.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DRO30333 Retail Buying &amp;
+                  Merchandise Management</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Inventory Turnover, Markup/Markdown
+                  Strategies, and Supplier Negotiations.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DRO30333_Retail_Buying')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DRO30333_Retail_Buying')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -653,12 +751,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dhm">DHM</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2024/2025</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM10133 Introduction to Hospitality &amp; Tourism</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Industry Classification, Guest Services, Hospitality Ethics &amp; Event Management.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM10133 Introduction to
+                  Hospitality &amp; Tourism</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Industry Classification, Guest
+                  Services, Hospitality Ethics &amp; Event Management.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DHM10133_Hospitality_Tourism')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DHM10133_Hospitality_Tourism')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -667,12 +770,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dhm">DHM</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM20233 Food &amp; Beverage Service Operations</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Banquet Planning, Menu Engineering, Food Hygiene, and Silver Service.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM20233 Food &amp; Beverage
+                  Service Operations</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Banquet Planning, Menu Engineering,
+                  Food Hygiene, and Silver Service.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DHM20233_Food_Beverage')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DHM20233_Food_Beverage')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -681,12 +789,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-dhm">DHM</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM30333 Front Office Operations &amp; Night Audit</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Property Management Systems (PMS), Check-in/Check-out, and Room Tariff Yields.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DHM30333 Front Office
+                  Operations &amp; Night Audit</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Property Management Systems (PMS),
+                  Check-in/Check-out, and Room Tariff Yields.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DHM30333_Front_Office')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DHM30333_Front_Office')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -696,12 +809,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-umum">UMUM</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I: 2025/2026</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi I:
+                    2025/2026</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">MPU21032 Penghayatan Etika dan Peradaban</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Etika Sosial, Perlembagaan Persekutuan, Perpaduan Kaum &amp; Tanggungjawab Sosial.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">MPU21032 Penghayatan Etika dan
+                  Peradaban</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Etika Sosial, Perlembagaan
+                  Persekutuan, Perpaduan Kaum &amp; Tanggungjawab Sosial.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('MPU21032_Etika_Peradaban')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('MPU21032_Etika_Peradaban')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -710,12 +828,17 @@
               <div>
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
                   <span class="dept-tag dept-tag-umum">UMUM</span>
-                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II: 2024/2025</span>
+                  <span style="font-size:0.75rem; color:var(--text3);"><i class="fas fa-calendar"></i> Sesi II:
+                    2024/2025</span>
                 </div>
-                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DUE10012 Communicative English 1</h4>
-                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Professional Correspondence, Technical Reporting, Oral Presentations.</p>
+                <h4 style="font-size:0.98rem; margin-bottom:0.35rem; color:var(--text);">DUE10012 Communicative English
+                  1</h4>
+                <p style="font-size:0.8rem; color:var(--text2); margin-bottom:1rem;">Professional Correspondence,
+                  Technical Reporting, Oral Presentations.</p>
               </div>
-              <button class="btn-hero btn-hero-outline" style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;" onclick="downloadPastPaper('DUE10012_Communicative_English')">
+              <button class="btn-hero btn-hero-outline"
+                style="width:100%; justify-content:center; padding:0.45rem; font-size:0.8rem;"
+                onclick="downloadPastPaper('DUE10012_Communicative_English')">
                 <i class="fas fa-file-arrow-down"></i> Muat Turun Soalan (PDF)
               </button>
             </div>
@@ -732,7 +855,8 @@
                   <div class="sec-label"><i class="fas fa-calculator"></i> Pengiraan GPA Semester</div>
                   <h3 style="margin:0; font-size:1.1rem; color:var(--text);">Senarai Kursus Semester Ini</h3>
                 </div>
-                <button class="btn-hero btn-hero-primary" style="padding:0.35rem 0.75rem; font-size:0.78rem;" onclick="addAcademicCourseRow()" data-i18n="acad_btn_add_course">
+                <button class="btn-hero btn-hero-primary" style="padding:0.35rem 0.75rem; font-size:0.78rem;"
+                  onclick="addAcademicCourseRow()" data-i18n="acad_btn_add_course">
                   <i class="fas fa-plus"></i> Tambah Kursus
                 </button>
               </div>
@@ -754,23 +878,31 @@
               </div>
 
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.25rem;">
-                <button class="btn-hero btn-hero-outline" onclick="resetAcademicGpa()" style="padding:0.4rem 0.85rem; font-size:0.8rem;" data-i18n="acad_btn_reset_gpa">
+                <button class="btn-hero btn-hero-outline" onclick="resetAcademicGpa()"
+                  style="padding:0.4rem 0.85rem; font-size:0.8rem;" data-i18n="acad_btn_reset_gpa">
                   <i class="fas fa-rotate-left"></i> Set Semula
                 </button>
-                <div style="font-size:0.8rem; color:var(--text3);">Gred dikira mengikut standard Politeknik Malaysia</div>
+                <div style="font-size:0.8rem; color:var(--text3);">Gred dikira mengikut standard Politeknik Malaysia
+                </div>
               </div>
             </div>
 
             <!-- Right: GPA & CGPA Score Card -->
             <div>
-              <div class="admin-card" style="text-align:center; padding:2rem 1.5rem; border:2px solid var(--gold); margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), var(--surface));">
-                <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:0.35rem;" data-i18n="acad_gpa_result_label">
+              <div class="admin-card"
+                style="text-align:center; padding:2rem 1.5rem; border:2px solid var(--gold); margin-bottom:1.5rem; background:linear-gradient(135deg, rgba(245,200,66,0.1), var(--surface));">
+                <div
+                  style="font-size:0.75rem; color:var(--text3); text-transform:uppercase; font-weight:700; letter-spacing:1px; margin-bottom:0.35rem;"
+                  data-i18n="acad_gpa_result_label">
                   Anggaran Purata Nilai Gred (GPA)
                 </div>
-                <div style="font-family:'Space Mono', monospace; font-size:3rem; font-weight:800; color:var(--gold); line-height:1.1; margin-bottom:0.5rem;" id="academicGpaScore">
+                <div
+                  style="font-family:'Space Mono', monospace; font-size:3rem; font-weight:800; color:var(--gold); line-height:1.1; margin-bottom:0.5rem;"
+                  id="academicGpaScore">
                   3.50
                 </div>
-                <div id="academicGpaStanding" style="display:inline-block; font-size:0.8rem; font-weight:700; padding:0.3rem 0.85rem; border-radius:999px; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); margin-bottom:0.75rem;">
+                <div id="academicGpaStanding"
+                  style="display:inline-block; font-size:0.8rem; font-weight:700; padding:0.3rem 0.85rem; border-radius:999px; background:rgba(34,197,94,0.15); color:#22c55e; border:1px solid rgba(34,197,94,0.3); margin-bottom:0.75rem;">
                   ● KEDUDUKAN BAIK (KB)
                 </div>
                 <p style="font-size:0.8rem; color:var(--text2); margin:0;" id="academicGpaRemarks">
@@ -779,9 +911,11 @@
               </div>
 
               <div class="admin-card">
-                <div class="sec-label" data-i18n="acad_gpa_ref_heading"><i class="fas fa-award"></i> Skala Gred Politeknik</div>
+                <div class="sec-label" data-i18n="acad_gpa_ref_heading"><i class="fas fa-award"></i> Skala Gred
+                  Politeknik</div>
                 <h4 style="margin-bottom:0.75rem; font-size:0.95rem; color:var(--text);">Rujukan Titik Mata Gred</h4>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.8rem; color:var(--text2);">
+                <div
+                  style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.8rem; color:var(--text2);">
                   <div><strong>A :</strong> 4.00 (Cemerlang)</div>
                   <div><strong>A- :</strong> 3.67 (Kepujian Tinggi)</div>
                   <div><strong>B+ :</strong> 3.33 (Kepujian)</div>
@@ -801,10 +935,12 @@
 
     <section class="section" id="members">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
         <div class="sec-label" data-i18n="members_sec_label"><i class="fas fa-users"></i> Leadership Team</div>
         <h2 class="sec-title" data-i18n="members_main_title">JPP Members</h2>
-        <p class="sec-sub" data-i18n="members_main_sub">Meet your student representatives for the academic year 2026/2027.</p>
+        <p class="sec-sub" data-i18n="members_main_sub">Meet your student representatives for the academic year
+          2026/2027.</p>
 
         <div class="members-header-card">
           <div
@@ -943,10 +1079,12 @@
 
     <section class="section" id="album">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
         <div class="sec-label" data-i18n="album_sec_label"><i class="fas fa-images"></i> Gallery</div>
         <h2 class="sec-title" data-i18n="album_main_title">Photo Album</h2>
-        <p class="sec-sub" data-i18n="album_main_sub">Capturing moments and memories from JPP PMKL events and campus life.</p>
+        <p class="sec-sub" data-i18n="album_main_sub">Capturing moments and memories from JPP PMKL events and campus
+          life.</p>
 
         <div class="album-grid" id="albumGrid">
           <div class="album-item" onclick="openLightbox(0)">
@@ -992,7 +1130,8 @@
 
     <section class="section" id="rent">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
 
         <div id="rentNavHeader" style="display:none; margin-bottom: 1.5rem;">
           <button class="qa-chip" onclick="showRentHome()" style="border:none; cursor:pointer;">
@@ -1002,7 +1141,8 @@
 
         <div class="sec-label" data-i18n="rent_sec_label"><i class="fas fa-home"></i> Student Housing</div>
         <h2 class="sec-title" id="rentMainTitle" data-i18n="rent_main_title">Rent House Listings</h2>
-        <p class="sec-sub" id="rentMainSub" data-i18n="rent_main_sub">Select an apartment complex near the polytechnic to view available student accommodation listings.</p>
+        <p class="sec-sub" id="rentMainSub" data-i18n="rent_main_sub">Select an apartment complex near the polytechnic
+          to view available student accommodation listings.</p>
 
         <div id="rentApartmentGrid" class="rent-grid">
           <div class="rent-card" onclick="selectApartment('Apartment Mahsuri')">
@@ -1067,23 +1207,31 @@
           <div class="dashboard-grid">
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-map-marker-alt"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_nearby">Nearby</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_nearby_desc">All listings are close to the polytechnic.</p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_nearby">Nearby
+              </div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_nearby_desc">All
+                listings are close to the polytechnic.</p>
             </div>
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-list"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_updated">Updated Listings</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_updated_desc">Room & house info kept up to date.</p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_updated">Updated
+                Listings</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_updated_desc">
+                Room & house info kept up to date.</p>
             </div>
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-phone-alt"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_contact">Direct Contact</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_contact_desc">Contact the owner directly — no middleman.</p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_contact">Direct
+                Contact</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_contact_desc">
+                Contact the owner directly — no middleman.</p>
             </div>
             <div class="stat-item">
               <div class="stat-num" style="font-size:1.8rem;"><i class="fas fa-shield-alt"></i></div>
-              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_safe">Safe & Easy</div>
-              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_safe_desc">Simple interface managed by JPP.</p>
+              <div class="stat-label" style="margin-top:0.5rem; color:var(--text);" data-i18n="rent_why_safe">Safe &
+                Easy</div>
+              <p style="font-size:0.8rem; color:var(--text3); margin-top:0.25rem;" data-i18n="rent_why_safe_desc">Simple
+                interface managed by JPP.</p>
             </div>
           </div>
         </div>
@@ -1093,14 +1241,17 @@
 
     <section class="section" id="printing">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
 
         <!-- JPP Printing Hub Hero Banner -->
         <div class="print-hub-hero">
           <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
             <div>
-              <div class="step-tag" data-i18n="print_sec_label"><i class="fas fa-print"></i> JPP PRINTING HUB • STUDENT DISPATCH</div>
-              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;" data-i18n="print_main_title">JPP Printing Hub</h2>
+              <div class="step-tag" data-i18n="print_sec_label"><i class="fas fa-print"></i> JPP PRINTING HUB • STUDENT
+                DISPATCH</div>
+              <h2 class="sec-title" style="margin-top:0.35rem; margin-bottom:0.5rem;" data-i18n="print_main_title">JPP
+                Printing Hub</h2>
               <p class="sec-sub" style="margin-bottom:0; max-width:700px;" data-i18n="print_main_sub">
                 Upload your assignments, configure custom print &amp; finishing specifications, and pay seamlessly via
                 DuitNow QR with instant AI Bot OCR verification or Pay at Counter.
@@ -1215,7 +1366,8 @@
             <!-- Step 2: Preferences -->
             <div class="print-card">
               <div class="step-tag"><span class="step-num">2</span> Step 02</div>
-              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;" data-i18n="print_step2">Print Specifications &amp; Finishing</h3>
+              <h3 style="font-size:1.15rem; margin-bottom:0.4rem;" data-i18n="print_step2">Print Specifications &amp;
+                Finishing</h3>
               <p style="color:var(--text2); font-size:0.83rem; margin-bottom:1rem;">
                 Select color mode, duplex sides, paper size, and finishing options to match your assignment
                 requirements.
@@ -1609,10 +1761,12 @@
 
     <section class="section" id="contact">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
         <div class="sec-label" data-i18n="contact_sec_label"><i class="fas fa-envelope"></i> Get In Touch</div>
         <h2 class="sec-title" data-i18n="contact_main_title">Contact Us</h2>
-        <p class="sec-sub" data-i18n="contact_main_sub">Reach out to JPP PMKL for inquiries, feedback, or collaboration.</p>
+        <p class="sec-sub" data-i18n="contact_main_sub">Reach out to JPP PMKL for inquiries, feedback, or collaboration.
+        </p>
 
         <div class="contact-grid">
           <div>
@@ -1666,87 +1820,128 @@
         <!-- Interactive Campus Guide & Floor Directory -->
         <div style="margin-top:2.5rem;" id="campusFloorGuide">
           <div class="sec-label" data-i18n="guide_sec_label"><i class="fas fa-building"></i> Navigasi Kampus</div>
-          <h3 style="font-size:1.25rem; color:var(--text); margin-bottom:0.5rem;" data-i18n="guide_main_title">Panduan Aras &amp; Fasiliti Kampus PMKL</h3>
+          <h3 style="font-size:1.25rem; color:var(--text); margin-bottom:0.5rem;" data-i18n="guide_main_title">Panduan
+            Aras &amp; Fasiliti Kampus PMKL</h3>
           <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;" data-i18n="guide_main_sub">
-            Rujukan lokasi bilik kuliah, makmal komputer, pejabat pentadbiran, dan kemudahan pelajar di bangunan Politeknik METrO Kuala Lumpur.
+            Rujukan lokasi bilik kuliah, makmal komputer, pejabat pentadbiran, dan kemudahan pelajar di bangunan
+            Politeknik METrO Kuala Lumpur.
           </p>
 
           <!-- Floor Selector Tabs -->
           <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom:1rem;">
-            <button class="floor-tab-btn active" id="btnFloorG" onclick="switchCampusFloor('floorG')" data-i18n="guide_floor_g">Aras Bawah (G)</button>
-            <button class="floor-tab-btn" id="btnFloor1" onclick="switchCampusFloor('floor1')" data-i18n="guide_floor_1">Aras 1</button>
-            <button class="floor-tab-btn" id="btnFloor2" onclick="switchCampusFloor('floor2')" data-i18n="guide_floor_2">Aras 2 (JPP &amp; Print Hub)</button>
-            <button class="floor-tab-btn" id="btnFloor3" onclick="switchCampusFloor('floor3')" data-i18n="guide_floor_3">Aras 3 (Surau &amp; Makmal)</button>
-            <button class="floor-tab-btn" id="btnFloor4" onclick="switchCampusFloor('floor4')" data-i18n="guide_floor_4">Aras 4 (Pentadbiran)</button>
+            <button class="floor-tab-btn active" id="btnFloorG" onclick="switchCampusFloor('floorG')"
+              data-i18n="guide_floor_g">Aras Bawah (G)</button>
+            <button class="floor-tab-btn" id="btnFloor1" onclick="switchCampusFloor('floor1')"
+              data-i18n="guide_floor_1">Aras 1</button>
+            <button class="floor-tab-btn" id="btnFloor2" onclick="switchCampusFloor('floor2')"
+              data-i18n="guide_floor_2">Aras 2 (JPP &amp; Print Hub)</button>
+            <button class="floor-tab-btn" id="btnFloor3" onclick="switchCampusFloor('floor3')"
+              data-i18n="guide_floor_3">Aras 3 (Surau &amp; Makmal)</button>
+            <button class="floor-tab-btn" id="btnFloor4" onclick="switchCampusFloor('floor4')"
+              data-i18n="guide_floor_4">Aras 4 (Pentadbiran)</button>
           </div>
 
           <!-- Floor Cards -->
           <div class="floor-plan-card" id="paneFloorG">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-door-open"></i> Aras Bawah (Ground Floor)</h4>
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-door-open"></i> Aras Bawah
+                (Ground Floor)</h4>
               <span class="tag tag-blue" style="font-size:0.7rem;">Pintu Masuk Utama</span>
             </div>
-            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Kawasan pintu masuk utama kampus, kawalan keselamatan, dan akses parkir.</p>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Kawasan pintu masuk utama kampus,
+              kawalan keselamatan, dan akses parkir.</p>
             <div>
-              <span class="room-chip"><i class="fas fa-shield-halved" style="color:#ef4444;"></i> Pos Kawalan Keselamatan (24 Jam)</span>
-              <span class="room-chip"><i class="fas fa-square-parking" style="color:#60a5fa;"></i> Ruang Letak Motosikal &amp; Kereta Pelajar</span>
-              <span class="room-chip"><i class="fas fa-bell-concierge" style="color:var(--gold);"></i> Lobi Utama &amp; Kaunter Pertanyaan Pelawat</span>
+              <span class="room-chip"><i class="fas fa-shield-halved" style="color:#ef4444;"></i> Pos Kawalan
+                Keselamatan (24 Jam)</span>
+              <span class="room-chip"><i class="fas fa-square-parking" style="color:#60a5fa;"></i> Ruang Letak Motosikal
+                &amp; Kereta Pelajar</span>
+              <span class="room-chip"><i class="fas fa-bell-concierge" style="color:var(--gold);"></i> Lobi Utama &amp;
+                Kaunter Pertanyaan Pelawat</span>
             </div>
           </div>
 
           <div class="floor-plan-card" id="paneFloor1" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-utensils"></i> Aras 1 — Kafeteria &amp; Dewan</h4>
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-utensils"></i> Aras 1 —
+                Kafeteria &amp; Dewan</h4>
               <span class="tag tag-gold" style="font-size:0.7rem;">Zon Komuniti Pelajar</span>
             </div>
-            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Zon makanan, aktiviti riadah mahasiswa, dan perhimpunan rasmi.</p>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Zon makanan, aktiviti riadah
+              mahasiswa, dan perhimpunan rasmi.</p>
             <div>
-              <span class="room-chip"><i class="fas fa-burger" style="color:#f59e0b;"></i> Kafeteria PMKL (Sarapan &amp; Makan Tengah Hari)</span>
-              <span class="room-chip"><i class="fas fa-landmark" style="color:#3b82f6;"></i> Dewan Serbaguna / Dewan Kuliah Utama</span>
-              <span class="room-chip"><i class="fas fa-table-tennis-paddle-ball" style="color:#10b981;"></i> Sudut Riadah Pelajar (Ping Pong &amp; Rekreasi)</span>
+              <span class="room-chip"><i class="fas fa-burger" style="color:#f59e0b;"></i> Kafeteria PMKL (Sarapan &amp;
+                Makan Tengah Hari)</span>
+              <span class="room-chip"><i class="fas fa-landmark" style="color:#3b82f6;"></i> Dewan Serbaguna / Dewan
+                Kuliah Utama</span>
+              <span class="room-chip"><i class="fas fa-table-tennis-paddle-ball" style="color:#10b981;"></i> Sudut
+                Riadah Pelajar (Ping Pong &amp; Rekreasi)</span>
             </div>
           </div>
 
           <div class="floor-plan-card" id="paneFloor2" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-users-gear"></i> Aras 2 — Pusat Pelajar JPP &amp; HEP</h4>
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-users-gear"></i> Aras 2 —
+                Pusat Pelajar JPP &amp; HEP</h4>
               <span class="tag tag-gold" style="font-size:0.7rem;">Hab Kebajikan &amp; Cetakan</span>
             </div>
-            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pusat perkhidmatan pelajar, pengurusan kebajikan, kaunseling, dan pusat cetakan dokumen.</p>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pusat perkhidmatan pelajar, pengurusan
+              kebajikan, kaunseling, dan pusat cetakan dokumen.</p>
             <div>
-              <span class="room-chip"><i class="fas fa-print" style="color:var(--gold);"></i> Pusat Cetakan Digital JPP (Print Hub)</span>
-              <span class="room-chip"><i class="fas fa-people-roof" style="color:#a855f7;"></i> Bilik Gerakan Rasmi Jawatankuasa Perwakilan Pelajar</span>
-              <span class="room-chip"><i class="fas fa-user-tie" style="color:#3b82f6;"></i> Pejabat Hal Ehwal Pelajar (HEP)</span>
-              <span class="room-chip"><i class="fas fa-heart" style="color:#ec4899;"></i> Bilik Khidmat Bimbingan &amp; Kaunseling</span>
+              <span class="room-chip"><i class="fas fa-print" style="color:var(--gold);"></i> Pusat Cetakan Digital JPP
+                (Print Hub)</span>
+              <span class="room-chip"><i class="fas fa-people-roof" style="color:#a855f7;"></i> Bilik Gerakan Rasmi
+                Jawatankuasa Perwakilan Pelajar</span>
+              <span class="room-chip"><i class="fas fa-user-tie" style="color:#3b82f6;"></i> Pejabat Hal Ehwal Pelajar
+                (HEP)</span>
+              <span class="room-chip"><i class="fas fa-heart" style="color:#ec4899;"></i> Bilik Khidmat Bimbingan &amp;
+                Kaunseling</span>
             </div>
           </div>
 
           <div class="floor-plan-card" id="paneFloor3" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-laptop-code"></i> Aras 3 — Perpustakaan, Surau &amp; Makmal Komputer</h4>
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-laptop-code"></i> Aras 3 —
+                Perpustakaan, Surau &amp; Makmal Komputer</h4>
               <span class="tag tag-blue" style="font-size:0.7rem;">Zon Pembelajaran &amp; Ibadah</span>
             </div>
-            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pusat rujukan akademik, makmal pengaturcaraan DIT, serta kemudahan surau.</p>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pusat rujukan akademik, makmal
+              pengaturcaraan DIT, serta kemudahan surau.</p>
             <div>
-              <span class="room-chip"><i class="fas fa-book" style="color:#3b82f6;"></i> Perpustakaan PMKL &amp; Sudut Ulangkaji Senyap</span>
-              <span class="room-chip"><i class="fas fa-mosque" style="color:#10b981;"></i> Surau Utama Lelaki &amp; Surau Wanita (Solat Jumaat di Masjid Berdekatan)</span>
-              <span class="room-chip"><i class="fas fa-desktop" style="color:#6366f1;"></i> Makmal Komputer 1 (DIT Web Dev Lab)</span>
-              <span class="room-chip"><i class="fas fa-network-wired" style="color:#8b5cf6;"></i> Makmal Komputer 2 (Networking &amp; Cyber Lab)</span>
-              <span class="room-chip"><i class="fas fa-database" style="color:#ec4899;"></i> Makmal Komputer 3 (Database &amp; Project Lab)</span>
+              <span class="room-chip"><i class="fas fa-book" style="color:#3b82f6;"></i> Perpustakaan PMKL &amp; Sudut
+                Ulangkaji Senyap</span>
+              <span class="room-chip"><i class="fas fa-mosque" style="color:#10b981;"></i> Surau Utama Lelaki &amp;
+                Surau Wanita (Solat Jumaat di Masjid Berdekatan)</span>
+              <span class="room-chip"><i class="fas fa-desktop" style="color:#6366f1;"></i> Makmal Komputer 1 (DIT Web
+                Dev Lab)</span>
+              <span class="room-chip"><i class="fas fa-network-wired" style="color:#8b5cf6;"></i> Makmal Komputer 2
+                (Networking &amp; Cyber Lab)</span>
+              <span class="room-chip"><i class="fas fa-database" style="color:#ec4899;"></i> Makmal Komputer 3 (Database
+                &amp; Project Lab)</span>
             </div>
           </div>
 
           <div class="floor-plan-card" id="paneFloor4" style="display:none;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
-              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-briefcase"></i> Aras 4 — Pengurusan &amp; Pentadbiran Utama</h4>
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid var(--border); padding-bottom:0.75rem;">
+              <h4 style="font-size:1.05rem; color:var(--gold); margin:0;"><i class="fas fa-briefcase"></i> Aras 4 —
+                Pengurusan &amp; Pentadbiran Utama</h4>
               <span class="tag tag-gold" style="font-size:0.7rem;">Pejabat Eksekutif PMKL</span>
             </div>
-            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pengurusan tertinggi, kewangan, peperiksaan, dan bilik mesyuarat pengurusan.</p>
+            <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">Pengurusan tertinggi, kewangan,
+              peperiksaan, dan bilik mesyuarat pengurusan.</p>
             <div>
-              <span class="room-chip"><i class="fas fa-user-gear" style="color:var(--gold);"></i> Pejabat Pengarah &amp; Timbalan Pengarah</span>
-              <span class="room-chip"><i class="fas fa-file-invoice" style="color:#10b981;"></i> Unit Pentadbiran &amp; Kewangan</span>
-              <span class="room-chip"><i class="fas fa-graduation-cap" style="color:#3b82f6;"></i> Unit Peperiksaan &amp; Pensijilan PMKL</span>
-              <span class="room-chip"><i class="fas fa-handshake" style="color:#f59e0b;"></i> Bilik Mesyuarat Eksekutif (Bilik Wawasan)</span>
+              <span class="room-chip"><i class="fas fa-user-gear" style="color:var(--gold);"></i> Pejabat Pengarah &amp;
+                Timbalan Pengarah</span>
+              <span class="room-chip"><i class="fas fa-file-invoice" style="color:#10b981;"></i> Unit Pentadbiran &amp;
+                Kewangan</span>
+              <span class="room-chip"><i class="fas fa-graduation-cap" style="color:#3b82f6;"></i> Unit Peperiksaan
+                &amp; Pensijilan PMKL</span>
+              <span class="room-chip"><i class="fas fa-handshake" style="color:#f59e0b;"></i> Bilik Mesyuarat Eksekutif
+                (Bilik Wawasan)</span>
             </div>
           </div>
         </div>
@@ -1758,7 +1953,8 @@
          ══════════════════════════════════════════════════════════ -->
     <section class="section" id="beta">
       <div class="sec-wrap" style="padding-top: 2.5rem;">
-        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i> Back to Dashboard</button>
+        <button class="btn-back" onclick="navigate('dashboard')" data-i18n="btn_back"><i class="fas fa-arrow-left"></i>
+          Back to Dashboard</button>
 
         <!-- Beta Hero Banner -->
         <div class="beta-hero">
@@ -1771,8 +1967,9 @@
                 Experimental Student Services
               </h2>
               <p class="sec-sub" style="margin-bottom:0; max-width:760px;" data-i18n="beta_main_sub">
-                Explore, test, and provide feedback on upcoming features for Politeknik METrO Kuala Lumpur. 
-                Experience real-time E-Aduan ticket tracking, community Lost &amp; Found, the official Poly GPA/CGPA target engine, and sports gear borrowing.
+                Explore, test, and provide feedback on upcoming features for Politeknik METrO Kuala Lumpur.
+                Experience real-time E-Aduan ticket tracking, community Lost &amp; Found, the official Poly GPA/CGPA
+                target engine, and sports gear borrowing.
               </p>
             </div>
             <div style="display:flex; align-items:center; gap:0.5rem;">
@@ -1828,7 +2025,8 @@
                 <span class="tag tag-blue" style="font-size:0.7rem;">Tiket Automatik</span>
               </div>
               <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;">
-                Sampaikan aduan kerosakan fasiliti kampus, isu kebajikan, atau cadangan penambahbaikan terus kepada JPP PMKL.
+                Sampaikan aduan kerosakan fasiliti kampus, isu kebajikan, atau cadangan penambahbaikan terus kepada JPP
+                PMKL.
               </p>
 
               <form id="aduanForm" onsubmit="handleAduanSubmit(event)">
@@ -1836,7 +2034,8 @@
                   <input type="checkbox" id="aduanAnonCheck" style="cursor:pointer; transform:scale(1.2);">
                   <div>
                     <strong style="font-size:0.85rem; color:var(--text);">Hantar Secara Tanpa Nama (Anonymous)</strong>
-                    <div style="font-size:0.74rem; color:var(--text3);">Identiti dan nombor matrik anda akan dirahsiakan sepenuhnya daripada paparan awam.</div>
+                    <div style="font-size:0.74rem; color:var(--text3);">Identiti dan nombor matrik anda akan dirahsiakan
+                      sepenuhnya daripada paparan awam.</div>
                   </div>
                 </div>
 
@@ -1870,21 +2069,25 @@
                   </div>
                   <div class="form-group-beta">
                     <label>Lokasi Kejadian</label>
-                    <input type="text" class="form-control-beta" id="aduanLocation" placeholder="cth: Surau Aras 3 / Kafeteria" required>
+                    <input type="text" class="form-control-beta" id="aduanLocation"
+                      placeholder="cth: Surau Aras 3 / Kafeteria" required>
                   </div>
                 </div>
 
                 <div class="form-group-beta">
                   <label>Tajuk Aduan / Cadangan</label>
-                  <input type="text" class="form-control-beta" id="aduanTitle" placeholder="Ringkasan aduan anda..." required>
+                  <input type="text" class="form-control-beta" id="aduanTitle" placeholder="Ringkasan aduan anda..."
+                    required>
                 </div>
 
                 <div class="form-group-beta">
                   <label>Penerangan Terperinci</label>
-                  <textarea class="form-control-beta" id="aduanDesc" rows="3" placeholder="Sila nyatakan butiran terperinci kerosakan atau cadangan..." required></textarea>
+                  <textarea class="form-control-beta" id="aduanDesc" rows="3"
+                    placeholder="Sila nyatakan butiran terperinci kerosakan atau cadangan..." required></textarea>
                 </div>
 
-                <button type="submit" class="btn-hero btn-hero-primary" style="width:100%; justify-content:center; padding:0.85rem;" id="btnSubmitAduan">
+                <button type="submit" class="btn-hero btn-hero-primary"
+                  style="width:100%; justify-content:center; padding:0.85rem;" id="btnSubmitAduan">
                   <i class="fas fa-paper-plane"></i> Hantar Aduan &amp; Jana Tiket
                 </button>
               </form>
@@ -1900,12 +2103,15 @@
                   <span class="tag tag-gold" style="font-size:0.7rem;">Real-Time</span>
                 </div>
                 <p style="font-size:0.82rem; color:var(--text2); margin-bottom:1rem;">
-                  Masukkan nombor tiket anda (contoh: <code>ADU-2026-8912</code>) untuk menyemak maklum balas dan tindakan daripada JPP PMKL.
+                  Masukkan nombor tiket anda (contoh: <code>ADU-2026-8912</code>) untuk menyemak maklum balas dan
+                  tindakan daripada JPP PMKL.
                 </p>
 
                 <div class="ticket-search-box">
-                  <input type="text" class="form-control-beta" id="ticketLookupInput" placeholder="Masukkan ID Tiket (cth: ADU-2026-8912)">
-                  <button class="btn-primary" onclick="lookupTicketFromUI()" style="white-space:nowrap; padding:0 1.25rem;">
+                  <input type="text" class="form-control-beta" id="ticketLookupInput"
+                    placeholder="Masukkan ID Tiket (cth: ADU-2026-8912)">
+                  <button class="btn-primary" onclick="lookupTicketFromUI()"
+                    style="white-space:nowrap; padding:0 1.25rem;">
                     <i class="fas fa-search"></i> Semak
                   </button>
                 </div>
@@ -1915,17 +2121,20 @@
 
               <!-- Quick Demo Ticket helper -->
               <div class="beta-card" style="background:var(--surface2);">
-                <div style="font-size:0.8rem; font-weight:700; color:var(--text2); text-transform:uppercase; margin-bottom:0.4rem;">
+                <div
+                  style="font-size:0.8rem; font-weight:700; color:var(--text2); text-transform:uppercase; margin-bottom:0.4rem;">
                   <i class="fas fa-lightbulb" style="color:var(--gold);"></i> Contoh Tiket Ujian
                 </div>
                 <p style="font-size:0.78rem; color:var(--text3); margin-bottom:0.75rem;">
                   Klik mana-mana nombor tiket di bawah untuk mencuba fungsi semakan status secara langsung:
                 </p>
                 <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
-                  <button class="tag tag-blue" style="cursor:pointer; border:1px solid rgba(6,182,212,0.4);" onclick="fillDemoTicket('ADU-2026-8912')">
+                  <button class="tag tag-blue" style="cursor:pointer; border:1px solid rgba(6,182,212,0.4);"
+                    onclick="fillDemoTicket('ADU-2026-8912')">
                     <i class="fas fa-ticket"></i> ADU-2026-8912 (Dalam Tindakan)
                   </button>
-                  <button class="tag tag-green" style="cursor:pointer; border:1px solid rgba(34,211,160,0.4);" onclick="fillDemoTicket('ADU-2026-7734')">
+                  <button class="tag tag-green" style="cursor:pointer; border:1px solid rgba(34,211,160,0.4);"
+                    onclick="fillDemoTicket('ADU-2026-7734')">
                     <i class="fas fa-check-circle"></i> ADU-2026-7734 (Selesai)
                   </button>
                 </div>
@@ -1938,15 +2147,19 @@
             <div class="lf-filter-bar">
               <div>
                 <div class="sec-label"><i class="fas fa-boxes-stacked"></i> Pusat Khidmat Komuniti</div>
-                <h3 style="font-size:1.15rem; color:var(--text); margin-top:0.25rem;">Pusat Barangan Hilang &amp; Dijumpai (Lost &amp; Found)</h3>
+                <h3 style="font-size:1.15rem; color:var(--text); margin-top:0.25rem;">Pusat Barangan Hilang &amp;
+                  Dijumpai (Lost &amp; Found)</h3>
               </div>
               <div style="display:flex; gap:0.6rem; align-items:center; flex-wrap:wrap;">
                 <div class="lf-pills">
                   <button class="lf-pill active" onclick="filterLostFound('all', this)">Semua</button>
-                  <button class="lf-pill" onclick="filterLostFound('lost', this)"><i class="fas fa-circle-exclamation" style="color:#ed005a;"></i> Hilang</button>
-                  <button class="lf-pill" onclick="filterLostFound('found', this)"><i class="fas fa-circle-check" style="color:#22d3a0;"></i> Dijumpai</button>
+                  <button class="lf-pill" onclick="filterLostFound('lost', this)"><i class="fas fa-circle-exclamation"
+                      style="color:#ed005a;"></i> Hilang</button>
+                  <button class="lf-pill" onclick="filterLostFound('found', this)"><i class="fas fa-circle-check"
+                      style="color:#22d3a0;"></i> Dijumpai</button>
                 </div>
-                <button class="btn-primary" onclick="openNewLostFoundModal()" style="font-size:0.8rem; padding:0.45rem 0.85rem;">
+                <button class="btn-primary" onclick="openNewLostFoundModal()"
+                  style="font-size:0.8rem; padding:0.45rem 0.85rem;">
                   <i class="fas fa-plus"></i> Laporkan Barangan
                 </button>
               </div>
@@ -1970,16 +2183,19 @@
                   <i class="fas fa-calculator" style="color:#06b6d4;"></i> Kalkulator GPA &amp; HPNM Politeknik Malaysia
                 </div>
                 <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
-                  <button class="btn-secondary" onclick="loadGpaPreset('dup')" style="font-size:0.75rem; padding:0.35rem 0.65rem;">
+                  <button class="btn-secondary" onclick="loadGpaPreset('dup')"
+                    style="font-size:0.75rem; padding:0.35rem 0.65rem;">
                     Preset DUP Sem 1
                   </button>
-                  <button class="btn-secondary" onclick="loadGpaPreset('dhf')" style="font-size:0.75rem; padding:0.35rem 0.65rem;">
+                  <button class="btn-secondary" onclick="loadGpaPreset('dhf')"
+                    style="font-size:0.75rem; padding:0.35rem 0.65rem;">
                     Preset DHF Sem 1
                   </button>
                 </div>
               </div>
               <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.25rem;">
-                Kira Purata Nilai Gred (GPA) semester dan Purata Nilai Gred Kumulatif (HPNM / CGPA) berdasarkan skala rasmi Jabatan Pendidikan Politeknik.
+                Kira Purata Nilai Gred (GPA) semester dan Purata Nilai Gred Kumulatif (HPNM / CGPA) berdasarkan skala
+                rasmi Jabatan Pendidikan Politeknik.
               </p>
 
               <div class="gpa-table-wrap">
@@ -1998,11 +2214,14 @@
                 </table>
               </div>
 
-              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
-                <button class="btn-secondary" onclick="addGpaCourseRow()" style="font-size:0.82rem; padding:0.5rem 0.95rem;">
+              <div
+                style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem;">
+                <button class="btn-secondary" onclick="addGpaCourseRow()"
+                  style="font-size:0.82rem; padding:0.5rem 0.95rem;">
                   <i class="fas fa-plus"></i> Tambah Kursus
                 </button>
-                <button class="btn-secondary" onclick="resetGpaCalc()" style="font-size:0.82rem; padding:0.5rem 0.95rem; color:#ef4444;">
+                <button class="btn-secondary" onclick="resetGpaCalc()"
+                  style="font-size:0.82rem; padding:0.5rem 0.95rem; color:#ef4444;">
                   <i class="fas fa-rotate-left"></i> Set Semula
                 </button>
               </div>
@@ -2012,7 +2231,8 @@
             <div style="display:flex; flex-direction:column; gap:1.25rem;">
               <div class="beta-card">
                 <div class="gpa-result-display">
-                  <div style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--text2); font-weight:700;">
+                  <div
+                    style="font-size:0.78rem; text-transform:uppercase; letter-spacing:0.5px; color:var(--text2); font-weight:700;">
                     Unjuran GPA Semester Semasa
                   </div>
                   <div class="gpa-score-huge" id="displaySemesterGpa">3.67</div>
@@ -2028,20 +2248,27 @@
                 </div>
 
                 <div style="padding-top:0.5rem; border-top:1px solid var(--border);">
-                  <div style="font-size:0.82rem; font-weight:700; color:var(--text); margin-bottom:0.75rem; text-transform:uppercase;">
-                    <i class="fas fa-chart-line" style="color:var(--gold); margin-right:4px;"></i> Simulasi HPNM (CGPA Keseluruhan)
+                  <div
+                    style="font-size:0.82rem; font-weight:700; color:var(--text); margin-bottom:0.75rem; text-transform:uppercase;">
+                    <i class="fas fa-chart-line" style="color:var(--gold); margin-right:4px;"></i> Simulasi HPNM (CGPA
+                    Keseluruhan)
                   </div>
                   <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-bottom:0.75rem;">
                     <div>
-                      <label style="font-size:0.72rem; color:var(--text3); display:block; margin-bottom:0.25rem;">HPNM Terdahulu</label>
-                      <input type="number" step="0.01" min="0" max="4.00" class="form-control-beta" id="cgpaPriorScore" placeholder="cth: 3.50" oninput="recalculateGpa()">
+                      <label style="font-size:0.72rem; color:var(--text3); display:block; margin-bottom:0.25rem;">HPNM
+                        Terdahulu</label>
+                      <input type="number" step="0.01" min="0" max="4.00" class="form-control-beta" id="cgpaPriorScore"
+                        placeholder="cth: 3.50" oninput="recalculateGpa()">
                     </div>
                     <div>
-                      <label style="font-size:0.72rem; color:var(--text3); display:block; margin-bottom:0.25rem;">Kredit Terkumpul</label>
-                      <input type="number" min="0" max="150" class="form-control-beta" id="cgpaPriorCredits" placeholder="cth: 36" oninput="recalculateGpa()">
+                      <label style="font-size:0.72rem; color:var(--text3); display:block; margin-bottom:0.25rem;">Kredit
+                        Terkumpul</label>
+                      <input type="number" min="0" max="150" class="form-control-beta" id="cgpaPriorCredits"
+                        placeholder="cth: 36" oninput="recalculateGpa()">
                     </div>
                   </div>
-                  <div style="padding:0.65rem 0.85rem; background:var(--surface2); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
+                  <div
+                    style="padding:0.65rem 0.85rem; background:var(--surface2); border-radius:8px; display:flex; justify-content:space-between; align-items:center;">
                     <span style="font-size:0.78rem; color:var(--text2);">HPNM Kumulatif Baru:</span>
                     <strong style="font-size:1.15rem; color:var(--gold);" id="displayProjectedCgpa">3.67</strong>
                   </div>
@@ -2052,17 +2279,20 @@
               <div class="beta-card">
                 <div class="beta-card-header">
                   <div class="beta-card-title">
-                    <i class="fas fa-hourglass-half" style="color:var(--gold);"></i> Takwim Peperiksaan &amp; Latihan Industri
+                    <i class="fas fa-hourglass-half" style="color:var(--gold);"></i> Takwim Peperiksaan &amp; Latihan
+                    Industri
                   </div>
                 </div>
                 <div class="deadline-card-grid">
                   <div class="deadline-card">
-                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Minggu Peperiksaan Akhir</div>
+                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Minggu Peperiksaan
+                      Akhir</div>
                     <div class="deadline-days" id="examCountdownDays">38</div>
                     <div style="font-size:0.72rem; color:var(--text2);">Hari Lagi (Sesi I 2026/2027)</div>
                   </div>
                   <div class="deadline-card">
-                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Pendaftaran Latihan Industri</div>
+                    <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Pendaftaran Latihan
+                      Industri</div>
                     <div class="deadline-days" id="liCountdownDays">19</div>
                     <div style="font-size:0.72rem; color:var(--text2);">Hari Lagi (Pelajar Sem 4 &amp; 5)</div>
                   </div>
@@ -2078,11 +2308,14 @@
         <div class="pillar-pane" id="panePillar3">
           <!-- Equipment Loan Section -->
           <div style="margin-bottom:2.5rem;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.25rem;">
               <div>
                 <div class="sec-label"><i class="fas fa-futbol"></i> Bilik Gerakan &amp; Alatan Sukan</div>
-                <h3 style="font-size:1.15rem; color:var(--text); margin-top:0.25rem;">Pusat Pinjaman Alatan Sukan &amp; Acara JPP</h3>
-                <p style="font-size:0.83rem; color:var(--text2);">Pinjam bola futsal, set badminton, atau sistem PA mudah alih untuk aktiviti riadah pelajar.</p>
+                <h3 style="font-size:1.15rem; color:var(--text); margin-top:0.25rem;">Pusat Pinjaman Alatan Sukan &amp;
+                  Acara JPP</h3>
+                <p style="font-size:0.83rem; color:var(--text2);">Pinjam bola futsal, set badminton, atau sistem PA
+                  mudah alih untuk aktiviti riadah pelajar.</p>
               </div>
             </div>
 
@@ -2095,18 +2328,21 @@
           <div class="beta-card">
             <div class="beta-card-header">
               <div class="beta-card-title">
-                <i class="fas fa-shirt" style="color:var(--gold);"></i> JPP Exclusive Merch &amp; Corporate Apparel Preview
+                <i class="fas fa-shirt" style="color:var(--gold);"></i> JPP Exclusive Merch &amp; Corporate Apparel
+                Preview
               </div>
               <span class="tag tag-gold" style="font-size:0.7rem;">Pra-Tempahan Dibuka</span>
             </div>
             <p style="font-size:0.83rem; color:var(--text2); margin-bottom:1.5rem;">
-              Tempah baju korporat rasmi, varsity jacket PMKL, dan lanyard edisi terhad sempena sesi baharu. Pembayaran mudah melalui DuitNow QR JPP.
+              Tempah baju korporat rasmi, varsity jacket PMKL, dan lanyard edisi terhad sempena sesi baharu. Pembayaran
+              mudah melalui DuitNow QR JPP.
             </p>
 
             <div class="merch-grid">
               <!-- Item 1: Varsity Jacket -->
               <div class="merch-card">
-                <div class="merch-thumb" style="background:linear-gradient(135deg, rgba(26,75,255,0.15), rgba(245,200,66,0.15));">
+                <div class="merch-thumb"
+                  style="background:linear-gradient(135deg, rgba(26,75,255,0.15), rgba(245,200,66,0.15));">
                   <i class="fas fa-vest-patches"></i>
                 </div>
                 <div style="padding:1.25rem;">
@@ -2114,11 +2350,14 @@
                     <span class="tag tag-gold" style="font-size:0.7rem;">Edisi Pelajar 2026</span>
                     <strong style="color:var(--gold); font-size:1.2rem;">RM 75.00</strong>
                   </div>
-                  <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">JPP PMKL Official Varsity Jacket</h4>
+                  <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">JPP PMKL Official Varsity Jacket
+                  </h4>
                   <p style="font-size:0.8rem; color:var(--text2); margin-bottom:0.85rem;">
-                    Kain fleece berkualiti tinggi, sulaman logo PMKL &amp; bendera Malaysia. Sesuai untuk bilik kuliah berhawa dingin.
+                    Kain fleece berkualiti tinggi, sulaman logo PMKL &amp; bendera Malaysia. Sesuai untuk bilik kuliah
+                    berhawa dingin.
                   </p>
-                  <label style="font-size:0.75rem; font-weight:700; color:var(--text3); text-transform:uppercase;">Pilih Saiz:</label>
+                  <label style="font-size:0.75rem; font-weight:700; color:var(--text3); text-transform:uppercase;">Pilih
+                    Saiz:</label>
                   <div class="size-selector" id="sizeSelectorJacket">
                     <div class="size-chip" onclick="selectMerchSize(this, 'jacket', 'S')">S</div>
                     <div class="size-chip active" onclick="selectMerchSize(this, 'jacket', 'M')">M</div>
@@ -2126,7 +2365,8 @@
                     <div class="size-chip" onclick="selectMerchSize(this, 'jacket', 'XL')">XL</div>
                     <div class="size-chip" onclick="selectMerchSize(this, 'jacket', '2XL')">2XL</div>
                   </div>
-                  <button class="btn-primary" onclick="openMerchOrderModal('JPP PMKL Official Varsity Jacket', 75.00)" style="width:100%; justify-content:center; margin-top:0.85rem;" data-i18n="merch_btn_order">
+                  <button class="btn-primary" onclick="openMerchOrderModal('JPP PMKL Official Varsity Jacket', 75.00)"
+                    style="width:100%; justify-content:center; margin-top:0.85rem;" data-i18n="merch_btn_order">
                     <i class="fas fa-cart-shopping"></i> Pra-Tempah Sekarang
                   </button>
                 </div>
@@ -2134,7 +2374,8 @@
 
               <!-- Item 2: Lanyard & Card Holder -->
               <div class="merch-card">
-                <div class="merch-thumb" style="background:linear-gradient(135deg, rgba(237,0,90,0.15), rgba(245,200,66,0.15));">
+                <div class="merch-thumb"
+                  style="background:linear-gradient(135deg, rgba(237,0,90,0.15), rgba(245,200,66,0.15));">
                   <i class="fas fa-id-badge"></i>
                 </div>
                 <div style="padding:1.25rem;">
@@ -2142,16 +2383,20 @@
                     <span class="tag tag-blue" style="font-size:0.7rem;">Aksesori Wajib</span>
                     <strong style="color:var(--gold); font-size:1.2rem;">RM 15.00</strong>
                   </div>
-                  <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">Lanyard Premium PMKL + Matte Holder</h4>
+                  <h4 style="font-size:1rem; margin-bottom:0.35rem; color:var(--text);">Lanyard Premium PMKL + Matte
+                    Holder</h4>
                   <p style="font-size:0.8rem; color:var(--text2); margin-bottom:0.85rem;">
                     Lanyard lebar 25mm dengan cetakan sutera dua sisi tahan luntur dan klip besi tahan karat.
                   </p>
-                  <label style="font-size:0.75rem; font-weight:700; color:var(--text3); text-transform:uppercase;">Warna:</label>
+                  <label
+                    style="font-size:0.75rem; font-weight:700; color:var(--text3); text-transform:uppercase;">Warna:</label>
                   <div class="size-selector">
                     <div class="size-chip active" style="width:auto; padding:0 0.85rem;">Navy Gold</div>
                     <div class="size-chip" style="width:auto; padding:0 0.85rem;">Black Gold</div>
                   </div>
-                  <button class="btn-primary" onclick="openMerchOrderModal('Lanyard Premium PMKL + Matte Holder', 15.00)" style="width:100%; justify-content:center; margin-top:0.85rem;" data-i18n="merch_btn_order">
+                  <button class="btn-primary"
+                    onclick="openMerchOrderModal('Lanyard Premium PMKL + Matte Holder', 15.00)"
+                    style="width:100%; justify-content:center; margin-top:0.85rem;" data-i18n="merch_btn_order">
                     <i class="fas fa-cart-shopping"></i> Pra-Tempah Sekarang
                   </button>
                 </div>
@@ -2267,7 +2512,8 @@
       </div>
 
       <div class="modal-actions" style="flex-wrap:wrap; gap:0.5rem;">
-        <button class="btn-modal-close" onclick="closePrintTicketModal()" data-i18n="btn_close">Close &amp; Save</button>
+        <button class="btn-modal-close" onclick="closePrintTicketModal()" data-i18n="btn_close">Close &amp;
+          Save</button>
         <button class="btn-modal-primary" id="btnDirectPrintNow" onclick="directPrintFromTicket()"
           style="background:var(--gold); color:#000; font-weight:700;">
           <i class="fas fa-print"></i> Print Directly Now
@@ -2280,7 +2526,8 @@
   <div class="modal-overlay" id="borrowEquipModal">
     <div class="modal-box" style="max-width: 500px;">
       <div class="modal-top">
-        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i class="fas fa-boxes-packing"></i></div>
+        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i
+            class="fas fa-boxes-packing"></i></div>
         <div class="modal-top-text">
           <h3 id="borrowModalEquipName">Borang Pinjaman Alatan</h3>
           <p id="borrowModalEquipTerms">JPP PMKL • Pusat Khidmat Pelajar</p>
@@ -2314,13 +2561,16 @@
           </div>
 
           <div style="font-size:0.75rem; color:var(--text3); margin-bottom:1.25rem; line-height:1.4;">
-            <i class="fas fa-shield-halved" style="color:var(--gold);"></i> 
-            Pelajar bertanggungjawab memastikan alatan dijaga dengan rapi. Sebarang kehilangan atau kerosakan perlu diganti mengikut peraturan PMKL.
+            <i class="fas fa-shield-halved" style="color:var(--gold);"></i>
+            Pelajar bertanggungjawab memastikan alatan dijaga dengan rapi. Sebarang kehilangan atau kerosakan perlu
+            diganti mengikut peraturan PMKL.
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeBorrowModal()" data-i18n="btn_cancel">Batal</button>
-            <button type="submit" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
+            <button type="button" class="btn-modal-close" onclick="closeBorrowModal()"
+              data-i18n="btn_cancel">Batal</button>
+            <button type="submit" class="btn-modal-primary"
+              style="background:var(--gold); color:#000; font-weight:700;">
               <i class="fas fa-check-circle"></i> Sahkan &amp; Jana Pas Pinjaman
             </button>
           </div>
@@ -2333,7 +2583,8 @@
   <div class="modal-overlay" id="loanPassModal">
     <div class="modal-box" style="max-width: 480px;">
       <div class="modal-top">
-        <div class="modal-top-icon" style="background:rgba(34,211,160,0.15); color:#22d3a0;"><i class="fas fa-id-card"></i></div>
+        <div class="modal-top-icon" style="background:rgba(34,211,160,0.15); color:#22d3a0;"><i
+            class="fas fa-id-card"></i></div>
         <div class="modal-top-text">
           <h3>Pas Pinjaman Digital JPP</h3>
           <p>Tunjukkan pas ini kepada EXCO di Kaunter JPP</p>
@@ -2367,20 +2618,23 @@
             </div>
           </div>
 
-          <div style="padding:0.65rem 0.85rem; background:rgba(245,200,66,0.1); border-radius:8px; border:1px solid rgba(245,200,66,0.3);">
+          <div
+            style="padding:0.65rem 0.85rem; background:rgba(245,200,66,0.1); border-radius:8px; border:1px solid rgba(245,200,66,0.3);">
             <div style="font-size:0.72rem; color:var(--text2); text-transform:uppercase;">Jangkaan Tarikh Pulang:</div>
             <strong style="font-size:0.92rem; color:var(--gold);" id="passReturnTime">-</strong>
           </div>
 
           <div style="font-size:0.75rem; color:var(--text3); margin-top:0.85rem; text-align:center;">
-            <i class="fas fa-location-dot" style="color:var(--gold);"></i> Lokasi Pengambilan: Bilik Gerakan JPP PMKL (Aras 2)
+            <i class="fas fa-location-dot" style="color:var(--gold);"></i> Lokasi Pengambilan: Bilik Gerakan JPP PMKL
+            (Aras 2)
           </div>
         </div>
       </div>
 
       <div class="modal-actions">
         <button class="btn-modal-close" onclick="closeLoanPassModal()" data-i18n="btn_close">Tutup &amp; Simpan</button>
-        <button class="btn-modal-primary" onclick="showToast('Pas Pinjaman telah disahkan!'); closeLoanPassModal();" style="background:var(--gold); color:#000; font-weight:700;">
+        <button class="btn-modal-primary" onclick="showToast('Pas Pinjaman telah disahkan!'); closeLoanPassModal();"
+          style="background:var(--gold); color:#000; font-weight:700;">
           <i class="fas fa-check"></i> Selesai
         </button>
       </div>
@@ -2391,7 +2645,8 @@
   <div class="modal-overlay" id="reportLostFoundModal">
     <div class="modal-box" style="max-width: 520px;">
       <div class="modal-top">
-        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i class="fas fa-box-open"></i></div>
+        <div class="modal-top-icon" style="background:rgba(237,0,90,0.15); color:#ed005a;"><i
+            class="fas fa-box-open"></i></div>
         <div class="modal-top-text">
           <h3>Lapor Barangan Hilang / Dijumpai</h3>
           <p>Hebahkan kepada komuniti pelajar PMKL</p>
@@ -2422,12 +2677,14 @@
 
           <div class="form-group-beta">
             <label>Nama Barangan</label>
-            <input type="text" class="form-control-beta" id="lfReportTitle" placeholder="cth: Kalkulator Casio 570EX / Dompet Hitam" required>
+            <input type="text" class="form-control-beta" id="lfReportTitle"
+              placeholder="cth: Kalkulator Casio 570EX / Dompet Hitam" required>
           </div>
 
           <div class="form-group-beta">
             <label>Lokasi Terakhir / Tempat Dijumpai</label>
-            <input type="text" class="form-control-beta" id="lfReportLocation" placeholder="cth: Bilik Kuliah 3.04 / Kafeteria" required>
+            <input type="text" class="form-control-beta" id="lfReportLocation"
+              placeholder="cth: Bilik Kuliah 3.04 / Kafeteria" required>
           </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem;">
@@ -2443,11 +2700,13 @@
 
           <div class="form-group-beta">
             <label>Penerangan Terperinci &amp; Ciri-Ciri Khas</label>
-            <textarea class="form-control-beta" id="lfReportDesc" rows="2" placeholder="Warna, pelekat, jenama, atau sebarang tanda pengecaman..." required></textarea>
+            <textarea class="form-control-beta" id="lfReportDesc" rows="2"
+              placeholder="Warna, pelekat, jenama, atau sebarang tanda pengecaman..." required></textarea>
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeReportLostFoundModal()" data-i18n="btn_cancel">Batal</button>
+            <button type="button" class="btn-modal-close" onclick="closeReportLostFoundModal()"
+              data-i18n="btn_cancel">Batal</button>
             <button type="submit" class="btn-modal-primary" style="background:#ed005a; color:#fff; font-weight:700;">
               <i class="fas fa-bullhorn"></i> Siarkan ke Noticeboard
             </button>
@@ -2461,7 +2720,8 @@
   <div class="modal-overlay" id="merchOrderModal">
     <div class="modal-box" style="max-width: 480px;">
       <div class="modal-top">
-        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i class="fas fa-bag-shopping"></i></div>
+        <div class="modal-top-icon" style="background:rgba(245,200,66,0.15); color:var(--gold);"><i
+            class="fas fa-bag-shopping"></i></div>
         <div class="modal-top-text">
           <h3 id="merchModalTitle">Pra-Tempahan Rasmi JPP</h3>
           <p id="merchModalSubtitle">Bayar melalui DuitNow QR JPP PMKL</p>
@@ -2471,7 +2731,8 @@
 
       <div class="modal-content-body">
         <form id="merchOrderForm" onsubmit="handleMerchSubmit(event)">
-          <div style="padding:0.85rem 1rem; background:var(--surface2); border-radius:10px; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
+          <div
+            style="padding:0.85rem 1rem; background:var(--surface2); border-radius:10px; margin-bottom:1rem; display:flex; justify-content:space-between; align-items:center;">
             <div>
               <div style="font-size:0.75rem; color:var(--text3); text-transform:uppercase;">Barangan Dipilih</div>
               <strong style="font-size:0.95rem; color:var(--text);" id="merchSelectedName">-</strong>
@@ -2495,7 +2756,8 @@
             </div>
           </div>
 
-          <div style="text-align:center; padding:0.85rem; background:rgba(237,0,90,0.06); border:1px solid rgba(237,0,90,0.25); border-radius:12px; margin-bottom:1rem;">
+          <div
+            style="text-align:center; padding:0.85rem; background:rgba(237,0,90,0.06); border:1px solid rgba(237,0,90,0.25); border-radius:12px; margin-bottom:1rem;">
             <div style="font-size:0.72rem; color:var(--text3); text-transform:uppercase;">Kaedah Pembayaran:</div>
             <div style="font-weight:700; font-size:0.92rem; color:#ed005a; margin:0.25rem 0;">
               <i class="fas fa-qrcode"></i> DuitNow National QR / Tunai di Kaunter
@@ -2506,8 +2768,10 @@
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeMerchOrderModal()" data-i18n="btn_cancel">Batal</button>
-            <button type="submit" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;">
+            <button type="button" class="btn-modal-close" onclick="closeMerchOrderModal()"
+              data-i18n="btn_cancel">Batal</button>
+            <button type="submit" class="btn-modal-primary"
+              style="background:var(--gold); color:#000; font-weight:700;">
               <i class="fas fa-cart-check"></i> Hantar Pra-Tempahan
             </button>
           </div>
@@ -2536,21 +2800,26 @@
           <input type="hidden" id="rsvpEventTitle">
 
           <div style="margin-bottom:1rem;">
-            <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+            <label
+              style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
               Nama Penuh Pelajar <span style="color:#ef4444;">*</span>
             </label>
-            <input type="text" id="rsvpStudentName" class="form-ctrl" placeholder="cth: Muhammad Danial bin Azlan" required style="width:100%;">
+            <input type="text" id="rsvpStudentName" class="form-ctrl" placeholder="cth: Muhammad Danial bin Azlan"
+              required style="width:100%;">
           </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.75rem; margin-bottom:1rem;">
             <div>
-              <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+              <label
+                style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
                 No. Matrik <span style="color:#ef4444;">*</span>
               </label>
-              <input type="text" id="rsvpMatricNo" class="form-ctrl" placeholder="cth: 14DUP24F1001" required style="width:100%; text-transform:uppercase;">
+              <input type="text" id="rsvpMatricNo" class="form-ctrl" placeholder="cth: 14DUP24F1001" required
+                style="width:100%; text-transform:uppercase;">
             </div>
             <div>
-              <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+              <label
+                style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
                 Program / Jabatan <span style="color:#ef4444;">*</span>
               </label>
               <select id="rsvpProgram" class="form-ctrl" required style="width:100%;">
@@ -2564,22 +2833,28 @@
           </div>
 
           <div style="margin-bottom:1rem;">
-            <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+            <label
+              style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
               No. Telefon / WhatsApp <span style="color:#ef4444;">*</span>
             </label>
-            <input type="tel" id="rsvpPhone" class="form-ctrl" placeholder="cth: 012-3456789" required style="width:100%;">
+            <input type="tel" id="rsvpPhone" class="form-ctrl" placeholder="cth: 012-3456789" required
+              style="width:100%;">
           </div>
 
           <div style="margin-bottom:1.25rem;">
-            <label style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
+            <label
+              style="display:block; font-size:0.8rem; font-weight:700; color:var(--text2); margin-bottom:0.35rem; text-transform:uppercase;">
               Catatan Tambahan (Pilihan)
             </label>
-            <input type="text" id="rsvpNotes" class="form-ctrl" placeholder="cth: Diet vegetarian / Ahli pasukan esport" style="width:100%;">
+            <input type="text" id="rsvpNotes" class="form-ctrl" placeholder="cth: Diet vegetarian / Ahli pasukan esport"
+              style="width:100%;">
           </div>
 
           <div class="modal-actions" style="padding:0;">
-            <button type="button" class="btn-modal-close" onclick="closeEventRsvpModal()" data-i18n="btn_cancel">Batal</button>
-            <button type="submit" id="btnSubmitRsvp" class="btn-modal-primary" style="background:var(--gold); color:#000; font-weight:700;" data-i18n="btn_confirm">
+            <button type="button" class="btn-modal-close" onclick="closeEventRsvpModal()"
+              data-i18n="btn_cancel">Batal</button>
+            <button type="submit" id="btnSubmitRsvp" class="btn-modal-primary"
+              style="background:var(--gold); color:#000; font-weight:700;" data-i18n="btn_confirm">
               <i class="fas fa-check-circle"></i> Sahkan Pendaftaran
             </button>
           </div>
@@ -2606,15 +2881,18 @@
         <div class="rsvp-pass-box">
           <div class="rsvp-pass-header">
             <div>
-              <span style="font-size:0.7rem; color:var(--text3); text-transform:uppercase; display:block;">No. Tiket Rasmi</span>
+              <span style="font-size:0.7rem; color:var(--text3); text-transform:uppercase; display:block;">No. Tiket
+                Rasmi</span>
               <span class="rsvp-ticket-code" id="passTicketId">RSVP-XXXX</span>
             </div>
-            <span class="ticket-status-pill" style="background:rgba(34,197,94,0.15); color:#22c55e; border-color:rgba(34,197,94,0.3); font-size:0.75rem;">
+            <span class="ticket-status-pill"
+              style="background:rgba(34,197,94,0.15); color:#22c55e; border-color:rgba(34,197,94,0.3); font-size:0.75rem;">
               ● Disahkan
             </span>
           </div>
 
-          <h4 id="passEventTitle" style="font-size:1.05rem; color:var(--text); margin-bottom:1rem; text-align:left;">-</h4>
+          <h4 id="passEventTitle" style="font-size:1.05rem; color:var(--text); margin-bottom:1rem; text-align:left;">-
+          </h4>
 
           <div class="rsvp-pass-grid">
             <div>
@@ -2637,12 +2915,15 @@
         </div>
 
         <p style="font-size:0.8rem; color:var(--text3); margin-bottom:1.25rem;">
-          <i class="fas fa-circle-info"></i> Tangkap layar (screenshot) pas ini untuk ditunjukkan kepada urusetia JPP semasa pendaftaran acara.
+          <i class="fas fa-circle-info"></i> Tangkap layar (screenshot) pas ini untuk ditunjukkan kepada urusetia JPP
+          semasa pendaftaran acara.
         </p>
 
         <div class="modal-actions" style="padding:0;">
-          <button type="button" class="btn-modal-close" onclick="closeRsvpPassModal()" data-i18n="btn_close">Tutup</button>
-          <button type="button" class="btn-modal-primary" id="btnShareRsvpWhatsApp" onclick="shareRsvpWhatsApp()" style="background:#25D366; color:#fff; font-weight:700;">
+          <button type="button" class="btn-modal-close" onclick="closeRsvpPassModal()"
+            data-i18n="btn_close">Tutup</button>
+          <button type="button" class="btn-modal-primary" id="btnShareRsvpWhatsApp" onclick="shareRsvpWhatsApp()"
+            style="background:#25D366; color:#fff; font-weight:700;">
             <i class="fab fa-whatsapp"></i> Simpan ke WhatsApp
           </button>
         </div>
@@ -2666,18 +2947,23 @@
 
       <div class="modal-content-body" style="text-align:center; padding-top:1.25rem;">
         <div class="merch-pass-box">
-          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:0.75rem; margin-bottom:0.85rem;">
+          <div
+            style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:0.75rem; margin-bottom:0.85rem;">
             <div>
-              <span style="font-size:0.7rem; color:var(--text3); text-transform:uppercase; display:block;">No. Tempahan</span>
+              <span style="font-size:0.7rem; color:var(--text3); text-transform:uppercase; display:block;">No.
+                Tempahan</span>
               <span class="rsvp-ticket-code" id="passMerchTicketId" style="color:#ed005a;">MCH-XXXX</span>
             </div>
-            <span class="ticket-status-pill" id="passMerchStatusPill" style="background:rgba(245,200,66,0.15); color:var(--gold); border-color:rgba(245,200,66,0.3); font-size:0.75rem;">
+            <span class="ticket-status-pill" id="passMerchStatusPill"
+              style="background:rgba(245,200,66,0.15); color:var(--gold); border-color:rgba(245,200,66,0.3); font-size:0.75rem;">
               ● Menunggu Bayaran
             </span>
           </div>
 
-          <h4 id="passMerchItemName" style="font-size:1.05rem; color:var(--text); margin-bottom:0.5rem; text-align:left;">-</h4>
-          <div style="text-align:left; font-size:0.85rem; color:var(--gold); font-weight:700; margin-bottom:0.85rem;" id="passMerchPriceTotal">RM 0.00</div>
+          <h4 id="passMerchItemName"
+            style="font-size:1.05rem; color:var(--text); margin-bottom:0.5rem; text-align:left;">-</h4>
+          <div style="text-align:left; font-size:0.85rem; color:var(--gold); font-weight:700; margin-bottom:0.85rem;"
+            id="passMerchPriceTotal">RM 0.00</div>
 
           <div class="rsvp-pass-grid">
             <div>
@@ -2699,14 +2985,19 @@
           </div>
         </div>
 
-        <div style="background:rgba(237,0,90,0.06); border:1px solid rgba(237,0,90,0.25); border-radius:12px; padding:0.85rem; margin-bottom:1.25rem; font-size:0.8rem; color:var(--text2); text-align:left;">
-          <div style="font-weight:700; color:#ed005a; margin-bottom:0.25rem;"><i class="fas fa-qrcode"></i> Bayaran Melalui DuitNow QR JPP:</div>
-          Sila imbas DuitNow QR di Kaunter Pusat Pelajar Aras 2 PMKL atau sertakan bukti bayaran semasa mengambil barangan.
+        <div
+          style="background:rgba(237,0,90,0.06); border:1px solid rgba(237,0,90,0.25); border-radius:12px; padding:0.85rem; margin-bottom:1.25rem; font-size:0.8rem; color:var(--text2); text-align:left;">
+          <div style="font-weight:700; color:#ed005a; margin-bottom:0.25rem;"><i class="fas fa-qrcode"></i> Bayaran
+            Melalui DuitNow QR JPP:</div>
+          Sila imbas DuitNow QR di Kaunter Pusat Pelajar Aras 2 PMKL atau sertakan bukti bayaran semasa mengambil
+          barangan.
         </div>
 
         <div class="modal-actions" style="padding:0;">
-          <button type="button" class="btn-modal-close" onclick="closeMerchPassModal()" data-i18n="btn_close">Tutup</button>
-          <button type="button" class="btn-modal-primary" id="btnShareMerchWhatsApp" onclick="shareMerchWhatsApp()" style="background:#25D366; color:#fff; font-weight:700;">
+          <button type="button" class="btn-modal-close" onclick="closeMerchPassModal()"
+            data-i18n="btn_close">Tutup</button>
+          <button type="button" class="btn-modal-primary" id="btnShareMerchWhatsApp" onclick="shareMerchWhatsApp()"
+            style="background:#25D366; color:#fff; font-weight:700;">
             <i class="fab fa-whatsapp"></i> Simpan ke WhatsApp
           </button>
         </div>
@@ -2719,12 +3010,15 @@
     <div class="spotlight-box">
       <div class="spotlight-header">
         <i class="fas fa-magnifying-glass"></i>
-        <input type="text" id="globalSearchInput" class="spotlight-input" placeholder="Cari apa-apa sahaja di portal PMKL... (cth: Futsal, Print, DIT, Bilik, Sewa)" data-i18n-placeholder="search_placeholder" oninput="handleGlobalSearchInput(event)">
+        <input type="text" id="globalSearchInput" class="spotlight-input"
+          placeholder="Cari apa-apa sahaja di portal PMKL... (cth: Futsal, Print, DIT, Bilik, Sewa)"
+          data-i18n-placeholder="search_placeholder" oninput="handleGlobalSearchInput(event)">
         <span class="spotlight-kbd">ESC</span>
       </div>
       <div class="spotlight-results" id="globalSearchResults">
         <div style="padding:2.5rem 1rem; text-align:center; color:var(--text3); font-size:0.88rem;">
-          <i class="fas fa-keyboard" style="font-size:1.8rem; margin-bottom:0.6rem; display:block; color:var(--gold);"></i>
+          <i class="fas fa-keyboard"
+            style="font-size:1.8rem; margin-bottom:0.6rem; display:block; color:var(--gold);"></i>
           Taip kata kunci untuk mencari Pengumuman, Acara, Rumah Sewa, Alatan, atau Soalan Peperiksaan.
         </div>
       </div>
@@ -2755,7 +3049,8 @@
     <div class="footer-inner">
       <div class="footer-brand">
         <h3>JPP PMKL Student Portal</h3>
-        <p data-i18n="footer_desc">Student Representative Committee — Politeknik METrO Kuala Lumpur. Empowering student leadership and community engagement.</p>
+        <p data-i18n="footer_desc">Student Representative Committee — Politeknik METrO Kuala Lumpur. Empowering student
+          leadership and community engagement.</p>
         <div class="social-row">
           <a class="social-btn social-discord" href="https://discord.gg/THhJZjg3PT" target="_blank"
             rel="noopener noreferrer" aria-label="Akira Lab Discord Community"><i class="fab fa-discord"></i></a>
